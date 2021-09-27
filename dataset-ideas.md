@@ -10,7 +10,7 @@ Talvez seja muita coisa pra usar tudo, mas dá pra extrair um subset. Uma coisa 
 
 Das coisas que ela pediu, só não sei se tem "dados de tipo não convencional", mas, como ela disse que podíamos modificar o BD original pra adequá-lo, talvez a gente resolvesse isso até com algo simples como o logo dos produtos ou o mascote das linguagens de programação, ou armazenando como texto um ```hello world``` em cada linguagem extraído do Rosetta Code haha :)
 
-Além dos diferentes anos, talvez um jeito de seguir a ideia dela de cruzar com outro conjunto de dados pudesse ser comparar com dados de salário do [Levels.fyi](https://www.levels.fyi/), ou algo que conseguíssemos extrair do Linkedin ou Glassdoor...
+Além dos diferentes anos, talvez um jeito de seguir a ideia dela de cruzar com outro conjunto de dados pudesse ser comparar com dados de salário do [Levels.fyi](https://www.levels.fyi/), ou algo que conseguíssemos extrair do LinkedIn ou Glassdoor...
 
 Obs: Tem bastante coisa aí, só tô fazendo um brainstorm do que daria pra fazer dentro dos requisitos; é claro que provavelmente não faríamos isso tudo.
 
