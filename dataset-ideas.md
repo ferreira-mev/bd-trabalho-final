@@ -15,3 +15,13 @@ Além dos diferentes anos, talvez um jeito de seguir a ideia dela de cruzar com 
 Obs: Tem bastante coisa aí, só tô fazendo um brainstorm do que daria pra fazer dentro dos requisitos; é claro que provavelmente não faríamos isso tudo.
 
 ~ Duda
+
+## Dados da Backblaze sobre durabilidade de HDDs e SSDs
+
+Acabei me deparando por acaso com outro dataset legal (ou pelo menos eu achei). Desde 2013, a empresa de backups na nuvem Backblaze [publica os dados brutos](https://www.backblaze.com/b2/hard-drive-test-data.html) que ela coleta sobre os discos usados para armazenamento, para monitorar a confiabilidade deles. Eles incluem identificação do modelo e capacidade, se falhou ou não, e os dados [S.M.A.R.T.](https://en.wikipedia.org/wiki/S.M.A.R.T.) que foram lidos de cada um.
+
+Poderíamos tentar fazer algumas análises simples parecidas com as que eles publicam no blog deles, tipo esta com os [dados do segundo trimestre de 2021](https://www.backblaze.com/blog/backblaze-drive-stats-for-q2-2021/), comparando modelos e fabricantes, além de HDD e SSD, ou esta avaliando [quais dados S.M.A.R.T. estão associados a falhas nos discos](https://www.backblaze.com/blog/what-smart-stats-indicate-hard-drive-failures/).
+
+Tem menor diversidade de informações coletadas que os dados da pesquisa do SE, mas isso significa que não precisaríamos excluir tabelas e colunas também. Por outro lado, acho que são bem mais linhas, ou pelo menos o tamanho em disco do dataset é maior. Excluir linhas pode ser mais complicado, em termos de relevância/validade dos dados.
+
+~ Duda
