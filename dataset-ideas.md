@@ -1,6 +1,6 @@
 # Ideias de datasets, comentários, brainstorm em geral
 
-## Stack Oveflow Developer Survey?
+## Stack Overflow Developer Survey?
 
 Eu não sei como não pensei nisso de imediato, mas acho que um dos conjuntos de dados que eu mais consulto é a [Developer Survey do Stack Overflow](https://insights.stackoverflow.com/survey) haha (Tô naquela fase de descobrir as coisas :P) O link é pros resultados brutos, mas tem também aquele "dashboardzinho" (ex: [2021](https://insights.stackoverflow.com/survey/2021)) pra visualizar e ter uma noção do que tem lá e dá pra fazer.
 
