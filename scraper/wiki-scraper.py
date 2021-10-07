@@ -4,21 +4,34 @@
 Scraper to extract year, paradigm and logo data for programming
 languages from Wikipedia.
 """
-import requests, sys, csv, datetime, re
+import requests, sys, csv, datetime, re, logging
 from requests.exceptions import HTTPError, ConnectionError
 from bs4 import BeautifulSoup
-
-# TODO: add logging to external file
 
 local_lang_list_path = "languages.txt"
 csv_output_path = "languages.csv"
 logo_dir_path = "logos/"
+log_dir_path = "logs/"  # ...lol sry?
 # trailing / to make string concatenation simpler
 
 wiki_root = "https://en.wikipedia.org"
 # no trailing / to make string concatenation simpler
 wiki_lang_list_url = "https://en.wikipedia.org/wiki/List_of_programming_languages"
 
+# Setting up logging:
+logging.basicConfig(filename=log_dir_path + "lang-only-scraper.log",
+    encoding="utf-8", level=logging.DEBUG,
+    format="[%(asctime)s] %(levelname)s: %(message)s",
+    datefmt="%a, %d %b %Y, %H:%M:%S")
+
+# TODO: change printing to logging throughout the code
+
+def filename_curr_time():
+    """
+    Returns the current date and time in a format suitable for usage in filenames (yyyy-mm-dd_ HH-MM-SS -- digits, hyphens and underscores only, 
+    and alphabetic ordering is chronological).
+    """
+    return datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
 def extract_metadata(wiki_url, lang_name):
     """
@@ -31,7 +44,7 @@ def extract_metadata(wiki_url, lang_name):
         wiki_page.raise_for_status()
 
     except Exception as err:
-        print(f"Getting metadata for {lang_name} failed with\n{err}")
+        logging.error(f"Loading Wiki page for {lang_name} failed with\n{err}")
 
     else:
         soup = BeautifulSoup(wiki_page.text, "html.parser")
@@ -40,48 +53,48 @@ def extract_metadata(wiki_url, lang_name):
         infobox = soup.find("table", class_="infobox")
 
         if infobox is None:
-            print(f"Getting metadata for {lang_name} failed with\nNo infobox")
+            logging.error(f"No infobox found for {lang_name}")
         else:
             # Donwloading the logo:
             # (assuming it will always be the first image)
 
             ## Commented out to speed up testing other stuff ##
 
-            # logo_element = infobox.find("img")
+            logo_element = infobox.find("img")
 
-            # if logo_element is None:
-            #     print(f"The page for {lang_name} has no logo")
-            # else:
-            #     logo_url = "https:" + logo_element["src"]
+            if logo_element is None:
+                logging.warning(f"The page for {lang_name} has no logo")
+            else:
+                logo_url = "https:" + logo_element["src"]
 
-            #     # TODO: If we navigate to the Wikimedia Commons page we can 
-            #     # select a different resolution; it's the link in the a tag 
-            #     # rather than the img src, and, in that page, resolution
-            #     # options are linked in a span with class 
-            #     # mw-filepage-other-resolutions
+                # TODO: If we navigate to the Wikimedia Commons page we can 
+                # select a different resolution; it's the link in the a tag 
+                # rather than the img src, and, in that page, resolution
+                # options are linked in a span with class 
+                # mw-filepage-other-resolutions
 
-            #     try:
-            #         logo_img = requests.get(logo_url)
+                try:
+                    logo_img = requests.get(logo_url)
 
-            #     except Exception as err:
-            #         print(f"Downloading the logo for {lang_name} failed with\n{err}")
+                except Exception as err:
+                    logging.error(f"Downloading the logo for {lang_name} failed with\n{err}")
 
-            #     else:
-            #         logo_img = logo_img.content
-            #         logo_ext = logo_url.split(".")[-1]
-            #         logo_file = lang_name.replace(" ", "_") + "." + logo_ext
+                else:
+                    logo_img = logo_img.content
+                    logo_ext = logo_url.split(".")[-1]
+                    logo_file = lang_name.replace(" ", "_") + "." + logo_ext
 
-            #         # TODO: special characters in names like C++, C# could 
-            #         # cause problems
+                    # TODO: special characters in names like C++, C# could 
+                    # cause problems
 
-            #         try:
-            #             with open(logo_dir_path + logo_file, "wb") as handler:
-            #                 handler.write(logo_img)
+                    try:
+                        with open(logo_dir_path + logo_file, "wb") as handler:
+                            handler.write(logo_img)
                     
-            #             logo = logo_file
+                        logo = logo_file
 
-            #         except Exception as err:
-            #             print(f"Saving the logo for {lang_name} failed with\n{err}")
+                    except Exception as err:
+                        logging.error(f"Saving the logo for {lang_name} failed with\n{err}")
 
             ## Uncomment image downloads above ##
 
@@ -89,7 +102,7 @@ def extract_metadata(wiki_url, lang_name):
             # not Original; that'll match against "Original author(s)"
 
             if year_label is None:
-                print(f"The page for {lang_name} has no release year")
+                logging.warning(f"The page for {lang_name} has no release year")
             else:
                 year_data = year_label.next_sibling.text
                 year_match = re.search("\d{4}", year_data)
@@ -97,14 +110,12 @@ def extract_metadata(wiki_url, lang_name):
                 if year_match:
                     year = year_match.group()
                 else:
-                    print(f"Release year for {lang_name} not found")
-            
-            # TODO: get paradigm list
+                    logging.warning(f"Release year for {lang_name} not found")
             
             paradigm_label = infobox.find(class_="infobox-label", string=re.compile("Paradigm"))
 
             if paradigm_label is None:
-                print(f"The page for {lang_name} has no paradigm list")
+                logging.warning(f"The page for {lang_name} has no paradigm list")
             else:  
                 paradigm_data = paradigm_label.next_sibling
 
@@ -126,56 +137,71 @@ def extract_metadata(wiki_url, lang_name):
                         # remove trailing ;
 
                 else:
-                    print(f"The page for {lang_name} has no paradigm list")
+                    logging.warning(f"The page for {lang_name} has no paradigm list")
             
     finally:
         return year, paradigms, logo
 
 
+logging.info("Starting execution")
+
 try:
     wiki_lang_list = requests.get(wiki_lang_list_url)
 except HTTPError as http_err:
-    sys.exit(f"Request failed with\n{http_err}\nExiting")
+    logging.critical(f"HTTP request failed with\n{http_err}")
+    logging.critical("Exiting")
+    sys.exit()
 except ConnectionError as conn_err:
-    sys.exit(f"Connection failed with\n{conn_err}\nExiting")
+    logging.critical(f"Connection failed with\n{conn_err}")
+    logging.critical("Exiting")
+    sys.exit()
 except Exception as err:
-    sys.exit(f"Something went wrong:\n{err}\nExiting")
-# implicit else (exits on all exceptions)
+    logging.critical(f"Something went wrong:\n{err}")
+    logging.critical("Exiting")
+    sys.exit()
 
+# implicit else (exits on all exceptions)
 
 soup = BeautifulSoup(wiki_lang_list.text, "html.parser")
 
 lang_names = []
 
+logging.info("Opening language list")
+
 with open(local_lang_list_path) as local_lang_list:
     for line in local_lang_list:
         lang_names.append(line.replace("\n", "").replace("\r", ""))
 
+logging.info("Done reading language list")
+
 
 # Scraping test (this should go in the csv with block, so it can write as 
 # it finds info):
+
+logging.info("Beginning search for language page URLs")
 
 for lang in lang_names:
     links = soup.find_all("a", string=lang, href=re.compile("/wiki/*"))
     try:
         link = wiki_root + links[0]["href"]
     except (KeyError, IndexError):
-        print(f"No link found for {lang}")
+        logging.error(f"No URL found for {lang}")
         year, paradigms, logo = "null", "null", "null"
     else:
         year, paradigms, logo = extract_metadata(link, lang)
 
-
+logging.info("Done searching for language page URLs")
 
 # Outputting to csv:
 
 csv_headers = ["name","year", "paradigms", "logo"]
 
-# Timestamp to ensure I don't overwrite anything:
-curr_time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")
+# Adding timestamps to csv file names for now to ensure I don't overwrite 
+# anything good with crap by accident:
+
 csv_output_path = csv_output_path.replace(".csv", "").replace(".CSV", "")
 # just so I don't have to remember to leave it out ;)
-csv_output_path += "_" + curr_time + ".csv"
+csv_output_path += "_" + filename_curr_time() + ".csv"
 
 # (commented this out to avoid spamming the directory
 # with useless csvs as I test)
