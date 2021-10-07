@@ -50,6 +50,8 @@ def clean_name(name):
     # not already included above would be good; could I find the
     # right regex for that?
 
+    return name
+
 def scrape_infobox(wiki_url, lang_name):
     """
     Extracts paradigm and year information from the Wikipedia page for a programming language, and downloads its logo.
@@ -85,7 +87,7 @@ def scrape_infobox(wiki_url, lang_name):
             if logo_element is None:
                 logging.warning(f"The page for {lang_name} has no logo")
             else:
-                logging.debug(f"Found logo for {lang_name}; attempting to download ")
+                logging.debug(f"Found logo for {lang_name}; attempting to download")
 
                 logo_url = "https:" + logo_element["src"]
 
