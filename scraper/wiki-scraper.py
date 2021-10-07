@@ -52,6 +52,17 @@ def clean_name(name):
 
     return name
 
+def regex_name(name):
+    """
+    Returns name with special characters escaped.
+    """
+    name = name.replace(".", "\.").replace("+", "\+")
+    name = name.replace("#", "\#").replace("?", "\?")
+    name = name.replace("(", "\(").replace(")", "\)")
+    name = name.replace("*", "\*")
+
+    return name
+
 def scrape_infobox(wiki_url, lang_name):
     """
     Extracts paradigm and year information from the Wikipedia page for a programming language, and downloads its logo.
@@ -237,8 +248,9 @@ with open(csv_dir_path + csv_filename, "w") as lang_csv:
     logging.info("Beginning search for language page URLs")
 
     for lang in lang_names:
+        re_lang = regex_name(name)
         links = soup.find_all("a",
-            string=re.compile(lang + "|" + lang + "(.*)", 
+            string=re.compile(re_lang + "|" + re_lang + "(.*)", 
                 re.IGNORECASE), 
             href=re.compile("/wiki/*"))
 
