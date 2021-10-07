@@ -8,6 +8,15 @@ import requests, sys, csv, datetime, re
 from requests.exceptions import HTTPError, ConnectionError
 from bs4 import BeautifulSoup
 
+# TODO: add logging to external file
+
+local_lang_list_path = "languages.txt"
+csv_output_path = "languages.csv"
+logo_dir_path = "logos/"
+
+wiki_lang_list_url = "https://en.wikipedia.org/wiki/List_of_programming_languages"
+
+
 def extract_metadata(wiki_url, lang_name):
     """
     Extracts paradigm and year information from the Wikipedia page for a programming language, and downloads its logo.
@@ -37,9 +46,27 @@ def extract_metadata(wiki_url, lang_name):
                 print(f"The page for {lang_name} has no logo")
             else:
                 logo_url = logo_element["src"]
-                # TODO: download image here
 
-            year_element = infobox.find(class_="infobox-label", string=re.compile('appeared'))
+                try:
+                    logo_img = requests.get(logo_url)
+
+                except Exception as err:
+                    print(f"Downloading the logo for {lang_name} failed with\n{err}")
+
+                else:
+                    logo_img = logo_img.content
+                    logo_file = logo_url.split("File:")[-1]
+
+                    try:
+                        with open(logo_dir_path + logo_file, "wb") as handler:
+                            handler.write(logo_img)
+                    
+                        logo = logo_file
+
+                    except Exception as err:
+                        print(f"Saving the logo for {lang_name} failed with\n{err}")
+
+            year_element = infobox.find(class_="infobox-label", string=re.compile("appeared"))
 
             if year_element is None:
                 print(f"The page for {lang_name} has no release year")
@@ -47,16 +74,12 @@ def extract_metadata(wiki_url, lang_name):
                 year_text = year_element.next_sibling.text
                 # TODO: find 1st instance of 19\d{2} or 20\d{2}
                 # ...but get your regex straight :P
+
+            # TODO: get paradigm list
             
     finally:
         return year, paradigm, logo
 
-
-
-local_lang_list_path = "languages.txt"
-csv_output_path = "languages.csv"
-
-wiki_lang_list_url = "https://en.wikipedia.org/wiki/List_of_programming_languages"
 
 try:
     wiki_lang_list = requests.get(wiki_lang_list_url)
@@ -116,3 +139,6 @@ csv_output_path += "_" + curr_time + ".csv"
 #             "paradigms": paradigms,
 #             "logo": logo}
 #         )
+
+# TODO: generalize to other tech categories (DBMS, IDEs/editors, frameworks,
+# libraries, OSs?, other)
