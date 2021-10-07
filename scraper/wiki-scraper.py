@@ -22,7 +22,7 @@ wiki_root = "https://en.wikipedia.org"
 wiki_lang_list_url = "https://en.wikipedia.org/wiki/List_of_programming_languages"
 
 req_timeout = 15  # in seconds
-# defaults to 3, but my connection is this bad today ;)
+# defaults to 3, but my connection is this bad today :')
 
 # Setting up logging:
 logging.basicConfig(filename=log_dir_path + "lang-only-scraper.log",
