@@ -47,6 +47,12 @@ def extract_metadata(wiki_url, lang_name):
             else:
                 logo_url = "https:" + logo_element["src"]
 
+                # TODO: If we navigate to the Wikimedia Commons page we can 
+                # select a different resolution; it's the link in the a tag 
+                # rather than the img src, and, in that page, resolution
+                # options are linked in a span with class 
+                # mw-filepage-other-resolutions
+
                 try:
                     logo_img = requests.get(logo_url)
 
@@ -56,7 +62,7 @@ def extract_metadata(wiki_url, lang_name):
                 else:
                     logo_img = logo_img.content
                     logo_ext = logo_url.split(".")[-1]
-                    logo_file = lang_name.replace(" ", "_") + logo_ext
+                    logo_file = lang_name.replace(" ", "_") + "." + logo_ext
 
                     try:
                         with open(logo_dir_path + logo_file, "wb") as handler:
@@ -67,7 +73,7 @@ def extract_metadata(wiki_url, lang_name):
                     except Exception as err:
                         print(f"Saving the logo for {lang_name} failed with\n{err}")
 
-            year_element = infobox.find(class_="infobox-label", string=re.compile("appeared"))
+            year_element = infobox.find(class_="infobox-label", string=re.compile("appeared"))  # TODO: or "release", actually
 
             if year_element is None:
                 print(f"The page for {lang_name} has no release year")
