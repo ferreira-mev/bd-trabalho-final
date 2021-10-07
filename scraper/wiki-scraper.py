@@ -24,14 +24,25 @@ logging.basicConfig(filename=log_dir_path + "lang-only-scraper.log",
     format="[%(asctime)s] %(levelname)s: %(message)s",
     datefmt="%a, %d %b %Y, %H:%M:%S")
 
-# TODO: change printing to logging throughout the code
-
 def filename_curr_time():
     """
     Returns the current date and time in a format suitable for usage in filenames (yyyy-mm-dd_ HH-MM-SS -- digits, hyphens and underscores only, 
     and alphabetic ordering is chronological).
     """
     return datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
+def clean_name(name):
+    """
+    Returns name with special characters removed or replaced.
+    """
+    name = name.replace(" ", "_").replace("#", "_Sharp")
+    name = name.replace("+", "p")
+    name = name.replace(".NET", "dotNET").replace(".", "")
+    # eg: (ASP).NET vs Node.js
+
+    # TODO: a generic replacement for any other special character
+    # not already included above would be good; could I find the
+    # right regex for that?
 
 def extract_metadata(wiki_url, lang_name):
     """
@@ -82,10 +93,7 @@ def extract_metadata(wiki_url, lang_name):
                 else:
                     logo_img = logo_img.content
                     logo_ext = logo_url.split(".")[-1]
-                    logo_file = lang_name.replace(" ", "_") + "." + logo_ext
-
-                    # TODO: special characters in names like C++, C# could 
-                    # cause problems
+                    logo_file = clean_name(lang_name) + "." + logo_ext
 
                     try:
                         with open(logo_dir_path + logo_file, "wb") as handler:
@@ -157,7 +165,7 @@ except ConnectionError as conn_err:
     logging.critical(f"Connection failed with\n{conn_err}")
     logging.critical("Aborting")
     sys.exit(1)
-    
+
 except Exception as err:
     logging.critical(f"Something went wrong:\n{err}")
     logging.critical("Aborting")
