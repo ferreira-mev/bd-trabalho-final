@@ -238,7 +238,8 @@ with open(csv_dir_path + csv_filename, "w") as lang_csv:
 
     for lang in lang_names:
         links = soup.find_all("a",
-            string=re.compile(lang, re.IGNORECASE), 
+            string=re.compile(lang + "|" + lang + "(.*)", 
+                re.IGNORECASE), 
             href=re.compile("/wiki/*"))
 
         try:
@@ -283,6 +284,8 @@ logging.info("Exiting successfully")
         # included in the link text, but for F# it is
     # Groovy (because "(Apache Groovy)" is included in the link text?)
         # how did it find Swift, though?
+        # because there's a link at the bottom of the page with not 
+        # parentheses in it!
     # LISP (it's listed as Lisp; caps?) (fixed?)
     # Matlab (it's listed as MATLAB; caps?) (fixed?)
 # (Haskell was a connection error)
