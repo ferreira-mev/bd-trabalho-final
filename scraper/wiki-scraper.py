@@ -204,6 +204,7 @@ except HTTPError as http_err:
 except ConnectionError as conn_err:
     logging.critical(f"Connection failed with\n{conn_err}")
     logging.critical("Aborting")
+
     sys.exit(1)
 
 except Exception as err:
@@ -248,9 +249,9 @@ with open(csv_dir_path + csv_filename, "w") as lang_csv:
     logging.info("Beginning search for language page URLs")
 
     for lang in lang_names:
-        re_lang = regex_name(name)
+        re_lang = regex_name(lang)
         links = soup.find_all("a",
-            string=re.compile(re_lang + "|" + re_lang + "(.*)", 
+            string=re.compile(re_lang + "|" + re_lang + " \(.*\)", 
                 re.IGNORECASE), 
             href=re.compile("/wiki/*"))
 
