@@ -13,7 +13,10 @@ from bs4 import BeautifulSoup
 local_lang_list_path = "languages.txt"
 csv_output_path = "languages.csv"
 logo_dir_path = "logos/"
+# trailing / to make string concatenation simpler
 
+wiki_root = "https://en.wikipedia.org"
+# no trailing / to make string concatenation simpler
 wiki_lang_list_url = "https://en.wikipedia.org/wiki/List_of_programming_languages"
 
 
@@ -39,39 +42,48 @@ def extract_metadata(wiki_url, lang_name):
         if infobox is None:
             print(f"Getting metadata for {lang_name} failed with\nNo infobox")
         else:
-            # assuming the logo will always be the first image
-            logo_element = infobox.find("img")
+            # Donwloading the logo:
+            # (assuming it will always be the first image)
 
-            if logo_element is None:
-                print(f"The page for {lang_name} has no logo")
-            else:
-                logo_url = "https:" + logo_element["src"]
+            ## Commented out to speed up testing other stuff ##
 
-                # TODO: If we navigate to the Wikimedia Commons page we can 
-                # select a different resolution; it's the link in the a tag 
-                # rather than the img src, and, in that page, resolution
-                # options are linked in a span with class 
-                # mw-filepage-other-resolutions
+            # logo_element = infobox.find("img")
 
-                try:
-                    logo_img = requests.get(logo_url)
+            # if logo_element is None:
+            #     print(f"The page for {lang_name} has no logo")
+            # else:
+            #     logo_url = "https:" + logo_element["src"]
 
-                except Exception as err:
-                    print(f"Downloading the logo for {lang_name} failed with\n{err}")
+            #     # TODO: If we navigate to the Wikimedia Commons page we can 
+            #     # select a different resolution; it's the link in the a tag 
+            #     # rather than the img src, and, in that page, resolution
+            #     # options are linked in a span with class 
+            #     # mw-filepage-other-resolutions
 
-                else:
-                    logo_img = logo_img.content
-                    logo_ext = logo_url.split(".")[-1]
-                    logo_file = lang_name.replace(" ", "_") + "." + logo_ext
+            #     try:
+            #         logo_img = requests.get(logo_url)
 
-                    try:
-                        with open(logo_dir_path + logo_file, "wb") as handler:
-                            handler.write(logo_img)
+            #     except Exception as err:
+            #         print(f"Downloading the logo for {lang_name} failed with\n{err}")
+
+            #     else:
+            #         logo_img = logo_img.content
+            #         logo_ext = logo_url.split(".")[-1]
+            #         logo_file = lang_name.replace(" ", "_") + "." + logo_ext
+
+            #         # TODO: special characters in names like C++, C# could 
+            #         # cause problems
+
+            #         try:
+            #             with open(logo_dir_path + logo_file, "wb") as handler:
+            #                 handler.write(logo_img)
                     
-                        logo = logo_file
+            #             logo = logo_file
 
-                    except Exception as err:
-                        print(f"Saving the logo for {lang_name} failed with\n{err}")
+            #         except Exception as err:
+            #             print(f"Saving the logo for {lang_name} failed with\n{err}")
+
+            ## Uncomment image downloads above ##
 
             year_element = infobox.find(class_="infobox-label", string=re.compile("appeared"))  # TODO: or "release", actually
 
