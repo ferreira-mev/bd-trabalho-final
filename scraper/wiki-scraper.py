@@ -27,7 +27,7 @@ def extract_metadata(wiki_url, lang_name):
     year, paradigm, logo = "null", "null", "null"
 
     try:
-        wiki_page = requests.get(wiki_url)
+        wiki_page = requests.get(wiki_url, timeout=15)
         wiki_page.raise_for_status()
 
     except Exception as err:
@@ -85,14 +85,19 @@ def extract_metadata(wiki_url, lang_name):
 
             ## Uncomment image downloads above ##
 
-            year_element = infobox.find(class_="infobox-label", string=re.compile("appeared"))  # TODO: or "release", actually
+            year_element = infobox.find(class_="infobox-label", string=re.compile("appeared|release"))
 
             if year_element is None:
                 print(f"The page for {lang_name} has no release year")
             else:
                 year_text = year_element.next_sibling.text
-                # TODO: find 1st instance of 19\d{2} or 20\d{2}
-                # ...but get your regex straight :P
+                year_match = re.search("\d{4}", year_text)
+                
+                if year_match:
+                    year = year_match.group()
+                else:
+                    print(f"Release year for {lang_name} not found")
+                 
 
             # TODO: get paradigm list
             
