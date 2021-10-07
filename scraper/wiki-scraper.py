@@ -87,18 +87,23 @@ def scrape_infobox(wiki_url, lang_name):
         if infobox is None:
             logging.error(f"No infobox found for {lang_name}")
         else:
-            # Donwloading the logo:
+            # Downloading the logo:
             # (assuming it will always be the first image)
 
             ## Commented out to speed up testing other stuff ##
 
+            logo_ancestor = soup.find(class_="infobox-image")
+            # There might be more than one infobox, and other
+            # images (icons) in the first/main infobox :P
+            # (See eg: Matlab)
+            
 
-            logo_element = infobox.find("img")
-
-            if logo_element is None:
+            if logo_ancestor is None:
                 logging.warning(f"The page for {lang_name} has no logo")
             else:
                 logging.debug(f"Found logo for {lang_name}; attempting to download")
+
+                logo_element = logo_ancestor.find("img")
 
                 logo_url = "https:" + logo_element["src"]
 
@@ -287,7 +292,7 @@ logging.info("Exiting successfully")
 
 # Some issues requiring a manual intervention:
 
-# - ASM has no logo, but the Wiki does have an image
+# - ASM has no logo, but the Wiki does have an image; same for COBOL?
 # - "HTML/CSS" has to be handled manually, as they're
     # actually two languages
 # - Node.js in the language list (tf? That's not a language!!)
