@@ -46,7 +46,7 @@ def clean_name(name):
     name = name.replace(".NET", "dotNET").replace(".", "")
     # eg: (ASP).NET vs Node.js
 
-    # TODO: a generic replacement for any other special character
+    # TODO?: a generic replacement for any other special character
     # not already included above would be good; could I find the
     # right regex for that?
 
@@ -79,16 +79,17 @@ def scrape_infobox(wiki_url, lang_name):
 
             ## Commented out to speed up testing other stuff ##
 
-            logging.debug(f"Attempting to download logo for {lang_name}")
 
             logo_element = infobox.find("img")
 
             if logo_element is None:
                 logging.warning(f"The page for {lang_name} has no logo")
             else:
+                logging.debug(f"Found logo for {lang_name}; attempting to download ")
+
                 logo_url = "https:" + logo_element["src"]
 
-                # TODO: If we navigate to the Wikimedia Commons page we can 
+                # TODO?: If we navigate to the Wikimedia Commons page we can 
                 # select a different resolution; it's the link in the a tag 
                 # rather than the img src, and, in that page, resolution
                 # options are linked in a span with class 
@@ -131,6 +132,7 @@ def scrape_infobox(wiki_url, lang_name):
                 
                 if year_match:
                     year = year_match.group()
+                    logging.debug(f"Release year for {lang_name}: {year}")
                 else:
                     logging.warning(f"Release year for {lang_name} not found")
 
@@ -159,6 +161,10 @@ def scrape_infobox(wiki_url, lang_name):
                     if paradigm_string:  # is not empty
                         paradigms = paradigm_string[0:-1]
                         # remove trailing ;
+                        logging.debug(f"Paradigm list for {lang_name}: {paradigms}")
+                    
+                    else:
+                        logging.warning(f"The page for {lang_name} has no paradigm list")
 
                 else:
                     logging.warning(f"The page for {lang_name} has no paradigm list")
@@ -167,6 +173,7 @@ def scrape_infobox(wiki_url, lang_name):
         return year, paradigms, logo
 
 
+logging.info("-------------------")
 logging.info("Starting execution")
 
 try:
@@ -236,13 +243,16 @@ with open(csv_dir_path + csv_filename, "w") as lang_csv:
 
         else:
             year, paradigms, logo = scrape_infobox(link, lang)
-        
-        csv_writer.writerow(
-            {"name": lang,
-            "year": year,
-            "paradigms": paradigms,
-            "logo": logo}
-        )
+
+        finally:
+            logging.debug(f"Writing csv row for {lang}")
+
+            csv_writer.writerow(
+                {"name": lang,
+                "year": year,
+                "paradigms": paradigms,
+                "logo": logo}
+            )
 
     logging.info("Done searching for language page URLs")
 
