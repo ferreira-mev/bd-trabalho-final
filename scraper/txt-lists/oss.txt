@@ -1,0 +1,6 @@
+BSD
+Linux-based
+MacOS
+Windows
+Windows Subsystem for Linux (WSL)
+
