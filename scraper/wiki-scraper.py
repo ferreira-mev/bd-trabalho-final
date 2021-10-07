@@ -54,6 +54,8 @@ def scrape_infobox(wiki_url, lang_name):
     """
     Extracts paradigm and year information from the Wikipedia page for a programming language, and downloads its logo.
     """
+    logging.debug(f"Attempting to scrape infobox for {lang_name}")
+
     year, paradigms, logo = "null", "null", "null"
 
     try:
@@ -76,6 +78,8 @@ def scrape_infobox(wiki_url, lang_name):
             # (assuming it will always be the first image)
 
             ## Commented out to speed up testing other stuff ##
+
+            logging.debug(f"Attempting to download logo for {lang_name}")
 
             logo_element = infobox.find("img")
 
@@ -101,6 +105,8 @@ def scrape_infobox(wiki_url, lang_name):
                     logo_ext = logo_url.split(".")[-1]
                     logo_file = clean_name(lang_name) + "." + logo_ext
 
+                    logging.debug(f"Downloaded logo for {lang_name}; attempting to save")
+
                     try:
                         with open(logo_dir_path + logo_file, "wb") as handler:
                             handler.write(logo_img)
@@ -111,6 +117,8 @@ def scrape_infobox(wiki_url, lang_name):
                         logging.error(f"Saving the logo for {lang_name} failed with\n{err}")
 
             ## Uncomment image downloads above ##
+
+            logging.debug(f"Attempting to find release year for {lang_name}")
 
             year_label = infobox.find(class_="infobox-label", string=re.compile("First|Initial|appeared|release"))
             # not Original; that'll match against "Original author(s)"
@@ -125,6 +133,8 @@ def scrape_infobox(wiki_url, lang_name):
                     year = year_match.group()
                 else:
                     logging.warning(f"Release year for {lang_name} not found")
+
+            logging.debug(f"Attempting to find paradigm list for {lang_name}")
             
             paradigm_label = infobox.find(class_="infobox-label", string=re.compile("Paradigm"))
 
