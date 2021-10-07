@@ -24,7 +24,7 @@ def extract_metadata(wiki_url, lang_name):
     """
     Extracts paradigm and year information from the Wikipedia page for a programming language, and downloads its logo.
     """
-    year, paradigm, logo = "null", "null", "null"
+    year, paradigms, logo = "null", "null", "null"
 
     try:
         wiki_page = requests.get(wiki_url, timeout=15)
@@ -85,24 +85,51 @@ def extract_metadata(wiki_url, lang_name):
 
             ## Uncomment image downloads above ##
 
-            year_element = infobox.find(class_="infobox-label", string=re.compile("appeared|release"))
+            year_label = infobox.find(class_="infobox-label", string=re.compile("First|Initial|appeared|release"))
+            # not Original; that'll match against "Original author(s)"
 
-            if year_element is None:
+            if year_label is None:
                 print(f"The page for {lang_name} has no release year")
             else:
-                year_text = year_element.next_sibling.text
-                year_match = re.search("\d{4}", year_text)
+                year_data = year_label.next_sibling.text
+                year_match = re.search("\d{4}", year_data)
                 
                 if year_match:
                     year = year_match.group()
                 else:
                     print(f"Release year for {lang_name} not found")
-                 
-
+            
             # TODO: get paradigm list
             
+            paradigm_label = infobox.find(class_="infobox-label", string=re.compile("Paradigm"))
+
+            if paradigm_label is None:
+                print(f"The page for {lang_name} has no paradigm list")
+            else:  
+                paradigm_data = paradigm_label.next_sibling
+
+                if paradigm_data is not None:
+                    paradigm_string = ""
+
+                    for link in paradigm_data.find_all("a"):
+                        paradigm = link.string.lower()
+
+                        if re.search("multi", paradigm) or \
+                            re.search(re.compile(r"\[\d*\]"), paradigm):
+                            # the latter skips footnotes
+                            continue
+                        else:
+                            paradigm_string += paradigm + ";"
+                    
+                    if paradigm_string:  # is not empty
+                        paradigms = paradigm_string[0:-1]
+                        # remove trailing ;
+
+                else:
+                    print(f"The page for {lang_name} has no paradigm list")
+            
     finally:
-        return year, paradigm, logo
+        return year, paradigms, logo
 
 
 try:
@@ -134,9 +161,9 @@ for lang in lang_names:
         link = wiki_root + links[0]["href"]
     except (KeyError, IndexError):
         print(f"No link found for {lang}")
-        year, paradigm, logo = "null", "null", "null"
+        year, paradigms, logo = "null", "null", "null"
     else:
-        year, paradigm, logo = extract_metadata(link, lang)
+        year, paradigms, logo = extract_metadata(link, lang)
 
 
 
