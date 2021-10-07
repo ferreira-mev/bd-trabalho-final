@@ -251,8 +251,7 @@ with open(csv_dir_path + csv_filename, "w") as lang_csv:
     for lang in lang_names:
         re_lang = regex_name(lang)
         links = soup.find_all("a",
-            string=re.compile("^" + re_lang + "|^" + re_lang + " \(.*\)", 
-                re.IGNORECASE), 
+            string=re.compile("^" + re_lang, re.IGNORECASE), 
             href=re.compile("/wiki/*"))
 
         try:
@@ -286,23 +285,6 @@ logging.info("Exiting successfully")
 
 # TODO:
 
-# Fixes:
-
-# - Delphi has no release year, but it gets listed as 2021
-# because "release" matches "Stable release" (fixed?)
-
-# - No URL found for: 
-    # F# (but it finds C#; hmm)
-        # aha: with C#, the spelled out "C Sharp" part is not 
-        # included in the link text, but for F# it is
-    # Groovy (because "(Apache Groovy)" is included in the link text?)
-        # how did it find Swift, though?
-        # because there's a link at the bottom of the page with not 
-        # parentheses in it!
-    # LISP (it's listed as Lisp; caps?) (fixed?)
-    # Matlab (it's listed as MATLAB; caps?) (fixed?)
-# (Haskell was a connection error)
-
 # Some issues requiring a manual intervention:
 
 # - ASM has no logo, but the Wiki does have an image
@@ -310,6 +292,12 @@ logging.info("Exiting successfully")
     # actually two languages
 # - Node.js in the language list (tf? That's not a language!!)
 # - VBA is not included in the Wiki list
+# - Link for C? Adding stuff to fix errors with other language names 
+# break this one; it being such a short name, it might be better to 
+# circumvent this manually rather than introducing ad hocness that
+# might break other stuff in the future :P
+# - Change paradigm for Haskell from "purely functional" to 
+# "functional"?
 
 # (Add links for manual fixes in a dictionary, then check if each 
 # name is a key in it before trying anything else?)
