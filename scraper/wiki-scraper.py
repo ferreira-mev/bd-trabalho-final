@@ -55,7 +55,8 @@ def extract_metadata(wiki_url, lang_name):
 
                 else:
                     logo_img = logo_img.content
-                    logo_file = logo_url.split("File:")[-1]
+                    logo_ext = logo_url.split(".")[-1]
+                    logo_file = lang_name.replace(" ", "_") + logo_ext
 
                     try:
                         with open(logo_dir_path + logo_file, "wb") as handler:
