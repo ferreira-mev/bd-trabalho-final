@@ -131,7 +131,7 @@ with open(local_lang_list_path) as local_lang_list:
 for lang in lang_names:
     links = soup.find_all("a", string=lang, href=re.compile("/wiki/*"))
     try:
-        link = "https://en.wikipedia.org" + links[0]["href"]
+        link = wiki_root + links[0]["href"]
     except (KeyError, IndexError):
         print(f"No link found for {lang}")
         year, paradigm, logo = "null", "null", "null"
