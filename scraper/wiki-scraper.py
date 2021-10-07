@@ -106,15 +106,17 @@ def scrape_infobox(wiki_url, lang_name):
                 else:
                     logo_img = logo_img.content
                     logo_ext = logo_url.split(".")[-1]
-                    logo_file = clean_name(lang_name) + "." + logo_ext
+                    logo_filename = clean_name(lang_name) + "." + logo_ext
 
                     logging.debug(f"Downloaded logo for {lang_name}; attempting to save")
 
                     try:
-                        with open(logo_dir_path + logo_file, "wb") as handler:
+                        with open(logo_dir_path + logo_filename, "wb") as handler:
                             handler.write(logo_img)
                     
-                        logo = logo_file
+                        logo = logo_filename
+
+                        logging.debug(f"Logo for {lang_name} saved successfully to {logo_dir_path + logo_filename}")
 
                     except Exception as err:
                         logging.error(f"Saving the logo for {lang_name} failed with\n{err}")
