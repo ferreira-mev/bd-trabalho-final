@@ -125,8 +125,9 @@ def scrape_infobox(wiki_url, lang_name):
 
             logging.debug(f"Attempting to find release year for {lang_name}")
 
-            year_label = infobox.find(class_="infobox-label", string=re.compile("First|Initial|appeared|release"))
-            # not Original; that'll match against "Original author(s)"
+            year_label = infobox.find(class_="infobox-label", string=re.compile("First|Initial|appeared|released"))
+            # not "Original"; that'll match against "Original author(s)"
+            # nor "release", because of "Stable release"
 
             if year_label is None:
                 logging.warning(f"The page for {lang_name} has no release year")
@@ -236,7 +237,9 @@ with open(csv_dir_path + csv_filename, "w") as lang_csv:
     logging.info("Beginning search for language page URLs")
 
     for lang in lang_names:
-        links = soup.find_all("a", string=lang, href=re.compile("/wiki/*"))
+        links = soup.find_all("a",
+            string=re.compile(lang, re.IGNORECASE), 
+            href=re.compile("/wiki/*"))
 
         try:
             link = wiki_root + links[0]["href"]
@@ -268,5 +271,29 @@ logging.info("Exiting successfully")
 # libraries, OSs?, other)
 
 # TODO:
+
+# Fixes:
+
+# - Delphi has no release year, but it gets listed as 2021
+# because "release" matches "Stable release" (fixed?)
+
+# - No URL found for: 
+    # F# (but it finds C#; hmm)
+        # aha: with C#, the spelled out "C Sharp" part is not 
+        # included in the link text, but for F# it is
+    # Groovy (because "(Apache Groovy)" is included in the link text?)
+        # how did it find Swift, though?
+    # LISP (it's listed as Lisp; caps?) (fixed?)
+    # Matlab (it's listed as MATLAB; caps?) (fixed?)
+# (Haskell was a connection error)
+
 # Some issues requiring a manual intervention:
+
 # - ASM has no logo, but the Wiki does have an image
+# - "HTML/CSS" has to be handled manually, as they're
+    # actually two languages
+# - Node.js in the language list (tf? That's not a language!!)
+# - VBA is not included in the Wiki list
+
+# (Add links for manual fixes in a dictionary, then check if each 
+# name is a key in it before trying anything else?)
