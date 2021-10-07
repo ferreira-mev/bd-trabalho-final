@@ -45,7 +45,7 @@ def extract_metadata(wiki_url, lang_name):
             if logo_element is None:
                 print(f"The page for {lang_name} has no logo")
             else:
-                logo_url = logo_element["src"]
+                logo_url = "https:" + logo_element["src"]
 
                 try:
                     logo_img = requests.get(logo_url)
@@ -142,3 +142,7 @@ csv_output_path += "_" + curr_time + ".csv"
 
 # TODO: generalize to other tech categories (DBMS, IDEs/editors, frameworks,
 # libraries, OSs?, other)
+
+# TODO:
+# Some issues requiring a manual intervention:
+# - ASM has no logo, but the Wiki does have an image
