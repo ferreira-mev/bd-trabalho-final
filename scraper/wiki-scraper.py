@@ -8,15 +8,21 @@ import requests, sys, csv, datetime, re, logging
 from requests.exceptions import HTTPError, ConnectionError
 from bs4 import BeautifulSoup
 
-local_lang_list_path = "languages.txt"
-csv_output_path = "languages.csv"
+
 logo_dir_path = "logos/"
 log_dir_path = "logs/"  # ...lol sry?
+csv_dir_path = "csvs/"
+csv_filename = "languages.csv"
+txt_dir_path = "txt-lists/"
+txt_lang_list_filename = "languages.txt"
 # trailing / to make string concatenation simpler
 
 wiki_root = "https://en.wikipedia.org"
 # no trailing / to make string concatenation simpler
 wiki_lang_list_url = "https://en.wikipedia.org/wiki/List_of_programming_languages"
+
+req_timeout = 15  # in seconds
+# defaults to 3, but my connection is this bad today ;)
 
 # Setting up logging:
 logging.basicConfig(filename=log_dir_path + "lang-only-scraper.log",
@@ -51,7 +57,7 @@ def extract_metadata(wiki_url, lang_name):
     year, paradigms, logo = "null", "null", "null"
 
     try:
-        wiki_page = requests.get(wiki_url, timeout=15)
+        wiki_page = requests.get(wiki_url, timeout=req_timeout)
         wiki_page.raise_for_status()
 
     except Exception as err:
@@ -154,7 +160,8 @@ def extract_metadata(wiki_url, lang_name):
 logging.info("Starting execution")
 
 try:
-    wiki_lang_list = requests.get(wiki_lang_list_url)
+    wiki_lang_list = requests.get(wiki_lang_list_url, 
+        timeout=req_timeout)
     
 except HTTPError as http_err:
     logging.critical(f"HTTP request failed with\n{http_err}")
@@ -179,7 +186,7 @@ lang_names = []
 
 logging.info("Opening language list (input)")
 
-with open(local_lang_list_path) as local_lang_list:
+with open(txt_dir_path + txt_lang_list_filename) as local_lang_list:
     for line in local_lang_list:
         lang_names.append(line.replace("\n", "").replace("\r", ""))
 
@@ -192,16 +199,16 @@ csv_headers = ["name","year", "paradigms", "logo"]
 # Adding timestamps to csv file names for now to ensure I don't overwrite 
 # anything good with crap by accident:
 
-csv_output_path = csv_output_path.replace(".csv", "").replace(".CSV", "")
+csv_filename = csv_filename.replace(".csv", "").replace(".CSV", "")
 # just so I don't have to remember to leave the extension out above ;)
-csv_output_path += "_" + filename_curr_time() + ".csv"
+csv_filename += "_" + filename_curr_time() + ".csv"
 
 # (commented this out to avoid spamming the directory
 # with useless csvs as I test)
 
 logging.info("Opening csv file (output)")
 
-with open(csv_output_path, "w") as lang_csv:
+with open(csv_dir_path + csv_filename, "w") as lang_csv:
     csv_writer = csv.DictWriter(lang_csv, delimiter=",", fieldnames=csv_headers)
     csv_writer.writeheader()
 
