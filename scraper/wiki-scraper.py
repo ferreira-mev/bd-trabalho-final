@@ -50,7 +50,7 @@ def clean_name(name):
     # not already included above would be good; could I find the
     # right regex for that?
 
-def extract_metadata(wiki_url, lang_name):
+def scrape_infobox(wiki_url, lang_name):
     """
     Extracts paradigm and year information from the Wikipedia page for a programming language, and downloads its logo.
     """
@@ -225,7 +225,7 @@ with open(csv_dir_path + csv_filename, "w") as lang_csv:
             year, paradigms, logo = "null", "null", "null"
 
         else:
-            year, paradigms, logo = extract_metadata(link, lang)
+            year, paradigms, logo = scrape_infobox(link, lang)
         
         csv_writer.writerow(
             {"name": lang,
