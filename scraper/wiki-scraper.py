@@ -147,18 +147,21 @@ logging.info("Starting execution")
 
 try:
     wiki_lang_list = requests.get(wiki_lang_list_url)
+    
 except HTTPError as http_err:
     logging.critical(f"HTTP request failed with\n{http_err}")
-    logging.critical("Exiting")
-    sys.exit()
+    logging.critical("Aborting")
+    sys.exit(1)
+
 except ConnectionError as conn_err:
     logging.critical(f"Connection failed with\n{conn_err}")
-    logging.critical("Exiting")
-    sys.exit()
+    logging.critical("Aborting")
+    sys.exit(1)
+    
 except Exception as err:
     logging.critical(f"Something went wrong:\n{err}")
-    logging.critical("Exiting")
-    sys.exit()
+    logging.critical("Aborting")
+    sys.exit(1)
 
 # implicit else (exits on all exceptions)
 
@@ -166,31 +169,13 @@ soup = BeautifulSoup(wiki_lang_list.text, "html.parser")
 
 lang_names = []
 
-logging.info("Opening language list")
+logging.info("Opening language list (input)")
 
 with open(local_lang_list_path) as local_lang_list:
     for line in local_lang_list:
         lang_names.append(line.replace("\n", "").replace("\r", ""))
 
 logging.info("Done reading language list")
-
-
-# Scraping test (this should go in the csv with block, so it can write as 
-# it finds info):
-
-logging.info("Beginning search for language page URLs")
-
-for lang in lang_names:
-    links = soup.find_all("a", string=lang, href=re.compile("/wiki/*"))
-    try:
-        link = wiki_root + links[0]["href"]
-    except (KeyError, IndexError):
-        logging.error(f"No URL found for {lang}")
-        year, paradigms, logo = "null", "null", "null"
-    else:
-        year, paradigms, logo = extract_metadata(link, lang)
-
-logging.info("Done searching for language page URLs")
 
 # Outputting to csv:
 
@@ -200,22 +185,45 @@ csv_headers = ["name","year", "paradigms", "logo"]
 # anything good with crap by accident:
 
 csv_output_path = csv_output_path.replace(".csv", "").replace(".CSV", "")
-# just so I don't have to remember to leave it out ;)
+# just so I don't have to remember to leave the extension out above ;)
 csv_output_path += "_" + filename_curr_time() + ".csv"
 
 # (commented this out to avoid spamming the directory
 # with useless csvs as I test)
 
-# with open(csv_output_path, "w") as lang_csv:
-#     csv_writer = csv.DictWriter(lang_csv, delimiter=",", fieldnames=csv_headers)
-#     csv_writer.writeheader()
-#     for lang in lang_names:
-#         csv_writer.writerow(
-#             {"name": lang,
-#             "year": year,
-#             "paradigms": paradigms,
-#             "logo": logo}
-#         )
+logging.info("Opening csv file (output)")
+
+with open(csv_output_path, "w") as lang_csv:
+    csv_writer = csv.DictWriter(lang_csv, delimiter=",", fieldnames=csv_headers)
+    csv_writer.writeheader()
+
+    logging.info("Beginning search for language page URLs")
+
+    for lang in lang_names:
+        links = soup.find_all("a", string=lang, href=re.compile("/wiki/*"))
+
+        try:
+            link = wiki_root + links[0]["href"]
+
+        except (KeyError, IndexError):
+            logging.error(f"No URL found for {lang}")
+            year, paradigms, logo = "null", "null", "null"
+
+        else:
+            year, paradigms, logo = extract_metadata(link, lang)
+        
+        csv_writer.writerow(
+            {"name": lang,
+            "year": year,
+            "paradigms": paradigms,
+            "logo": logo}
+        )
+
+    logging.info("Done searching for language page URLs")
+
+logging.info("Done writing to csv file")
+
+logging.info("Exiting successfully")
 
 # TODO: generalize to other tech categories (DBMS, IDEs/editors, frameworks,
 # libraries, OSs?, other)
