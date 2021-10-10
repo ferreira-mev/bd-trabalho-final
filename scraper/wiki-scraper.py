@@ -77,14 +77,17 @@ wiki_resources = {
 # (bcos nlp iz hard!11)
 manual_corrections = {
     "C": "/wiki/C_(programming_language)",
-    "Node.js": "/wiki/Node.js",
+    # "Node.js": "/wiki/Node.js",
     "VBA": "/wiki/Visual_Basic_for_Applications",
     "Cordova": "/wiki/Apache_Cordova",
     "BSD": "/wiki/FreeBSD",
     "Linux-based": "/wiki/Linux",
     "Visual Studio": "/wiki/Microsoft_Visual_Studio",
     "Pandas": "/wiki/Pandas_(software)",
-    "Deno": "/wiki/Deno_(software)"
+    "Deno": "/wiki/Deno_(software)",
+    "Docker": "/wiki/Docker_(software)"
+    # try adding (software) if a disambiguation page
+    # is reached?
 }
 
 req_timeout = 15  # in seconds
