@@ -85,9 +85,10 @@ manual_corrections = {
     "Visual Studio": "/wiki/Microsoft_Visual_Studio",
     "Pandas": "/wiki/Pandas_(software)",
     "Deno": "/wiki/Deno_(software)",
-    "Docker": "/wiki/Docker_(software)"
+    "Docker": "/wiki/Docker_(software)",
     # try adding (software) if a disambiguation page
     # is reached?
+    "Torch/PyTorch": "/wiki/Torch_(machine_learning)"
 }
 
 req_timeout = 15  # in seconds
