@@ -87,8 +87,9 @@ manual_corrections = {
     "Deno": "/wiki/Deno_(software)",
     "Docker": "/wiki/Docker_(software)",
     # try adding (software) if a disambiguation page
-    # is reached?
+    # is reached? Flutter, Qt are the same
     "Torch/PyTorch": "/wiki/Torch_(machine_learning)"
+    "Cassandra": "/wiki/Apache_Cassandra"
 }
 
 req_timeout = 15  # in seconds
