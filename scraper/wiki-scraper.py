@@ -82,7 +82,8 @@ manual_corrections = {
     "Cordova": "/wiki/Apache_Cordova",
     "BSD": "/wiki/FreeBSD",
     "Linux-based": "/wiki/Linux",
-    "Visual Studio": "/wiki/Microsoft_Visual_Studio"
+    "Visual Studio": "/wiki/Microsoft_Visual_Studio",
+    "Pandas": "/wiki/Pandas_(software)"
 }
 
 req_timeout = 15  # in seconds
