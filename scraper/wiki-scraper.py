@@ -79,7 +79,7 @@ manual_corrections = {
     "C": "/wiki/C_(programming_language)",
     "Node.js": "/wiki/Node.js",
     "VBA": "/wiki/Visual_Basic_for_Applications",
-    "Cordova": "/wiki/Apache_Cordova"
+    "Cordova": "/wiki/Apache_Cordova",
     "BSD": "/wiki/FreeBSD",
     "Linux-based": "/wiki/Linux",
     "Visual Studio": "/wiki/Microsoft_Visual_Studio"
