@@ -80,8 +80,9 @@ manual_corrections = {
     "Node.js": "/wiki/Node.js",
     "VBA": "/wiki/Visual_Basic_for_Applications",
     "Cordova": "/wiki/Apache_Cordova"
-    "BSD": "https://en.wikipedia.org/wiki/FreeBSD",
-    "Linux-based": "https://en.wikipedia.org/wiki/Linux"
+    "BSD": "/wiki/FreeBSD",
+    "Linux-based": "/wiki/Linux",
+    "Visual Studio": "/wiki/Microsoft_Visual_Studio"
 }
 
 req_timeout = 15  # in seconds
