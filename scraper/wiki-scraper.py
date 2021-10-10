@@ -23,7 +23,6 @@ import requests, sys, csv, datetime, re, logging
 from requests.exceptions import HTTPError, ConnectionError
 from bs4 import BeautifulSoup
 
-# Variables referring to local files and directories:
 
 tech_types = [
     "databases",
@@ -34,6 +33,11 @@ tech_types = [
     "other-tech",
     "web-frameworks"
     ]
+
+tech_names = {key: [] for key in tech_types}
+
+
+# Variables related to local files and directories:
 
 tech_list_ext = ".txt"
 
@@ -46,7 +50,8 @@ csv_dir_path = "csvs/"
 # csv_filename = "languages.csv"
 # txt_lang_list_filename = "languages.txt"
 
-# Variables referring to Wikipedia links:
+
+# Variables related to Wikipedia links:
 
 wiki_root = "https://en.wikipedia.org"
 # no trailing / to make string concatenation simpler
@@ -76,11 +81,13 @@ wiki_resources = {
 req_timeout = 15  # in seconds
 # defaults to 3, but my connection is this bad today :')
 
+
 # Setting up logging:
-logging.basicConfig(filename=log_dir_path + "lang-only-scraper.log",
+logging.basicConfig(filename=log_dir_path + "general-scraper.log",
     encoding="utf-8", level=logging.DEBUG,
     format="[%(asctime)s] %(levelname)s: %(message)s",
     datefmt="%a, %d %b %Y, %H:%M:%S")
+
 
 def filename_curr_time():
     """
@@ -114,6 +121,7 @@ def regex_name(name):
     name = name.replace("*", "\*")
 
     return name
+
 
 def scrape_infobox(wiki_url, lang_name):
     """
@@ -249,6 +257,17 @@ def scrape_infobox(wiki_url, lang_name):
 logging.info("-------------------")
 logging.info("Starting execution")
 
+# Reading name list for each tech type:
+for tech in tech_types:
+    name_list = tech_list_dir_path + tech + tech_list_ext
+    logging.info(f"Attempting to read {name_list}")
+    with open(name_list) as list_file:
+        for line in list_file:
+            tech_names[tech].append(
+                line.replace("\n", "").replace("\r", "")
+            )
+    logging.info(f"Done reading {name_list}")
+
 try:
     wiki_lang_list = requests.get(wiki_lang_list_url, 
         timeout=req_timeout)
@@ -273,15 +292,7 @@ except Exception as err:
 
 soup = BeautifulSoup(wiki_lang_list.text, "html.parser")
 
-lang_names = []
 
-logging.info("Opening language list (input)")
-
-with open(tech_list_dir_path + txt_lang_list_filename) as local_lang_list:
-    for line in local_lang_list:
-        lang_names.append(line.replace("\n", "").replace("\r", ""))
-
-logging.info("Done reading language list")
 
 # Outputting to csv:
 
