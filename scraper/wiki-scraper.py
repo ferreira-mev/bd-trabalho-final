@@ -79,6 +79,7 @@ wiki_resources = {
 }
 
 # Just a nudge in the right direction ;)
+# (bcos nlp iz hard!11)
 manual_corrections = {
     "C": "/wiki/C_(programming_language)",
     "Node.js": "/wiki/Node.js",
@@ -267,12 +268,12 @@ logging.info("Starting execution")
 logging.info(f"Reading name lists...")
 
 # Reading name list for each tech type:
-for tech in tech_types:
-    name_list = tech_list_dir_path + tech + tech_list_ext
+for tech_type in tech_types:
+    name_list = tech_list_dir_path + tech_type + tech_list_ext
     logging.debug(f"Attempting to open {name_list}")
     with open(name_list) as list_file:
         for line in list_file:
-            tech_names[tech].append(
+            tech_names[tech_type].append(
                 line.replace("\n", "").replace("\r", "")
             )
     logging.debug(f"Done reading {name_list}")
@@ -320,10 +321,10 @@ csv_headers = {
     "web-frameworks": general_csv_header
 }
 
-for tech in tech_types:
+for tech_type in tech_types:
     # Adding timestamps to csv file names for now to ensure I don't
     # overwrite anything good with crap by accident:
-    csv_filename = tech + "_" + filename_curr_time() + ".csv"
+    csv_filename = tech_type + "_" + filename_curr_time() + ".csv"
     csv_filename = csv_dir_path + csv_filename
 
     logging.debug(f"Attempting to open {csv_filename}")
@@ -333,11 +334,35 @@ for tech in tech_types:
         csv_writer = csv.DictWriter(
             csv_file,
             delimiter=",",
-            fieldnames=csv_headers[tech]
+            fieldnames=csv_headers[tech_type]
             )
         csv_writer.writeheader()
 
-        # 
+        for tech in tech_names[tech_type]:
+            logging.debug("Searching for the appropriate" +\
+            f" Wiki URL for {tech}")
+
+            wiki_url = manual_corrections.get(tech)
+            # None if not a key
+
+            if not wiki_url:
+                # Search for a link in the given resources:
+                for res in wiki_resources[tech_type]:
+                    res_url = wiki_root + res
+                    logging.debug(f"Requesting {res_url}")
+                    # TODO: handle errors, search for link
+            
+            if not wiki_url:  # still no luck
+                wiki_url = wiki_root +\
+                    "/wiki/" +\
+                    tech.split("/")[0].replace(" ", "_")
+                # Try using the tool name and hope for the best
+    
+
+
+
+
+            
 
 
 
@@ -391,14 +416,5 @@ logging.info("Exiting successfully")
 # - ASM has no logo, but the Wiki does have an image; same for COBOL?
 # - "HTML/CSS" has to be handled manually, as they're
     # actually two languages
-# - Node.js in the language list (tf? That's not a language!!)
-# - VBA is not included in the Wiki list
-# - Link for C? Adding stuff to fix errors with other language names 
-# break this one; it being such a short name, it might be better to 
-# circumvent this manually rather than introducing ad hocness that
-# might break other stuff in the future :P
 # - Change paradigm for Haskell from "purely functional" to 
 # "functional"?
-
-# (Add links for manual fixes in a dictionary, then check if each 
-# name is a key in it before trying anything else?)
