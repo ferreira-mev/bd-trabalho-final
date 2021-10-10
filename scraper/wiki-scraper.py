@@ -290,6 +290,8 @@ def scrape_infobox(wiki_url, tech_name, tech_type):
                         ), 
                     href=re.compile("/wiki/*")
                 )
+
+                return_dict["relational"] = bool(rel)
             
     finally:
         return return_dict
@@ -414,57 +416,11 @@ for tech_type in tech_types:
                 logging.debug(f"Trying {wiki_url}")
             
             row_dict = scrape_infobox(wiki_url, tech_name, tech_type)
+
+            csv_writer.writerow(row_dict)
     
 
-
-
-
-            
-
-
-
-# logging.info("Opening csv file (output)")
-
-# with open(csv_dir_path + csv_filename, "w") as lang_csv:
-#     csv_writer = csv.DictWriter(lang_csv, delimiter=",", fieldnames=csv_headers)
-#     csv_writer.writeheader()
-
-#     logging.info("Beginning search for language page URLs")
-
-#     for lang in lang_names:
-#         re_lang = regex_name(lang)
-#         links = soup.find_all("a",
-#             string=re.compile("^" + re_lang, re.IGNORECASE), 
-#             href=re.compile("/wiki/*"))
-
-#         try:
-#             link = wiki_root + links[0]["href"]
-
-#         except (KeyError, IndexError):
-#             logging.error(f"No URL found for {lang}")
-#             year, paradigms, logo = "null", "null", "null"
-
-#         else:
-#             year, paradigms, logo = scrape_infobox(link, lang)
-
-#         finally:
-#             logging.debug(f"Writing csv row for {lang}")
-
-#             csv_writer.writerow(
-#                 {"name": lang,
-#                 "year": year,
-#                 "paradigms": paradigms,
-#                 "logo": logo}
-#             )
-
-#     logging.info("Done searching for language page URLs")
-
-# logging.info("Done writing to csv file")
-
 logging.info("Exiting successfully")
-
-# TODO: generalize to other tech categories (DBMS, IDEs/editors, frameworks,
-# libraries, OSs?, other)
 
 # TODO:
 
