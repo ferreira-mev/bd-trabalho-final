@@ -132,20 +132,31 @@ def regex_name(name):
     return name
 
 
-def scrape_infobox(wiki_url, lang_name):
+def scrape_infobox(wiki_url, tech_name, tech_type):
     """
-    Extracts paradigm and year information from the Wikipedia page for a programming language, and downloads its logo.
+    Extracts the relevant information from the Wikipedia page for a technology and downloads its logo.
     """
-    logging.debug(f"Attempting to scrape infobox for {lang_name}")
+    logging.debug(f"Attempting to scrape infobox for {tech_name}")
 
-    year, paradigms, logo = "null", "null", "null"
+    return_dict = {
+        "name": tech_name,
+        "year": "null",
+        "logo": "null"
+        }
+    
+    if tech_type == "databases":
+        return_dict["relational"] = "null"
+    elif tech_type == "languages":
+        return_dict["paradigms"] = "null"
+
+    # this function is huge; move each info to a "subfunction"?
 
     try:
         wiki_page = requests.get(wiki_url, timeout=req_timeout)
         wiki_page.raise_for_status()
 
     except Exception as err:
-        logging.error(f"Loading Wiki page for {lang_name} failed with\n{err}")
+        logging.error(f"Loading Wiki page for {tech_name} failed with\n{err}")
 
     else:
         soup = BeautifulSoup(wiki_page.text, "html.parser")
@@ -154,23 +165,25 @@ def scrape_infobox(wiki_url, lang_name):
         infobox = soup.find("table", class_="infobox")
 
         if infobox is None:
-            logging.error(f"No infobox found for {lang_name}")
+            logging.error(f"No infobox found for {tech_name}")
         else:
             # Downloading the logo:
             # (assuming it will always be the first image)
 
-            ## Commented out to speed up testing other stuff ##
+
+            ## Comment out to speed up testing other stuff ##
 
             logo_ancestor = soup.find(class_="infobox-image")
-            # There might be more than one infobox, and other
-            # images (icons) in the first/main infobox :P
+            # Searching from the root because there might be
+            # a) more than one infobox, and b) other images
+            # (icons) in the first/main infobox
             # (See eg: Matlab)
             
 
             if logo_ancestor is None:
-                logging.warning(f"The page for {lang_name} has no logo")
+                logging.warning(f"The page for {tech_name} has no logo")
             else:
-                logging.debug(f"Found logo for {lang_name}; attempting to download")
+                logging.debug(f"Found logo for {tech_name}; attempting to download")
 
                 logo_element = logo_ancestor.find("img")
 
@@ -183,84 +196,95 @@ def scrape_infobox(wiki_url, lang_name):
                 # mw-filepage-other-resolutions
 
                 try:
-                    logo_img = requests.get(logo_url)
+                    logo_img = requests.get(
+                        logo_url,
+                        timeout=req_timeout
+                        )
+                    logo_img.raise_for_status()
 
                 except Exception as err:
-                    logging.error(f"Downloading the logo for {lang_name} failed with\n{err}")
+                    logging.error(f"Downloading the logo for {tech_name} failed with\n{err}")
 
                 else:
                     logo_img = logo_img.content
                     logo_ext = logo_url.split(".")[-1]
-                    logo_filename = clean_name(lang_name) + "." + logo_ext
+                    logo_filename = clean_name(tech_name) + "." + logo_ext
 
-                    logging.debug(f"Downloaded logo for {lang_name}; attempting to save")
+                    logging.debug(f"Downloaded logo for {tech_name}; attempting to save")
 
                     try:
                         with open(logo_dir_path + logo_filename, "wb") as handler:
                             handler.write(logo_img)
                     
-                        logo = logo_filename
+                        return_dict["logo"] = logo_filename
 
-                        logging.debug(f"Logo for {lang_name} saved successfully to {logo_dir_path + logo_filename}")
+                        logging.debug(f"Logo for {tech_name} saved successfully to {logo_dir_path + logo_filename}")
 
                     except Exception as err:
-                        logging.error(f"Saving the logo for {lang_name} failed with\n{err}")
+                        logging.error(f"Saving the logo for {tech_name} failed with\n{err}")
 
-            ## Uncomment image downloads above ##
+            ## Comment out to speed up testing other stuff ##
 
-            logging.debug(f"Attempting to find release year for {lang_name}")
+
+            logging.debug(f"Attempting to find release year for {tech_name}")
 
             year_label = infobox.find(class_="infobox-label", string=re.compile("First|Initial|appeared|released"))
             # not "Original"; that'll match against "Original author(s)"
             # nor "release", because of "Stable release"
 
             if year_label is None:
-                logging.warning(f"The page for {lang_name} has no release year")
+                logging.warning(f"The page for {tech_name} has no release year")
             else:
                 year_data = year_label.next_sibling.text
                 year_match = re.search("\d{4}", year_data)
                 
                 if year_match:
-                    year = year_match.group()
-                    logging.debug(f"Release year for {lang_name}: {year}")
+                    return_dict["year"] = year_match.group()
+                    logging.debug(f"Release year for {tech_name}: {return_dict['year']}")
                 else:
-                    logging.warning(f"Release year for {lang_name} not found")
+                    logging.warning(f"Release year for {tech_name} not found")
 
-            logging.debug(f"Attempting to find paradigm list for {lang_name}")
-            
-            paradigm_label = infobox.find(class_="infobox-label", string=re.compile("Paradigm"))
+            if tech_type == "languages":
 
-            if paradigm_label is None:
-                logging.warning(f"The page for {lang_name} has no paradigm list")
-            else:  
-                paradigm_data = paradigm_label.next_sibling
+                logging.debug(f"Attempting to find paradigm list for {tech_name}")
+                
+                paradigm_label = infobox.find(class_="infobox-label", string=re.compile("Paradigm"))
 
-                if paradigm_data is not None:
-                    paradigm_string = ""
+                if paradigm_label is None:
+                    logging.warning(f"The page for {tech_name} has no paradigm list")
+                else:  
+                    paradigm_data = paradigm_label.next_sibling
 
-                    for link in paradigm_data.find_all("a"):
-                        paradigm = link.string.lower()
+                    if paradigm_data is not None:
+                        paradigm_string = ""
 
-                        if re.search("multi", paradigm) or \
-                            re.search(re.compile(r"\[\d*\]"), paradigm):
-                            # the latter skips footnotes
-                            continue
+                        for link in paradigm_data.find_all("a"):
+                            paradigm = link.string.lower()
+
+                            if re.search("multi", paradigm) or \
+                                re.search(re.compile(r"\[\d*\]"), paradigm):
+                                # the latter skips footnotes
+                                continue
+                            else:
+                                paradigm_string += paradigm + ";"
+                        
+                        if paradigm_string:  # is not empty
+                            return_dict["paradigms"] = paradigm_string[0:-1]
+                            # remove trailing ;
+                            logging.debug(f"Paradigm list for {tech_name}: {return_dict['paradigms']}")
+                        
                         else:
-                            paradigm_string += paradigm + ";"
-                    
-                    if paradigm_string:  # is not empty
-                        paradigms = paradigm_string[0:-1]
-                        # remove trailing ;
-                        logging.debug(f"Paradigm list for {lang_name}: {paradigms}")
-                    
-                    else:
-                        logging.warning(f"The page for {lang_name} has no paradigm list")
+                            logging.warning(f"The page for {tech_name} has no paradigm list")
 
-                else:
-                    logging.warning(f"The page for {lang_name} has no paradigm list")
+                    else:
+                        logging.warning(f"The page for {tech_name} has no paradigm list")
+                
+            elif tech_type == "databases":
+                logging.debug(f"Attempting to determine whether { tech_name} is relational")
+                # TODO check if relational
             
     finally:
-        return year, paradigms, logo
+        return return_dict
 
 
 logging.info("-------------------")
@@ -278,7 +302,7 @@ for tech_type in tech_types:
 
             if tech_name:
                 tech_names[tech_type].append(tech_name)
-                
+
     logging.debug(f"Done reading {name_list}")
 
 logging.info(f"Done reading name lists")
@@ -317,6 +341,7 @@ for tech_type in tech_types:
                 res_url,
                 timeout=req_timeout
                 )
+            res_page.raise_for_status()
 
         except Exception as err:
             logging.error(f"Loading {res_url} failed with\n{err}")
@@ -379,6 +404,8 @@ for tech_type in tech_types:
                     tech_name.split("/")[0].split("(")[0].replace(" ", "_")
                 # Try using the tool name and hope for the best
                 logging.debug(f"Trying {wiki_url}")
+            
+            row_dict = scrape_infobox(wiki_url, tech_name, tech_type)
     
 
 
