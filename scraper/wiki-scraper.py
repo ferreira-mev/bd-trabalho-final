@@ -401,7 +401,8 @@ for tech_type in tech_types:
                         wiki_url = wiki_root + link["href"]
                         logging.debug(f"Found {wiki_url} in {wiki_resources[tech_type][idx]}")
                         break
-                    except (KeyError, IndexError):
+
+                    except (TypeError, KeyError):
                         logging.debug(f"No URL for {tech_name} in {wiki_resources[tech_type][idx]}")
 
                         wiki_url = ""
