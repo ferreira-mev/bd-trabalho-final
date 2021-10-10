@@ -69,7 +69,7 @@ wiki_resources = {
         "/wiki/List_of_programming_languages"
         ],
     "libs": [],
-    # "oss": [],
+    "oss": [],  # "direct" links work for those
     "other-tech": [
         "/wiki/Continuous_configuration_automation"
         ],
@@ -83,7 +83,8 @@ wiki_resources = {
 manual_corrections = {
     "C": "/wiki/C_(programming_language)",
     "Node.js": "/wiki/Node.js",
-    "VBA": "/wiki/Visual_Basic_for_Applications"
+    "VBA": "/wiki/Visual_Basic_for_Applications",
+    "Cordova": "/wiki/Apache_Cordova"
 }
 
 req_timeout = 15  # in seconds
@@ -366,7 +367,7 @@ for tech_type in tech_types:
 
 
 
-logging.info("Opening csv file (output)")
+# logging.info("Opening csv file (output)")
 
 # with open(csv_dir_path + csv_filename, "w") as lang_csv:
 #     csv_writer = csv.DictWriter(lang_csv, delimiter=",", fieldnames=csv_headers)
