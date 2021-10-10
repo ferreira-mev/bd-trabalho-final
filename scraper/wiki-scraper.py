@@ -23,27 +23,55 @@ import requests, sys, csv, datetime, re, logging
 from requests.exceptions import HTTPError, ConnectionError
 from bs4 import BeautifulSoup
 
-tech_types = ["databases",
-                "editors-ides",
-                "languages",
-                "libs",
-                "oss",
-                "other-tech",
-                "web-frameworks"]
+# Variables referring to local files and directories:
+
+tech_types = [
+    "databases",
+    "editors-ides",
+    "languages",
+    "libs",
+    # "oss",
+    "other-tech",
+    "web-frameworks"
+    ]
 
 tech_list_ext = ".txt"
 
+tech_list_dir_path = "txt-lists/"
 logo_dir_path = "logos/"
 log_dir_path = "logs/"  # ...lol sry?
 csv_dir_path = "csvs/"
-csv_filename = "languages.csv"
-tech_list_dir_path = "txt-lists/"
-txt_lang_list_filename = "languages.txt"
 # trailing / to make string concatenation simpler
+
+# csv_filename = "languages.csv"
+# txt_lang_list_filename = "languages.txt"
+
+# Variables referring to Wikipedia links:
 
 wiki_root = "https://en.wikipedia.org"
 # no trailing / to make string concatenation simpler
-wiki_lang_list_url = "https://en.wikipedia.org/wiki/List_of_programming_languages"
+
+wiki_resources = {
+    "databases": [
+        "/wiki/Comparison_of_relational_database_management_systems",
+        "/wiki/Comparison_of_object–relational_database_management_systems"
+        ],
+    "editors-ides": [
+        "/wiki/Comparison_of_integrated_development_environments",
+        "/wiki/List_of_text_editors"
+        ],
+    "languages": [
+        "/wiki/List_of_programming_languages"
+        ],
+    "libs": [],
+    # "oss": [],
+    "other-tech": [
+        "/wiki/Continuous_configuration_automation"
+        ],
+    "web-frameworks": [
+        "/wiki/Comparison_of_web_frameworks"
+        ]
+}
 
 req_timeout = 15  # in seconds
 # defaults to 3, but my connection is this bad today :')
