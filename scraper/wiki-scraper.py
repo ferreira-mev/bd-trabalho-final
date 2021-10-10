@@ -274,9 +274,11 @@ for tech_type in tech_types:
     logging.debug(f"Attempting to open {name_list}")
     with open(name_list) as list_file:
         for line in list_file:
-            tech_names[tech_type].append(
-                line.replace("\n", "").replace("\r", "")
-            )
+            tech_name = line.replace("\n", "").replace("\r", "")
+
+            if tech_name:
+                tech_names[tech_type].append(tech_name)
+                
     logging.debug(f"Done reading {name_list}")
 
 logging.info(f"Done reading name lists")
