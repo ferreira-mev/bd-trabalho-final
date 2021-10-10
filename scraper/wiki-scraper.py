@@ -78,6 +78,13 @@ wiki_resources = {
         ]
 }
 
+# Just a nudge in the right direction ;)
+manual_corrections = {
+    "C": "/wiki/C_(programming_language)",
+    "Node.js": "/wiki/Node.js",
+    "VBA": "/wiki/Visual_Basic_for_Applications"
+}
+
 req_timeout = 15  # in seconds
 # defaults to 3, but my connection is this bad today :')
 
@@ -322,6 +329,7 @@ for tech in tech_types:
     logging.debug(f"Attempting to open {csv_filename}")
 
     with open(csv_filename, "w") as csv_file:
+        logging.debug(f"Opened {csv_filename}")
         csv_writer = csv.DictWriter(
             csv_file,
             delimiter=",",
@@ -329,44 +337,47 @@ for tech in tech_types:
             )
         csv_writer.writeheader()
 
+        # 
+
+
 
 logging.info("Opening csv file (output)")
 
-with open(csv_dir_path + csv_filename, "w") as lang_csv:
-    csv_writer = csv.DictWriter(lang_csv, delimiter=",", fieldnames=csv_headers)
-    csv_writer.writeheader()
+# with open(csv_dir_path + csv_filename, "w") as lang_csv:
+#     csv_writer = csv.DictWriter(lang_csv, delimiter=",", fieldnames=csv_headers)
+#     csv_writer.writeheader()
 
-    logging.info("Beginning search for language page URLs")
+#     logging.info("Beginning search for language page URLs")
 
-    for lang in lang_names:
-        re_lang = regex_name(lang)
-        links = soup.find_all("a",
-            string=re.compile("^" + re_lang, re.IGNORECASE), 
-            href=re.compile("/wiki/*"))
+#     for lang in lang_names:
+#         re_lang = regex_name(lang)
+#         links = soup.find_all("a",
+#             string=re.compile("^" + re_lang, re.IGNORECASE), 
+#             href=re.compile("/wiki/*"))
 
-        try:
-            link = wiki_root + links[0]["href"]
+#         try:
+#             link = wiki_root + links[0]["href"]
 
-        except (KeyError, IndexError):
-            logging.error(f"No URL found for {lang}")
-            year, paradigms, logo = "null", "null", "null"
+#         except (KeyError, IndexError):
+#             logging.error(f"No URL found for {lang}")
+#             year, paradigms, logo = "null", "null", "null"
 
-        else:
-            year, paradigms, logo = scrape_infobox(link, lang)
+#         else:
+#             year, paradigms, logo = scrape_infobox(link, lang)
 
-        finally:
-            logging.debug(f"Writing csv row for {lang}")
+#         finally:
+#             logging.debug(f"Writing csv row for {lang}")
 
-            csv_writer.writerow(
-                {"name": lang,
-                "year": year,
-                "paradigms": paradigms,
-                "logo": logo}
-            )
+#             csv_writer.writerow(
+#                 {"name": lang,
+#                 "year": year,
+#                 "paradigms": paradigms,
+#                 "logo": logo}
+#             )
 
-    logging.info("Done searching for language page URLs")
+#     logging.info("Done searching for language page URLs")
 
-logging.info("Done writing to csv file")
+# logging.info("Done writing to csv file")
 
 logging.info("Exiting successfully")
 
