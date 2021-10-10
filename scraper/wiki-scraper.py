@@ -257,46 +257,61 @@ def scrape_infobox(wiki_url, lang_name):
 logging.info("-------------------")
 logging.info("Starting execution")
 
+logging.info(f"Reading name lists...")
+
 # Reading name list for each tech type:
 for tech in tech_types:
     name_list = tech_list_dir_path + tech + tech_list_ext
-    logging.info(f"Attempting to read {name_list}")
+    logging.debug(f"Attempting to open {name_list}")
     with open(name_list) as list_file:
         for line in list_file:
             tech_names[tech].append(
                 line.replace("\n", "").replace("\r", "")
             )
-    logging.info(f"Done reading {name_list}")
+    logging.debug(f"Done reading {name_list}")
 
-try:
-    wiki_lang_list = requests.get(wiki_lang_list_url, 
-        timeout=req_timeout)
+logging.info(f"Done reading name lists")
+
+
+
+# try:
+#     wiki_lang_list = requests.get(wiki_lang_list_url, 
+#         timeout=req_timeout)
     
-except HTTPError as http_err:
-    logging.critical(f"HTTP request failed with\n{http_err}")
-    logging.critical("Aborting")
-    sys.exit(1)
+# except HTTPError as http_err:
+#     logging.critical(f"HTTP request failed with\n{http_err}")
+#     logging.critical("Aborting")
+#     sys.exit(1)
 
-except ConnectionError as conn_err:
-    logging.critical(f"Connection failed with\n{conn_err}")
-    logging.critical("Aborting")
+# except ConnectionError as conn_err:
+#     logging.critical(f"Connection failed with\n{conn_err}")
+#     logging.critical("Aborting")
 
-    sys.exit(1)
+#     sys.exit(1)
 
-except Exception as err:
-    logging.critical(f"Something went wrong:\n{err}")
-    logging.critical("Aborting")
-    sys.exit(1)
+# except Exception as err:
+#     logging.critical(f"Something went wrong:\n{err}")
+#     logging.critical("Aborting")
+#     sys.exit(1)
 
-# implicit else (exits on all exceptions)
+# # implicit else (exits on all exceptions)
 
-soup = BeautifulSoup(wiki_lang_list.text, "html.parser")
+# soup = BeautifulSoup(wiki_lang_list.text, "html.parser")
 
 
+# Scraping and outputting to csv:
 
-# Outputting to csv:
+general_csv_header = ["name", "year", "logo"]
 
-csv_headers = ["name","year", "paradigms", "logo"]
+csv_headers = {
+    "databases": general_csv_header + ["relational"],
+    "editors-ides": general_csv_header,
+    "languages": general_csv_header + ["paradigms"],
+    "libs": general_csv_header,
+    # "oss": general_csv_header,
+    "other-tech": general_csv_header,
+    "web-frameworks": general_csv_header
+}
 
 # Adding timestamps to csv file names for now to ensure I don't overwrite 
 # anything good with crap by accident:
