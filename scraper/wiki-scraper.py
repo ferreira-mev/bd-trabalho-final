@@ -1,19 +1,43 @@
 """
-[WIP/DEBUGGING/UNFINISHED]
+[WIP - Generalization in progress to technologies other than languages]
 
-Scraper to extract year, paradigm and logo data for programming
-languages from Wikipedia.
+Scraper to extract year and logo data for technologies in the Stack
+Overflow Developer Survey from Wikipedia. For languages, a paradigm
+list is also scraped; for database management systems, the scraper
+also marks whether they are relational.
+
+Input: lists of the tools and technologies in the tech_types list,
+        in the tech_list_dir_path directory, with the tech_list_ext
+        extension
+
+Output:
+    1. logos, with their original extensions (as downloaded from
+        Wikipedia), in the logo_dir_path directory. File names are
+        tool names as returned by the clean_name() function, plus
+        extensions.
+    2. text data in csv format, in the csv_dir_path directory. File
+        names are as in the tech_types list.
+
 """
 import requests, sys, csv, datetime, re, logging
 from requests.exceptions import HTTPError, ConnectionError
 from bs4 import BeautifulSoup
 
+tech_types = ["databases",
+                "editors-ides",
+                "languages",
+                "libs",
+                "oss",
+                "other-tech",
+                "web-frameworks"]
+
+tech_list_ext = ".txt"
 
 logo_dir_path = "logos/"
 log_dir_path = "logs/"  # ...lol sry?
 csv_dir_path = "csvs/"
 csv_filename = "languages.csv"
-txt_dir_path = "txt-lists/"
+tech_list_dir_path = "txt-lists/"
 txt_lang_list_filename = "languages.txt"
 # trailing / to make string concatenation simpler
 
@@ -225,7 +249,7 @@ lang_names = []
 
 logging.info("Opening language list (input)")
 
-with open(txt_dir_path + txt_lang_list_filename) as local_lang_list:
+with open(tech_list_dir_path + txt_lang_list_filename) as local_lang_list:
     for line in local_lang_list:
         lang_names.append(line.replace("\n", "").replace("\r", ""))
 
