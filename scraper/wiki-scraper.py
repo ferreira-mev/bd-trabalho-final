@@ -19,8 +19,7 @@ Output:
         names are as in the tech_types list.
 
 """
-import requests, sys, csv, datetime, re, logging
-from requests.exceptions import HTTPError, ConnectionError
+import requests, csv, datetime, re, logging
 from bs4 import BeautifulSoup
 
 
@@ -46,10 +45,6 @@ logo_dir_path = "logos/"
 log_dir_path = "logs/"  # ...lol sry?
 csv_dir_path = "csvs/"
 # trailing / to make string concatenation simpler
-
-# csv_filename = "languages.csv"
-# txt_lang_list_filename = "languages.txt"
-
 
 # Variables related to Wikipedia links:
 
