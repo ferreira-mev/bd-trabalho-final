@@ -313,15 +313,22 @@ csv_headers = {
     "web-frameworks": general_csv_header
 }
 
-# Adding timestamps to csv file names for now to ensure I don't overwrite 
-# anything good with crap by accident:
+for tech in tech_types:
+    # Adding timestamps to csv file names for now to ensure I don't
+    # overwrite anything good with crap by accident:
+    csv_filename = tech + "_" + filename_curr_time() + ".csv"
+    csv_filename = csv_dir_path + csv_filename
 
-csv_filename = csv_filename.replace(".csv", "").replace(".CSV", "")
-# just so I don't have to remember to leave the extension out above ;)
-csv_filename += "_" + filename_curr_time() + ".csv"
+    logging.debug(f"Attempting to open {csv_filename}")
 
-# (commented this out to avoid spamming the directory
-# with useless csvs as I test)
+    with open(csv_filename, "w") as csv_file:
+        csv_writer = csv.DictWriter(
+            csv_file,
+            delimiter=",",
+            fieldnames=csv_headers[tech]
+            )
+        csv_writer.writeheader()
+
 
 logging.info("Opening csv file (output)")
 
