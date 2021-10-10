@@ -29,7 +29,7 @@ tech_types = [
     "editors-ides",
     "languages",
     "libs",
-    # "oss",
+    "oss",
     "other-tech",
     "web-frameworks"
     ]
@@ -281,33 +281,6 @@ for tech_type in tech_types:
 
 logging.info(f"Done reading name lists")
 
-
-
-# try:
-#     wiki_lang_list = requests.get(wiki_lang_list_url, 
-#         timeout=req_timeout)
-    
-# except HTTPError as http_err:
-#     logging.critical(f"HTTP request failed with\n{http_err}")
-#     logging.critical("Aborting")
-#     sys.exit(1)
-
-# except ConnectionError as conn_err:
-#     logging.critical(f"Connection failed with\n{conn_err}")
-#     logging.critical("Aborting")
-
-#     sys.exit(1)
-
-# except Exception as err:
-#     logging.critical(f"Something went wrong:\n{err}")
-#     logging.critical("Aborting")
-#     sys.exit(1)
-
-# # implicit else (exits on all exceptions)
-
-# soup = BeautifulSoup(wiki_lang_list.text, "html.parser")
-
-
 # Scraping and outputting to csv:
 
 general_csv_header = ["name", "year", "logo"]
@@ -317,7 +290,7 @@ csv_headers = {
     "editors-ides": general_csv_header,
     "languages": general_csv_header + ["paradigms"],
     "libs": general_csv_header,
-    # "oss": general_csv_header,
+    "oss": general_csv_header,
     "other-tech": general_csv_header,
     "web-frameworks": general_csv_header
 }
@@ -327,6 +300,33 @@ for tech_type in tech_types:
     # overwrite anything good with crap by accident:
     csv_filename = tech_type + "_" + filename_curr_time() + ".csv"
     csv_filename = csv_dir_path + csv_filename
+
+    resource_pages = []
+
+    logging.debug(f"Requesting resource pages for {tech_type}")
+
+    for res in wiki_resources[tech_type]:
+        res_url = wiki_root + res
+
+        logging.debug(f"Requesting {res_url}")
+        
+        try:
+            res_page = requests.get(
+                res_url,
+                timeout=req_timeout
+                )
+
+        except Exception as err:
+            logging.error(f"Loading {res_url} failed with\n{err}")
+
+        else:
+            soup = BeautifulSoup(
+                res_page.text,
+                "html.parser"
+            )
+
+            resource_pages.append(soup)
+    
 
     logging.debug(f"Attempting to open {csv_filename}")
 
@@ -339,25 +339,44 @@ for tech_type in tech_types:
             )
         csv_writer.writeheader()
 
-        for tech in tech_names[tech_type]:
-            logging.debug("Searching for the appropriate" +\
-            f" Wiki URL for {tech}")
+        for tech_name in tech_names[tech_type]:
+            logging.debug(f"Searching for the appropriate Wiki URL for {tech_name}")
 
-            wiki_url = manual_corrections.get(tech)
+            wiki_url = manual_corrections.get(tech_name)
             # None if not a key
+
+            logging.debug(f"No manual correction for {tech_name}")
 
             if not wiki_url:
                 # Search for a link in the given resources:
-                for res in wiki_resources[tech_type]:
-                    res_url = wiki_root + res
-                    logging.debug(f"Requesting {res_url}")
-                    # TODO: handle errors, search for link
+                logging.debug(f"Searching for {tech_name} in resource pages")
+
+                re_tech = regex_name(tech_name)
+
+                for idx, soup in enumerate(resource_pages):
+                    link = soup.find_all(
+                        "a",
+                        string=re.compile("^" + re_tech, re.IGNORECASE), 
+                        href=re.compile("/wiki/*")
+                        )
+
+                    try:
+                        wiki_url = wiki_root + link[0]["href"]
+                        logging.debug(f"Found {wiki_url} in {wiki_resources[tech_type][idx]}")
+                        break
+                    except (KeyError, IndexError):
+                        logging.debug(f"No URL for {tech_name} in {wiki_resources[tech_type][idx]}")
+
+                        wiki_url = ""
+                        # not needed b/c of the exception?
+
             
             if not wiki_url:  # still no luck
                 wiki_url = wiki_root +\
                     "/wiki/" +\
-                    tech.split("/")[0].replace(" ", "_")
+                    tech_name.split("/")[0].split("(")[0].replace(" ", "_")
                 # Try using the tool name and hope for the best
+                logging.debug(f"Trying {wiki_url}")
     
 
 
