@@ -282,6 +282,14 @@ def scrape_infobox(wiki_url, tech_name, tech_type):
             elif tech_type == "databases":
                 logging.debug(f"Attempting to determine whether { tech_name} is relational")
                 # TODO check if relational
+                rel = infobox.find(
+                    "a",
+                    string=re.compile(
+                        "^(Relational|RDBMS)",
+                        re.IGNORECASE
+                        ), 
+                    href=re.compile("/wiki/*")
+                )
             
     finally:
         return return_dict
@@ -381,14 +389,14 @@ for tech_type in tech_types:
                 re_tech = regex_name(tech_name)
 
                 for idx, soup in enumerate(resource_pages):
-                    link = soup.find_all(
+                    link = soup.find(
                         "a",
                         string=re.compile("^" + re_tech, re.IGNORECASE), 
                         href=re.compile("/wiki/*")
                         )
 
                     try:
-                        wiki_url = wiki_root + link[0]["href"]
+                        wiki_url = wiki_root + link["href"]
                         logging.debug(f"Found {wiki_url} in {wiki_resources[tech_type][idx]}")
                         break
                     except (KeyError, IndexError):
