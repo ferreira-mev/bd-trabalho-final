@@ -17,7 +17,6 @@ Output:
         extensions.
     2. text data in csv format, in the csv_dir_path directory. File
         names are as in the tech_types list.
-
 """
 import requests, csv, datetime, re, logging
 from bs4 import BeautifulSoup
