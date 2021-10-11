@@ -82,12 +82,7 @@ manual_corrections = {
     "Cordova": "/wiki/Apache_Cordova",
     "Linux-based": "/wiki/Linux",
     "Visual Studio": "/wiki/Microsoft_Visual_Studio",
-    "Pandas": "/wiki/Pandas_(software)",
-    "Deno": "/wiki/Deno_(software)",
-    "Docker": "/wiki/Docker_(software)",
-    # try adding (software) if a disambiguation page
-    # is reached? Flutter, Qt are the same
-    "Torch/PyTorch": "/wiki/Torch_(machine_learning)"
+    "Torch/PyTorch": "/wiki/Torch_(machine_learning)",
     "Cassandra": "/wiki/Apache_Cassandra"
 }
 
@@ -418,6 +413,15 @@ for tech_type in tech_types:
                     "/wiki/" +\
                     tech_name.split("/")[0].split("(")[0].replace(" ", "_")
                 # Try using the tool name and hope for the best
+
+                if tech_name in ["Pandas", "Deno", "Docker", "Flutter", "Qt"]:
+                    wiki_url += "_(software)"
+                    # It would've been more elegant/less hacky to check
+                    # the page first and then try adding "_(software)"
+                    # if it's the wrong one, but we don't have that 
+                    # much time and this is pretty much a single-use
+                    # script, so meh :P
+
                 logging.debug(f"Trying {wiki_url}")
             
             row_dict = scrape_infobox(wiki_url, tech_name, tech_type)
