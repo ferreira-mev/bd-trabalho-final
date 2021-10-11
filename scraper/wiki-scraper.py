@@ -169,9 +169,6 @@ def scrape_infobox(wiki_url, tech_name, tech_type):
             # Downloading the logo:
             # (assuming it will always be the first image)
 
-
-            ## Comment out to speed up testing other stuff ##
-
             logo_ancestor = soup.find(class_="infobox-image")
             # Searching from the root because there might be
             # a) more than one infobox, and b) other images
@@ -186,44 +183,50 @@ def scrape_infobox(wiki_url, tech_name, tech_type):
 
                 logo_element = logo_ancestor.find("img")
 
+                # Is there an exception to catch here?
+                # Can an img element NOT have a src attribute?
+
                 logo_url = "https:" + logo_element["src"]
+                logo_ext = logo_url.split(".")[-1]
+                logo_filename = clean_name(tech_name) + "." + logo_ext
+
+                try:
+                    with open(logo_dir_path + logo_filename, "xb") as handler:
+                        try:
+                            logo_img = requests.get(
+                                logo_url,
+                                timeout=req_timeout
+                                )
+                            logo_img.raise_for_status()
+
+                        except Exception as err:
+                            logging.error(f"Downloading the logo for {tech_name} failed with\n{err}")
+
+                        else:
+                            logo_img = logo_img.content
+
+                            logging.debug(f"Downloaded logo for {tech_name}; attempting to save")
+
+                            try:
+                                handler.write(logo_img)
+                    
+                                return_dict["logo"] = logo_filename
+
+                                logging.debug(f"Logo for {tech_name} saved successfully to {logo_dir_path + logo_filename}")
+                            
+                            except Exception as err:
+                                logging.error(f"Saving the logo for {tech_name} failed with\n{err}")
+
+                except FileExistsError:
+                    logging.info(f"The logo for {tech_name} had already been downloaded and has not been overwritten")
+
+                    return_dict["logo"] = logo_filename
 
                 # TODO?: If we navigate to the Wikimedia Commons page 
                 # we can select a different resolution; it's the link 
                 # in the a tag rather than the img src, and, in that 
                 # page, resolution options are linked in a span with 
-                # class mw-filepage-other-resolutions
-
-                try:
-                    logo_img = requests.get(
-                        logo_url,
-                        timeout=req_timeout
-                        )
-                    logo_img.raise_for_status()
-
-                except Exception as err:
-                    logging.error(f"Downloading the logo for {tech_name} failed with\n{err}")
-
-                else:
-                    logo_img = logo_img.content
-                    logo_ext = logo_url.split(".")[-1]
-                    logo_filename = clean_name(tech_name) + "." + logo_ext
-
-                    logging.debug(f"Downloaded logo for {tech_name}; attempting to save")
-
-                    try:
-                        with open(logo_dir_path + logo_filename, "wb") as handler:
-                            handler.write(logo_img)
-                    
-                        return_dict["logo"] = logo_filename
-
-                        logging.debug(f"Logo for {tech_name} saved successfully to {logo_dir_path + logo_filename}")
-
-                    except Exception as err:
-                        logging.error(f"Saving the logo for {tech_name} failed with\n{err}")
-
-            ## Comment out to speed up testing other stuff ##
-
+                # class mw-filepage-other-resolution
 
             logging.debug(f"Attempting to find release year for {tech_name}")
 
