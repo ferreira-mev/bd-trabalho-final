@@ -421,13 +421,3 @@ for tech_type in tech_types:
     
 
 logging.info("Exiting successfully")
-
-# TODO:
-
-# Some issues requiring a manual intervention:
-
-# - ASM has no logo, but the Wiki does have an image; same for COBOL?
-# - "HTML/CSS" has to be handled manually, as they're
-    # actually two languages
-# - Change paradigm for Haskell from "purely functional" to 
-# "functional"?
