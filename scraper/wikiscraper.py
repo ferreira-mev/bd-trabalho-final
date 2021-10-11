@@ -20,6 +20,9 @@ Output:
 """
 import requests, csv, datetime, re, logging
 from bs4 import BeautifulSoup
+from politerequests import sesh
+# custom requests session with some tweaks
+# (see politerequests.py for details)
 
 
 tech_types = [
@@ -46,9 +49,6 @@ csv_dir_path = "csvs/"
 # trailing / to make string concatenation simpler
 
 # Variables related to Wikipedia links:
-
-wiki_root = "https://en.wikipedia.org"
-# no trailing / to make string concatenation simpler
 
 wiki_resources = {
     "databases": [
@@ -84,10 +84,6 @@ manual_corrections = {
     "Torch/PyTorch": "/wiki/Torch_(machine_learning)",
     "Cassandra": "/wiki/Apache_Cassandra"
 }
-
-req_timeout = 15  # in seconds
-# defaults to 3, but my connection is this bad today :')
-
 
 # Setting up logging:
 logging.basicConfig(filename=log_dir_path + "general-scraper.log",
@@ -150,8 +146,7 @@ def scrape_infobox(wiki_url, tech_name, tech_type):
     # this function is huge; move each info to a "subfunction"?
 
     try:
-        wiki_page = requests.get(wiki_url, timeout=req_timeout)
-        wiki_page.raise_for_status()
+        wiki_page = sesh.get(wiki_url)
 
     except Exception as err:
         logging.error(f"Loading Wiki page for {tech_name} failed with\n{err}")
@@ -192,11 +187,7 @@ def scrape_infobox(wiki_url, tech_name, tech_type):
                 try:
                     with open(logo_dir_path + logo_filename, "xb") as handler:
                         try:
-                            logo_img = requests.get(
-                                logo_url,
-                                timeout=req_timeout
-                                )
-                            logo_img.raise_for_status()
+                            logo_img = sesh.get(logo_url)
 
                         except Exception as err:
                             logging.error(f"Downloading the logo for {tech_name} failed with\n{err}")
@@ -282,7 +273,7 @@ def scrape_infobox(wiki_url, tech_name, tech_type):
                 
             elif tech_type == "databases":
                 logging.debug(f"Attempting to determine whether { tech_name} is relational")
-                # TODO check if relational
+
                 rel = infobox.find(
                     "a",
                     string=re.compile(
@@ -306,7 +297,9 @@ logging.info(f"Reading name lists...")
 # Reading name list for each tech type:
 for tech_type in tech_types:
     name_list = tech_list_dir_path + tech_type + tech_list_ext
+
     logging.debug(f"Attempting to open {name_list}")
+
     with open(name_list) as list_file:
         for line in list_file:
             tech_name = line.replace("\n", "").replace("\r", "")
@@ -343,16 +336,12 @@ for tech_type in tech_types:
     logging.debug(f"Requesting resource pages for {tech_type}")
 
     for res in wiki_resources[tech_type]:
-        res_url = wiki_root + res
+        res_url = res
 
         logging.debug(f"Requesting {res_url}")
         
         try:
-            res_page = requests.get(
-                res_url,
-                timeout=req_timeout
-                )
-            res_page.raise_for_status()
+            res_page = sesh.get(res_url)
 
         except Exception as err:
             logging.error(f"Loading {res_url} failed with\n{err}")
@@ -370,6 +359,7 @@ for tech_type in tech_types:
 
     with open(csv_filename, "w") as csv_file:
         logging.debug(f"Opened {csv_filename}")
+
         csv_writer = csv.DictWriter(
             csv_file,
             delimiter=",",
@@ -383,10 +373,7 @@ for tech_type in tech_types:
             wiki_url = manual_corrections.get(tech_name)
             # None if not a key
 
-            if wiki_url:
-                wiki_url = wiki_root + wiki_url
-
-            else:
+            if not wiki_url:
                 logging.debug(f"No manual correction for {tech_name}")
 
                 # Search for a link in the given resources:
@@ -402,7 +389,7 @@ for tech_type in tech_types:
                         )
 
                     try:
-                        wiki_url = wiki_root + link["href"]
+                        wiki_url = link["href"]
                         logging.debug(f"Found {wiki_url} in {wiki_resources[tech_type][idx]}")
                         break
 
@@ -414,8 +401,7 @@ for tech_type in tech_types:
 
             
             if not wiki_url:  # still no luck
-                wiki_url = wiki_root +\
-                    "/wiki/" +\
+                wiki_url = "/wiki/" +\
                     tech_name.split("/")[0].split("(")[0].replace(" ", "_")
                 # Try using the tool name and hope for the best
 
