@@ -381,12 +381,15 @@ for tech_type in tech_types:
         for tech_name in tech_names[tech_type]:
             logging.debug(f"Searching for the appropriate Wiki URL for {tech_name}")
 
-            wiki_url = wiki_root + manual_corrections.get(tech_name)
+            wiki_url = manual_corrections.get(tech_name)
             # None if not a key
 
-            logging.debug(f"No manual correction for {tech_name}")
+            if wiki_url:
+                wiki_url = wiki_root + wiki_url
 
-            if not wiki_url:
+            else:
+                logging.debug(f"No manual correction for {tech_name}")
+
                 # Search for a link in the given resources:
                 logging.debug(f"Searching for {tech_name} in resource pages")
 
