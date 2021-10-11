@@ -22,10 +22,14 @@ WIKI_ROOT = "https://en.wikipedia.org"
 # also no /wiki because that's included in scraped links
 
 headers = {
-    "user-agent": 
+    "User-Agent": 
     "scraper-BOT-for-a-college-project/2.1"
     " (ferreira.mev@matematica.ufrj.br) "
-    "python-requests/2.22.0"}  # :))
+    "python-requests/2.22.0",
+    "Accept-Encoding": "gzip,deflate"
+    }
+    # the latter is as per
+    # https://wikitech.wikimedia.org/wiki/Robot_policy
 
 def raise_by_default(response, *args, **kwargs):
     response.raise_for_status()
