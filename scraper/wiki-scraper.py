@@ -188,11 +188,11 @@ def scrape_infobox(wiki_url, tech_name, tech_type):
 
                 logo_url = "https:" + logo_element["src"]
 
-                # TODO?: If we navigate to the Wikimedia Commons page we can 
-                # select a different resolution; it's the link in the a tag 
-                # rather than the img src, and, in that page, resolution
-                # options are linked in a span with class 
-                # mw-filepage-other-resolutions
+                # TODO?: If we navigate to the Wikimedia Commons page 
+                # we can select a different resolution; it's the link 
+                # in the a tag rather than the img src, and, in that 
+                # page, resolution options are linked in a span with 
+                # class mw-filepage-other-resolutions
 
                 try:
                     logo_img = requests.get(
