@@ -21,6 +21,12 @@ WIKI_ROOT = "https://en.wikipedia.org"
 # no trailing / to make string concatenation simpler
 # also no /wiki because that's included in scraped links
 
+headers = {
+    "user-agent": 
+    "scraper-BOT-for-a-college-project/2.1"
+    " (ferreira.mev@matematica.ufrj.br) "
+    "python-requests/2.22.0"}  # :))
+
 def raise_by_default(response, *args, **kwargs):
     response.raise_for_status()
 
