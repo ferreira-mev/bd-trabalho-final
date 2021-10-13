@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Consulta</title>
+</head>
+<body>
+    <ul id="navigation">
+    {% for rows in cursor_from_python_code %}   <!-- jinja age aqui-->
+        <li><h5>{{rows}}</h5></li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
