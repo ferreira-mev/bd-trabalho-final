@@ -1,0 +1,22 @@
+name,year,logo
+Android Studio,null,Android_Studio.png
+Atom,2014,Atom.png
+Eclipse,2001,Eclipse.png
+Emacs,1976,Emacs.png
+IntelliJ,2001,IntelliJ.png
+IPython/Jupyter,2015,Jupyter.png
+NetBeans,null,NetBeans.png
+Neovim,1991,Neovim.png
+Notepad++,2003,Notepadpp.png
+PHPStorm,2009,PHPStorm.png
+PyCharm,2010,PyCharm.png
+Rider,null,Rider.png
+RStudio,2011,RStudio.png
+RubyMine,null,RubyMine.png
+Sublime Text,2008,Sublime_Text.png
+TextMate,2004,TextMate.png
+Vim,1991,Vim.png
+Visual Studio,null,Visual_Studio.png
+Visual Studio Code,2015,Visual_Studio_Code.png
+Webstorm,null,Webstorm.png
+Xcode,null,Xcode.png

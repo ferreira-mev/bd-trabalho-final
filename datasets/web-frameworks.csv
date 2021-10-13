@@ -1,0 +1,19 @@
+name,year,logo
+Angular,2010,Angular.png
+Angular.js,2010,Angularjs.png
+ASP.NET,2002,null
+ASP.NET Core,null,null
+Django,2005,Django.png
+Drupal,2001,Drupal.png
+Express,2010,Express.png
+FastAPI,2018,null
+Flask,2010,Flask.png
+Gatsby,null,null
+jQuery,2006,jQuery.png
+Laravel,2011,Laravel.png
+React.js,2013,Reactjs.png
+Ruby on Rails,2004,Ruby_on_Rails.png
+Spring,2002,Spring.png
+Svelte,2016,Svelte.png
+Symfony,2005,Symfony.png
+Vue.js,2014,Vuejs.png

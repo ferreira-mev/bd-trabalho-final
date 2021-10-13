@@ -1,0 +1,61 @@
+tech,language,depends
+Angular,JavaScript,1
+Angular.js,JavaScript,1
+ASP.NET,C#,0
+ASP.NET Core,C#,0
+ASP.NET,F#,0
+ASP.NET Core,F#,0
+Django,Python,1
+Drupal,PHP,1
+Express,JavaScript,1
+FastAPI,Python,1
+Flask,Python,1
+Gatsby,JavaScript,1
+jQuery,JavaScript,1
+Laravel,PHP,1
+React.js,JavaScript,1
+Ruby on Rails,Ruby,1
+Spring,Java,1
+Svelte,JavaScript,1
+Symfony,PHP,1
+Vue.js,JavaScript,1
+.NET Framework,C#,0
+.NET Core / .NET 5,C#,0
+.NET Framework,F#,0
+.NET Core / .NET 5,F#,0
+Apache Spark,SQL,0
+Apache Spark,Java,0
+Apache Spark,Python,0
+Apache Spark,Scala,0
+Apache Spark,R,0
+Cordova,JavaScript,1
+Cordova,HTML/CSS,1
+Flutter,Dart,1
+Keras,Python,1
+NumPy,Python,1
+Pandas,Python,1
+React Native,JavaScript,1
+TensorFlow,Python,0
+TensorFlow,C,0
+Torch/PyTorch,Python,0
+Torch/PyTorch,C++,0
+Android Studio,Java,0
+Android Studio,Kotlin,0
+Eclipse,Java,0
+IntelliJ,Java,0
+IPython/Jupyter,Python,0
+IPython/Jupyter,Julia,0
+NetBeans,Java,0
+PHPStorm,PHP,0
+PyCharm,Python,0
+RStudio,R,0
+RubyMine,Ruby,0
+Rider,C#,0
+Visual Studio,C#,0
+Webstorm,JavaScript,0
+Xcode,Swift,0
+Deno,JavaScript,1
+Unity 3D,C#,0
+Unreal Engine,C++,0
+Xamarin,C#,0
+Xamarin,F#,0
