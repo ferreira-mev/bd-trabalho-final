@@ -76,7 +76,6 @@ wiki_resources = {
 # (bcos nlp iz hard!11)
 manual_corrections = {
     "C": "/wiki/C_(programming_language)",
-    # "Node.js": "/wiki/Node.js",
     "VBA": "/wiki/Visual_Basic_for_Applications",
     "Cordova": "/wiki/Apache_Cordova",
     "Linux-based": "/wiki/Linux",
