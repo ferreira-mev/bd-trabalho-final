@@ -1,0 +1,15 @@
+name,year,logo,relational
+Cassandra,2008,Cassandra.png,False
+Couchbase,2010,Couchbase.png,False
+DynamoDB,2012,DynamoDB.png,False
+Elasticsearch,2010,Elasticsearch.png,False
+Firebase,2012,Firebase.png,False
+IBM DB2,1993,IBM_DB2.png,True
+MariaDB,2009,MariaDB.png,True
+Microsoft SQL Server,1989,null,True
+MongoDB,2009,MongoDB.png,False
+MySQL,1995,MySQL.png,True
+Oracle,1979,Oracle.png,False
+PostgreSQL,1996,PostgreSQL.png,True
+Redis,2009,Redis.png,False
+SQLite,2000,SQLite.png,True

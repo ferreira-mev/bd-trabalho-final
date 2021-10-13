@@ -1,0 +1,22 @@
+Android Studio
+Atom
+Eclipse
+Emacs
+IntelliJ
+IPython/Jupyter
+NetBeans
+Neovim
+Notepad++
+PHPStorm
+PyCharm
+Rider
+RStudio
+RubyMine
+Sublime Text
+TextMate
+Vim
+Visual Studio
+Visual Studio Code
+Webstorm
+Xcode
+

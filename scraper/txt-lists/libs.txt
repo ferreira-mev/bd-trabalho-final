@@ -1,0 +1,14 @@
+.NET Framework
+.NET Core / .NET 5
+Apache Spark
+Cordova
+Flutter
+Hadoop
+Keras
+NumPy
+Pandas
+Qt
+React Native
+TensorFlow
+Torch/PyTorch
+
