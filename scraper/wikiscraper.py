@@ -1,6 +1,4 @@
 """
-[WIP - Generalization in progress to technologies other than languages]
-
 Scraper to extract year and logo data for technologies in the Stack
 Overflow Developer Survey from Wikipedia. For languages, a paradigm
 list is also scraped; for database management systems, the scraper
@@ -124,6 +122,13 @@ def regex_name(name):
 
     return name
 
+
+# YES, I know the function below got horribly huge and that's not
+# a good practice, but this was pretty much a single-use script
+# that has already done its job and we're on a tight deadline,
+# so I don't think I'll have the time to break it up into smaller
+# functions (and risk breaking something that works). I'm embarrassed,
+# so I felt I should at least add this disclaimer :P
 
 def scrape_infobox(wiki_url, tech_name, tech_type):
     """
