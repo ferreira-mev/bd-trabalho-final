@@ -4,7 +4,7 @@ TODO:
 - Adc restr integridade nao desejar SO?
 */
 
-CREATE DATABASE IF NOT EXISTS stackoverflow
+CREATE DATABASE IF NOT EXISTS stackoverflow;
 
 USE stackoverflow;
 
