@@ -12,8 +12,8 @@ def query_make(): #função para testar uma consulta básica
     
     cnx = mysql.connector.connect(  #conectando no banco de dados
         host="127.0.0.1",   
-        user="sods",
-        passwd="Sods_1234",         #Não utilizar secret para senha é má prática, e senha 1234 é pior ainda, mas trabalho da faculdade
+        user="root",
+        passwd="1234",         #Não utilizar secret para senha é má prática, e senha 1234 é pior ainda, mas trabalho da faculdade
         database="sakila"         #banco de dado de teste do mysql
     )
 
