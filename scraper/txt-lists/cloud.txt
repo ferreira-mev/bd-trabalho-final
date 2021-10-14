@@ -1,0 +1,8 @@
+AWS
+DigitalOcean
+Google Cloud Platform
+Heroku
+IBM Cloud or Watson
+Microsoft Azure
+Oracle Cloud Infrastructure
+

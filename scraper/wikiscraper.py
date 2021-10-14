@@ -30,7 +30,8 @@ tech_types = [
     "libs",
     "oss",
     "other-tech",
-    "web-frameworks"
+    "web-frameworks",
+    "cloud"
     ]
 
 tech_names = {key: [] for key in tech_types}
@@ -67,7 +68,8 @@ wiki_resources = {
         ],
     "web-frameworks": [
         "/wiki/Comparison_of_web_frameworks"
-        ]
+        ],
+    "cloud": []
 }
 
 # Just a nudge in the right direction ;)
@@ -79,7 +81,8 @@ manual_corrections = {
     "Linux-based": "/wiki/Linux",
     "Visual Studio": "/wiki/Microsoft_Visual_Studio",
     "Torch/PyTorch": "/wiki/Torch_(machine_learning)",
-    "Cassandra": "/wiki/Apache_Cassandra"
+    "Cassandra": "/wiki/Apache_Cassandra",
+    "IBM Cloud or Watson": "/wiki/IBM_Cloud"
 }
 
 # Setting up logging:
@@ -91,7 +94,7 @@ logging.basicConfig(filename=log_dir_path + "general-scraper.log",
 
 def filename_curr_time():
     """
-    Returns the current date and time in a format suitable for usage in filenames (yyyy-mm-dd_ HH-MM-SS -- digits, hyphens and underscores only, 
+    Returns the current date and time in a format suitable for usage in filenames (yyyy-mm-dd_ HH-MM-SS -- digits, hyphens and underscores only,
     and alphabetic ordering is chronological).
     """
     return datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -141,7 +144,7 @@ def scrape_infobox(wiki_url, tech_name, tech_type):
         "year": "null",
         "logo": "null"
         }
-    
+
     if tech_type == "databases":
         return_dict["relational"] = "null"
     elif tech_type == "languages":
@@ -170,7 +173,7 @@ def scrape_infobox(wiki_url, tech_name, tech_type):
             # a) more than one infobox, and b) other images
             # (icons) in the first/main infobox
             # (See eg: Matlab)
-            
+
 
             if logo_ancestor is None:
                 logging.warning(f"The page for {tech_name} has no logo")
@@ -198,11 +201,11 @@ def scrape_infobox(wiki_url, tech_name, tech_type):
 
                             try:
                                 handler.write(logo_img)
-                    
+
                                 return_dict["logo"] = logo_filename
 
                                 logging.debug(f"Logo for {tech_name} saved successfully to {logo_dir_path + logo_filename}")
-                            
+
                             except Exception as err:
                                 logging.error(f"Saving the logo for {tech_name} failed with\n{err}")
 
@@ -211,15 +214,18 @@ def scrape_infobox(wiki_url, tech_name, tech_type):
 
                     return_dict["logo"] = logo_filename
 
-                # TODO?: If we navigate to the Wikimedia Commons page 
-                # we can select a different resolution; it's the link 
-                # in the a tag rather than the img src, and, in that 
-                # page, resolution options are linked in a span with 
+                # TODO?: If we navigate to the Wikimedia Commons page
+                # we can select a different resolution; it's the link
+                # in the a tag rather than the img src, and, in that
+                # page, resolution options are linked in a span with
                 # class mw-filepage-other-resolution
 
             logging.debug(f"Attempting to find release year for {tech_name}")
 
-            year_label = infobox.find(class_="infobox-label", string=re.compile("First|Initial|appeared|released"))
+            year_label = infobox.find(
+                class_="infobox-label",
+                string=re.compile("First|Initial|appeared|released|Founded|Launched")
+                )
             # not "Original"; that'll match against "Original author(s)"
             # nor "release", because of "Stable release"
 
@@ -228,7 +234,7 @@ def scrape_infobox(wiki_url, tech_name, tech_type):
             else:
                 year_data = year_label.next_sibling.text
                 year_match = re.search("\d{4}", year_data)
-                
+
                 if year_match:
                     return_dict["year"] = year_match.group()
                     logging.debug(f"Release year for {tech_name}: {return_dict['year']}")
@@ -238,12 +244,12 @@ def scrape_infobox(wiki_url, tech_name, tech_type):
             if tech_type == "languages":
 
                 logging.debug(f"Attempting to find paradigm list for {tech_name}")
-                
+
                 paradigm_label = infobox.find(class_="infobox-label", string=re.compile("Paradigm"))
 
                 if paradigm_label is None:
                     logging.warning(f"The page for {tech_name} has no paradigm list")
-                else:  
+                else:
                     paradigm_data = paradigm_label.next_sibling
 
                     if paradigm_data is not None:
@@ -258,18 +264,18 @@ def scrape_infobox(wiki_url, tech_name, tech_type):
                                 continue
                             else:
                                 paradigm_string += paradigm + ";"
-                        
+
                         if paradigm_string:  # is not empty
                             return_dict["paradigms"] = paradigm_string[0:-1]
                             # remove trailing ;
                             logging.debug(f"Paradigm list for {tech_name}: {return_dict['paradigms']}")
-                        
+
                         else:
                             logging.warning(f"The page for {tech_name} has no paradigm list")
 
                     else:
                         logging.warning(f"The page for {tech_name} has no paradigm list")
-                
+
             elif tech_type == "databases":
                 logging.debug(f"Attempting to determine whether { tech_name} is relational")
 
@@ -278,12 +284,12 @@ def scrape_infobox(wiki_url, tech_name, tech_type):
                     string=re.compile(
                         "^(Relational|RDBMS)",
                         re.IGNORECASE
-                        ), 
+                        ),
                     href=re.compile("/wiki/*")
                 )
 
                 return_dict["relational"] = bool(rel)
-            
+
     finally:
         return return_dict
 
@@ -321,7 +327,8 @@ csv_headers = {
     "libs": general_csv_header,
     "oss": general_csv_header,
     "other-tech": general_csv_header,
-    "web-frameworks": general_csv_header
+    "web-frameworks": general_csv_header,
+    "cloud": general_csv_header
 }
 
 for tech_type in tech_types:
@@ -338,7 +345,7 @@ for tech_type in tech_types:
         res_url = res
 
         logging.debug(f"Requesting {res_url}")
-        
+
         try:
             res_page = sesh.get(res_url)
 
@@ -352,7 +359,7 @@ for tech_type in tech_types:
             )
 
             resource_pages.append(soup)
-    
+
 
     logging.debug(f"Attempting to open {csv_filename}")
 
@@ -383,7 +390,7 @@ for tech_type in tech_types:
                 for idx, soup in enumerate(resource_pages):
                     link = soup.find(
                         "a",
-                        string=re.compile("^" + re_tech, re.IGNORECASE), 
+                        string=re.compile("^" + re_tech, re.IGNORECASE),
                         href=re.compile("/wiki/*")
                         )
 
@@ -398,7 +405,7 @@ for tech_type in tech_types:
                         wiki_url = ""
                         # not needed b/c of the exception?
 
-            
+
             if not wiki_url:  # still no luck
                 wiki_url = "/wiki/" +\
                     tech_name.split("/")[0].split("(")[0].replace(" ", "_")
@@ -408,15 +415,15 @@ for tech_type in tech_types:
                     wiki_url += "_(software)"
                     # It would've been more elegant/less hacky to check
                     # the page first and then try adding "_(software)"
-                    # if it's the wrong one, but we don't have that 
+                    # if it's the wrong one, but we don't have that
                     # much time and this is pretty much a single-use
                     # script, so meh :P
 
                 logging.debug(f"Trying {wiki_url}")
-            
+
             row_dict = scrape_infobox(wiki_url, tech_name, tech_type)
 
             csv_writer.writerow(row_dict)
-    
+
 
 logging.info("Exiting successfully")
