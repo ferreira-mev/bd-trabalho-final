@@ -1,8 +1,8 @@
-name,year,logo
-AWS,2002,AWS.png
-DigitalOcean,2011,DigitalOcean.png
-Google Cloud Platform,2008,Google_Cloud_Platform.png
-Heroku,2007,Heroku.png
-IBM Cloud or Watson,null,IBM_Cloud_or_Watson.png
-Microsoft Azure,2008,Microsoft_Azure.png
-Oracle Cloud Infrastructure,null,null
+Nome,AnoCriacao,Logo
+'AWS',2002,'AWS.png'
+'DigitalOcean',2011,'DigitalOcean.png'
+'Google Cloud Platform',2008,'Google_Cloud_Platform.png'
+'Heroku',2007,'Heroku.png'
+'IBM Cloud or Watson',null,'IBM_Cloud_or_Watson.png'
+'Microsoft Azure',2008,'Microsoft_Azure.png'
+'Oracle Cloud Infrastructure',null,null
