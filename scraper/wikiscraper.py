@@ -147,8 +147,6 @@ def scrape_infobox(wiki_url, tech_name, tech_type):
     elif tech_type == "languages":
         return_dict["paradigms"] = "null"
 
-    # this function is huge; move each info to a "subfunction"?
-
     try:
         wiki_page = sesh.get(wiki_url)
 
@@ -180,9 +178,6 @@ def scrape_infobox(wiki_url, tech_name, tech_type):
                 logging.debug(f"Found logo for {tech_name}; attempting to download")
 
                 logo_element = logo_ancestor.find("img")
-
-                # Is there an exception to catch here?
-                # Can an img element NOT have a src attribute?
 
                 logo_url = "https:" + logo_element["src"]
                 logo_ext = logo_url.split(".")[-1]
