@@ -1,14 +1,14 @@
-name,year,logo
-.NET Framework,2002,dotNET_Framework.png
-.NET Core / .NET 5,2016,dotNET.png
-Apache Spark,2014,Apache_Spark.png
-Cordova,2009,Cordova.png
-Flutter,2017,Flutter.png
-Hadoop,2006,Hadoop.png
-Keras,2015,Keras.png
-NumPy,1995,NumPy.png
-Pandas,2008,Pandas.png
-Qt,1995,Qt.png
-React Native,2015,React_Native.png
-TensorFlow,2015,TensorFlow.png
-Torch/PyTorch,2002,Torch.png
+Nome,AnoCriacao,Logo
+'.NET Framework',2002,'dotNET_Framework.png'
+'.NET Core / .NET 5',2016,'dotNET.png'
+'Apache Spark',2014,'Apache_Spark.png'
+'Cordova',2009,'Cordova.png'
+'Flutter',2017,'Flutter.png'
+'Hadoop',2006,'Hadoop.png'
+'Keras',2015,'Keras.png'
+'NumPy',1995,'NumPy.png'
+'Pandas',2008,'Pandas.png'
+'Qt',1995,'Qt.png'
+'React Native',2015,'React_Native.png'
+'TensorFlow',2015,'TensorFlow.png'
+'Torch/PyTorch',2002,'Torch.png'

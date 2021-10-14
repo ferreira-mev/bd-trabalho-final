@@ -1,6 +1,6 @@
-name,year,logo
-BSD,1977,null
-Linux-based,1991,Linux-based.png
-MacOS,2001,MacOS.png
-Windows,1985,Windows.png
-Windows Subsystem for Linux (WSL),2016,Windows_Subsystem_for_Linux_(WSL).png
+Nome,AnoCriacao,Logo
+'BSD',1977,null
+'Linux-based',1991,'Linux-based.png'
+'MacOS',2001,'MacOS.png'
+'Windows',1985,'Windows.png'
+'Windows Subsystem for Linux (WSL)',2016,'Windows_Subsystem_for_Linux_(WSL).png'
