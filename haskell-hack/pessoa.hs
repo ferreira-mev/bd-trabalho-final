@@ -58,12 +58,6 @@ pick (i:is) xs
     | otherwise =                  pick is xs
     where len = length xs
 
-rm :: Int -> [a] -> [a]
-rm i = fork (++) (take i) (drop $ i+1)
-
-remove :: [Int] -> [a] -> [a]
-remove is = foldr1 (.) $ map rm $ sort is
-
 stringfy :: Int -> String -> String
 stringfy col csv = unlines $ header : newlines
     where header = head $ lines csv
@@ -84,6 +78,3 @@ format = foldr1 (.) (map stringfy [ 1, 2, 5, 6, 10 ])
           hard_header = "ID,Genero,FaixaEtaria,ExpTotal,ExpProfiss,EhProfissional,TamEmpresa,Cargo,Salario,NivelEduc,Pais"
           naToNull s = if s == "NA" then "null" else s
           replace a b x = if x == a then b else x
-
-remQuoteAt :: Int -> [String] -> [String]
-remQuoteAt col = at col $ filter (/='"')
