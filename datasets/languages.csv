@@ -19,9 +19,9 @@ Nome,AnoCriacao,Logo,Paradigmas
 'HTML/CSS',null,'HTML_CSS.png',null
 'Java',1995,'Java.png',generic;object-oriented;class-based;functional;imperative;reflective;concurrent
 'JavaScript',1995,'JavaScript.jpg',event-driven;functional;imperative
-'Julia',2012,'Julia.png',procedural;functional;meta
+'Julia',2012,'Julia.png',procedural;functional;metaprogramming
 'Kotlin',2011,'Kotlin.png',object-oriented;functional;imperative;block structured;declarative;generic;reflective;concurrent
-'LISP',1958,'LISP.png',functional;procedural;reflective;meta
+'LISP',1958,'LISP.png',functional;procedural;reflective;metaprogramming
 'Matlab',1970,'Matlab.png',functional;imperative;procedural;object-oriented;array
 'Node.js',2009,'Nodejs.png',null
 'Objective-C',1984,null,null

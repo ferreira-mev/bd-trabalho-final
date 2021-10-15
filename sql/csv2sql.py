@@ -1,5 +1,6 @@
 """
-Script para gerar a DML em SQL a partir dos arquivos csv.
+Script para gerar a DML em SQL a partir dos arquivos csv das
+tecnologias.
 
 A parte DDL já foi gerada semiautomaticamente a partir da
 conversão do modelo lógico feito no brModelo.
