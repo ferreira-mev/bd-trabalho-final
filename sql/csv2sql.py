@@ -30,11 +30,14 @@ type_dict = {c: e for c, e in zip(csv_types, enum_types)}
 # (Obs: Atenção à ordem se forem alterar)
 
 csv_special = ["databases", "languages"]
-csv_types.extend(csv_special)
+csv_types.extend(csv_special)  # para o loop mais abaixo
 
 enum_special = ["Sgbd", "Linguagem"]
 
-type_dict = {**type_dict, **{c: e for c, e in zip(csv_special, enum_special)}}
+type_dict = {
+    **type_dict,
+    **{c: e for c, e in zip(csv_special, enum_special)}
+}
 
 for csv_type in csv_types:
     enum_type = type_dict[csv_type]
@@ -52,10 +55,11 @@ for csv_type in csv_types:
                     pdgm_string = row["Paradigmas"]
 
                     # Para não incluir paradigmas como atributos:
-
                     row = {k: v for k, v in row.items() if k != "Paradigmas"}
                     fields = [f for f in fields if f != "Paradigmas"]
 
+                    # Criando entradas para os paradigmas que ainda não
+                    # haviam sido incluídos:
                     if pdgm_string != "null":
                         for pdgm in pdgm_string.split(";"):
                             if pdgm not in pdgm_set:
@@ -66,6 +70,11 @@ for csv_type in csv_types:
                                 out_file.write(insert_pdgm)
 
                 insert = "INSERT INTO "
+
+                # Os tipos "especiais" são inseridos nas tabelas
+                # de suas respectivas entidades; os demais são
+                # inseridos em OutraTecnologia e têm uma coluna
+                # referente a seu tipo.
 
                 if enum_type in enum_special:
                     insert += enum_type
@@ -89,6 +98,5 @@ for csv_type in csv_types:
 
             
 # TODO/Lembretes:
-# - construir entidades para os paradigmas
-# - incluir o tipo como uma coluna extra (renomear os arquivos?)
+# - incluir relacionamento Linguagem-Tem-Paradigma
 # - processar associations.csv
