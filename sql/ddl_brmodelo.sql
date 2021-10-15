@@ -137,6 +137,10 @@ ALTER TABLE Associada ADD CONSTRAINT FK_Associada_2
     REFERENCES OutraTecnologia (Id)
     ON DELETE SET NULL;
 
+/*
+ERROR 1830 (HY000): Column 'fk_OutraTecnologia_Id' cannot be NOT NULL: needed in a foreign key constraint 'FK_Associada_2' SET NULL
+*/
+
 ALTER TABLE Tem ADD CONSTRAINT FK_Tem_2
     FOREIGN KEY (fk_Linguagem_Id)
     REFERENCES Linguagem (Id);

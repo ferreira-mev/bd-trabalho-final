@@ -7,7 +7,7 @@ conversão do modelo lógico feito no brModelo.
 import csv
 
 csv_path = "../datasets/"
-output_path = "dml/"
+output_file = "dml.sql"
 
 enum_types = ('Biblioteca', 'Nuvem', 'FrameworkWeb', 'EditorIde', 'So', 'Outro')
 # Já num formato que dá para copiar e colar da/na DDL caso alteremos
@@ -30,8 +30,8 @@ type_dict = {c: e for c, e in zip(csv_types, enum_types)}
 
 # Teste apenas com os Sgbds:
 
-with open("../datasets/databases.csv", "r") as csv_file:
-    with open(output_path + "test-output.sql", "w") as out_file:
+with open(output_file, "w") as out_file:
+    with open("../datasets/databases.csv", "r") as csv_file:
         fields = csv_file.readline().replace("\r","").replace("\n","")
         for row in csv_file:
             insert = "INSERT INTO Sgbd(" + fields + ")\n"
