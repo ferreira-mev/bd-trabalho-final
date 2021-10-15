@@ -1297,3 +1297,363 @@ INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('VBA',1993,null);
 
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT True, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Angular') = 0 AND
+	STRCMP(Linguagem.Nome, 'JavaScript') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT True, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Angular.js') = 0 AND
+	STRCMP(Linguagem.Nome, 'JavaScript') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'ASP.NET') = 0 AND
+	STRCMP(Linguagem.Nome, 'C#') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'ASP.NET Core') = 0 AND
+	STRCMP(Linguagem.Nome, 'C#') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'ASP.NET') = 0 AND
+	STRCMP(Linguagem.Nome, 'F#') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'ASP.NET Core') = 0 AND
+	STRCMP(Linguagem.Nome, 'F#') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT True, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Django') = 0 AND
+	STRCMP(Linguagem.Nome, 'Python') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT True, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Drupal') = 0 AND
+	STRCMP(Linguagem.Nome, 'PHP') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT True, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Express') = 0 AND
+	STRCMP(Linguagem.Nome, 'JavaScript') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT True, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'FastAPI') = 0 AND
+	STRCMP(Linguagem.Nome, 'Python') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT True, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Flask') = 0 AND
+	STRCMP(Linguagem.Nome, 'Python') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT True, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Gatsby') = 0 AND
+	STRCMP(Linguagem.Nome, 'JavaScript') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT True, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'jQuery') = 0 AND
+	STRCMP(Linguagem.Nome, 'JavaScript') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT True, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Laravel') = 0 AND
+	STRCMP(Linguagem.Nome, 'PHP') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT True, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'React.js') = 0 AND
+	STRCMP(Linguagem.Nome, 'JavaScript') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT True, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Ruby on Rails') = 0 AND
+	STRCMP(Linguagem.Nome, 'Ruby') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT True, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Spring') = 0 AND
+	STRCMP(Linguagem.Nome, 'Java') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT True, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Svelte') = 0 AND
+	STRCMP(Linguagem.Nome, 'JavaScript') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT True, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Symfony') = 0 AND
+	STRCMP(Linguagem.Nome, 'PHP') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT True, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Vue.js') = 0 AND
+	STRCMP(Linguagem.Nome, 'JavaScript') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, '.NET Framework') = 0 AND
+	STRCMP(Linguagem.Nome, 'C#') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, '.NET Core / .NET 5') = 0 AND
+	STRCMP(Linguagem.Nome, 'C#') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, '.NET Framework') = 0 AND
+	STRCMP(Linguagem.Nome, 'F#') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, '.NET Core / .NET 5') = 0 AND
+	STRCMP(Linguagem.Nome, 'F#') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Apache Spark') = 0 AND
+	STRCMP(Linguagem.Nome, 'SQL') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Apache Spark') = 0 AND
+	STRCMP(Linguagem.Nome, 'Java') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Apache Spark') = 0 AND
+	STRCMP(Linguagem.Nome, 'Python') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Apache Spark') = 0 AND
+	STRCMP(Linguagem.Nome, 'Scala') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Apache Spark') = 0 AND
+	STRCMP(Linguagem.Nome, 'R') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT True, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Cordova') = 0 AND
+	STRCMP(Linguagem.Nome, 'JavaScript') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT True, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Cordova') = 0 AND
+	STRCMP(Linguagem.Nome, 'HTML/CSS') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT True, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Flutter') = 0 AND
+	STRCMP(Linguagem.Nome, 'Dart') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT True, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Keras') = 0 AND
+	STRCMP(Linguagem.Nome, 'Python') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT True, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'NumPy') = 0 AND
+	STRCMP(Linguagem.Nome, 'Python') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT True, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Pandas') = 0 AND
+	STRCMP(Linguagem.Nome, 'Python') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT True, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'React Native') = 0 AND
+	STRCMP(Linguagem.Nome, 'JavaScript') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'TensorFlow') = 0 AND
+	STRCMP(Linguagem.Nome, 'Python') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'TensorFlow') = 0 AND
+	STRCMP(Linguagem.Nome, 'C') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Torch/PyTorch') = 0 AND
+	STRCMP(Linguagem.Nome, 'Python') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Torch/PyTorch') = 0 AND
+	STRCMP(Linguagem.Nome, 'C++') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Android Studio') = 0 AND
+	STRCMP(Linguagem.Nome, 'Java') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Android Studio') = 0 AND
+	STRCMP(Linguagem.Nome, 'Kotlin') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Eclipse') = 0 AND
+	STRCMP(Linguagem.Nome, 'Java') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'IntelliJ') = 0 AND
+	STRCMP(Linguagem.Nome, 'Java') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'IPython/Jupyter') = 0 AND
+	STRCMP(Linguagem.Nome, 'Python') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'IPython/Jupyter') = 0 AND
+	STRCMP(Linguagem.Nome, 'Julia') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'NetBeans') = 0 AND
+	STRCMP(Linguagem.Nome, 'Java') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'PHPStorm') = 0 AND
+	STRCMP(Linguagem.Nome, 'PHP') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'PyCharm') = 0 AND
+	STRCMP(Linguagem.Nome, 'Python') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'RStudio') = 0 AND
+	STRCMP(Linguagem.Nome, 'R') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'RubyMine') = 0 AND
+	STRCMP(Linguagem.Nome, 'Ruby') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Rider') = 0 AND
+	STRCMP(Linguagem.Nome, 'C#') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Visual Studio') = 0 AND
+	STRCMP(Linguagem.Nome, 'C#') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Webstorm') = 0 AND
+	STRCMP(Linguagem.Nome, 'JavaScript') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Xcode') = 0 AND
+	STRCMP(Linguagem.Nome, 'Swift') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT True, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Deno') = 0 AND
+	STRCMP(Linguagem.Nome, 'JavaScript') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Unity 3D') = 0 AND
+	STRCMP(Linguagem.Nome, 'C#') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Unreal Engine') = 0 AND
+	STRCMP(Linguagem.Nome, 'C++') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Xamarin') = 0 AND
+	STRCMP(Linguagem.Nome, 'C#') = 0);
+
+INSERT INTO Associada(Dependente,fk_Linguagem_Id, fk_OutraTecnologia_Id)
+	(SELECT False, OutraTecnologia.Id, Linguagem.Id
+	FROM OutraTecnologia, Linguagem
+	WHERE STRCMP(OutraTecnologia.Nome, 'Xamarin') = 0 AND
+	STRCMP(Linguagem.Nome, 'F#') = 0);
+
