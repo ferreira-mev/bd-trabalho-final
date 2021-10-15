@@ -9,7 +9,8 @@ path = ("./tmp/" ++)
 
 main :: IO ()
 main = do
-    pessoa <- fmap format $ readF $ path "pessoa-sof.csv"
+    let csv = readF $ path "pessoa-sof.csv"
+    pessoa <- fmap format csv
     writeFile pessoaFileOut pessoa
     return ()
 
@@ -75,11 +76,14 @@ stringfy col csv = unlines $ header : newlines
 format :: String -> String
 format = foldr1 (.) (map stringfy [ 1, 2, 5, 6, 10 ])
        . unlines . (hard_header:) . tail
-       . map (uncolumns ',' . map naToNull . pick hard_coded . columns' ',')
+       . map (uncolumns ','
+             . at 7 (map (replace ';' '#' . replace ',' ':'))
+             . map naToNull . pick hard_coded . columns' ',')
        . lines
     where hard_coded = [ 0, 39, 38, 9, 10, 1, 12, 11, 47, 6, 3 ]
           hard_header = "ID,Genero,FaixaEtaria,ExpTotal,ExpProfiss,EhProfissional,TamEmpresa,Cargo,Salario,NivelEduc,Pais"
           naToNull s = if s == "NA" then "null" else s
+          replace a b x = if x == a then b else x
 
 remQuoteAt :: Int -> [String] -> [String]
 remQuoteAt col = at col $ filter (/='"')
