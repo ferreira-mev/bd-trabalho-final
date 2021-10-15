@@ -28,7 +28,9 @@ type_dict = {c: e for c, e in zip(csv_types, enum_types)}
 # "Tradução" entre nome conforme csv e conforme a enum
 # (Obs: Atenção à ordem se forem alterar)
 
-csv_types.extend(["databases", "languages"])
+special = {"databases", "languages"}
+
+csv_types.extend(special)
 
 type_dict["databases"] = "Sgbd"
 type_dict["languages"] = "Linguagem"
@@ -38,16 +40,31 @@ with open(output_file, "w") as out_file:
         enum_type = type_dict[csv_type]
 
         with open(csv_path + csv_type + ".csv", "r") as csv_file:
-            fields = csv_file.readline().replace("\r","").replace("\n","")
+            reader = csv.DictReader(csv_file)
+            fields = reader.fieldnames
 
-            if csv_type == "databases":
-                for row in csv_file:
-                    insert = "INSERT INTO Sgbd(" + fields + ")\n"
-                    insert += "VALUES ("
-                    insert += row.replace("\r","").replace("\n","")
-                    insert += ");\n\n"
+            for row in reader:
+                insert = "INSERT INTO "
 
-                    out_file.write(insert)
+                if enum_type in special:
+                    insert += enum_type
+                else:
+                    insert += "OutraTecnologia"
+
+                insert += "(" + ",".join(fields)
+
+                if enum_type not in special:
+                    insert += ",Tipo"
+
+                insert += ")\nVALUES ("
+                insert += ",".join(row.values())
+                
+                if enum_type not in special:
+                    insert += ",'" + enum_type + "'"
+
+                insert += ");\n\n"
+
+                out_file.write(insert)
 
             
 # TODO/Lembretes:
