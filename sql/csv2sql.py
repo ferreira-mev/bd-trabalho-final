@@ -41,10 +41,10 @@ type_dict = {
 }
 # (juntando os dois dicionários)
 
-for csv_type in csv_types:
-    sql_type = type_dict[csv_type]
-
-    with open(output_file, "a") as out_file:
+with open(output_file, "a") as out_file:
+    for csv_type in csv_types:
+        sql_type = type_dict[csv_type]
+    # with open(output_file, "a") as out_file:
         if sql_type == "Linguagem":
             pdgm_set = set()  # porque {} gera dict por default
 
@@ -103,21 +103,35 @@ for csv_type in csv_types:
 
                 out_file.write(insert_tech)
 
+                # Criando a relação Tem entre Linguagem
+                # e Paradigma:
                 if sql_type == "Linguagem":
                     lang = row["Nome"]
 
                     for pdgm in pdgm_list:
-                        # (pode ser vazia, mas aí nada acontece)
+                        # (definida mais acima; pode ser vazia, mas aí
+                        # nada acontece)
 
-                        insert_has = "INSERT INTO Tem(fk_Linguagem_Id," "fk_Paradigma_Id)\n\t(SELECT Linguagem.Id, " "Paradigma.Id\n\tFROM Linguagem, Paradigma\n\t"\
+                        insert_has = "INSERT INTO Tem(fk_Linguagem_Id," + \
+                        "fk_Paradigma_Id)\n\t(SELECT Linguagem.Id, " "Paradigma.Id\n\tFROM Linguagem, Paradigma\n\t" \
                         + f"WHERE STRCMP(Linguagem.Nome, {lang}) = 0 AND" \
                         + f"\n\tSTRCMP(Paradigma.Nome, {pdgm}) = 0);\n\n"
 
                         out_file.write(insert_has)
 
+    with open(csv_path + "associations.csv", "r") as csv_file:
+        reader = csv.DictReader(csv_file)
 
+        for row in reader:
+            lang = row["Linguagem"]
+            other = row["OutraTecnologia"]
+            depends = row["Depende"]
 
+            insert_assoc = "INSERT INTO Associada(Dependente," + \
+            "fk_Linguagem_Id, fk_OutraTecnologia_Id)\n\t" + \
+            f"(SELECT {depends}, OutraTecnologia.Id, Linguagem.Id" + \
+            "\n\tFROM OutraTecnologia, Linguagem\n\t" \
+            + f"WHERE STRCMP(OutraTecnologia.Nome, {other}) = 0 AND" \
+            + f"\n\tSTRCMP(Linguagem.Nome, {lang}) = 0);\n\n"
 
-            
-# TODO/Lembretes:
-# - processar associations.csv
+            out_file.write(insert_assoc)
