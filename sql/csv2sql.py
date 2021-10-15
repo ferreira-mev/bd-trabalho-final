@@ -7,7 +7,7 @@ conversão do modelo lógico feito no brModelo.
 import csv
 
 csv_path = "/home/duda/Documents/edu/UFRJ1/5_2021-1/bdi/trabs/03_final/bd-trabalho-final/datasets/"
-output_file = "dml.sql"
+output_file = "sql/dml.sql"
 
 enum_types = ('Nuvem', 'EditorIde', 'Biblioteca', 'So', 'Outro', 'FrameworkWeb')
 # Já num formato que dá para copiar e colar da/na DDL caso alteremos
@@ -28,38 +28,55 @@ type_dict = {c: e for c, e in zip(csv_types, enum_types)}
 # "Tradução" entre nome conforme csv e conforme a enum
 # (Obs: Atenção à ordem se forem alterar)
 
-special = {"databases", "languages"}
+csv_special = {"databases", "languages"}
+csv_types.extend(csv_special)
 
-csv_types.extend(special)
+enum_special = {"Sgbd", "Linguagem"}
 
-type_dict["databases"] = "Sgbd"
-type_dict["languages"] = "Linguagem"
+type_dict = {**type_dict, **{c: e for c, e in zip(csv_special, enum_special)}}
 
-with open(output_file, "w") as out_file:
-    for csv_type in csv_types:
-        enum_type = type_dict[csv_type]
+for csv_type in csv_types:
+    enum_type = type_dict[csv_type]
+
+    with open(output_file, "w") as out_file:
+        if enum_type == "Linguagem":
+            pdgm_set = set()  # {} gera dict por default
 
         with open(csv_path + csv_type + ".csv", "r") as csv_file:
             reader = csv.DictReader(csv_file)
             fields = reader.fieldnames
 
             for row in reader:
+                if enum_type == "Linguagem":
+                    pdgm_string = row["Paradigmas"]
+
+                    if pdgm_string == "null":
+                        break
+
+                    for pdgm in pdgm_string.split(";"):
+                        if pdgm not in pdgm_set:
+                            pdgm_set.add(pdgm)
+                            insert_pdgm = "INSERT INTO Paradigma(Nome)"
+                            insert_pdgm += "VALUES('" + pdgm + "');\n\n"
+
+                            out_file.write(insert_pdgm)
+
                 insert = "INSERT INTO "
 
-                if enum_type in special:
+                if enum_type in enum_special:
                     insert += enum_type
                 else:
                     insert += "OutraTecnologia"
 
                 insert += "(" + ",".join(fields)
 
-                if enum_type not in special:
+                if enum_type not in enum_special:
                     insert += ",Tipo"
 
                 insert += ")\nVALUES ("
                 insert += ",".join(row.values())
                 
-                if enum_type not in special:
+                if enum_type not in enum_special:
                     insert += ",'" + enum_type + "'"
 
                 insert += ");\n\n"
