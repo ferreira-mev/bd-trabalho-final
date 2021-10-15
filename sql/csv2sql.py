@@ -50,16 +50,14 @@ for csv_type in csv_types:
                 if enum_type == "Linguagem":
                     pdgm_string = row["Paradigmas"]
 
-                    if pdgm_string == "null":
-                        break
+                    if pdgm_string != "null":
+                        for pdgm in pdgm_string.split(";"):
+                            if pdgm not in pdgm_set:
+                                pdgm_set.add(pdgm)
+                                insert_pdgm = "INSERT INTO Paradigma(Nome)"
+                                insert_pdgm += "VALUES('" + pdgm + "');\n\n"
 
-                    for pdgm in pdgm_string.split(";"):
-                        if pdgm not in pdgm_set:
-                            pdgm_set.add(pdgm)
-                            insert_pdgm = "INSERT INTO Paradigma(Nome)"
-                            insert_pdgm += "VALUES('" + pdgm + "');\n\n"
-
-                            out_file.write(insert_pdgm)
+                                out_file.write(insert_pdgm)
 
                 insert = "INSERT INTO "
 
