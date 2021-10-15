@@ -45,7 +45,7 @@ CREATE TABLE Linguagem (
 );
 
 CREATE TABLE OutraTecnologia (
-    Tipo ENUM('Biblioteca', 'Nuvem', 'FrameworkWeb', 'EditorIde', 'So', 'Outro') NOT NULL,
+    Tipo ENUM('Nuvem', 'EditorIde', 'Biblioteca', 'So', 'Outro', 'FrameworkWeb') NOT NULL,
     Logo VARCHAR(511),
     Nome VARCHAR(255),
     Id INT PRIMARY KEY AUTO_INCREMENT,
