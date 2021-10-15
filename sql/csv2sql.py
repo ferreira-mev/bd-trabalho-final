@@ -28,10 +28,10 @@ type_dict = {c: e for c, e in zip(csv_types, enum_types)}
 # "Tradução" entre nome conforme csv e conforme a enum
 # (Obs: Atenção à ordem se forem alterar)
 
-csv_special = {"databases", "languages"}
+csv_special = ["databases", "languages"]
 csv_types.extend(csv_special)
 
-enum_special = {"Sgbd", "Linguagem"}
+enum_special = ["Sgbd", "Linguagem"]
 
 type_dict = {**type_dict, **{c: e for c, e in zip(csv_special, enum_special)}}
 
