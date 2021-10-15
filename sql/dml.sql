@@ -289,6 +289,30 @@ VALUES('modular');
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('APL',1966,null);
 
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'APL') = 0 AND
+	STRCMP(Paradigma.Nome, 'array') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'APL') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'APL') = 0 AND
+	STRCMP(Paradigma.Nome, 'structured') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'APL') = 0 AND
+	STRCMP(Paradigma.Nome, 'modular') = 0);
+
 INSERT INTO Paradigma(Nome)
 VALUES('imperative');
 
@@ -298,6 +322,18 @@ VALUES('unstructured');
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('Assembly',1949,'Assembly.png');
 
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Assembly') = 0 AND
+	STRCMP(Paradigma.Nome, 'imperative') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Assembly') = 0 AND
+	STRCMP(Paradigma.Nome, 'unstructured') = 0);
+
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('Bash',1989,'Bash.png');
 
@@ -306,6 +342,24 @@ VALUES('procedural');
 
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('C',1972,'C.png');
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'C') = 0 AND
+	STRCMP(Paradigma.Nome, 'imperative') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'C') = 0 AND
+	STRCMP(Paradigma.Nome, 'procedural') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'C') = 0 AND
+	STRCMP(Paradigma.Nome, 'structured') = 0);
 
 INSERT INTO Paradigma(Nome)
 VALUES('object-oriented');
@@ -328,8 +382,92 @@ VALUES('concurrent');
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('C#',2000,'C_Sharp.png');
 
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'C#') = 0 AND
+	STRCMP(Paradigma.Nome, 'structured') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'C#') = 0 AND
+	STRCMP(Paradigma.Nome, 'imperative') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'C#') = 0 AND
+	STRCMP(Paradigma.Nome, 'object-oriented') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'C#') = 0 AND
+	STRCMP(Paradigma.Nome, 'event-driven') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'C#') = 0 AND
+	STRCMP(Paradigma.Nome, 'task-driven') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'C#') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'C#') = 0 AND
+	STRCMP(Paradigma.Nome, 'generic') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'C#') = 0 AND
+	STRCMP(Paradigma.Nome, 'reflective') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'C#') = 0 AND
+	STRCMP(Paradigma.Nome, 'concurrent') = 0);
+
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('C++',1985,'Cpp.png');
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'C++') = 0 AND
+	STRCMP(Paradigma.Nome, 'procedural') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'C++') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'C++') = 0 AND
+	STRCMP(Paradigma.Nome, 'object-oriented') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'C++') = 0 AND
+	STRCMP(Paradigma.Nome, 'generic') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'C++') = 0 AND
+	STRCMP(Paradigma.Nome, 'modular') = 0);
 
 INSERT INTO Paradigma(Nome)
 VALUES('agent-oriented');
@@ -346,14 +484,104 @@ VALUES('pipeline');
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('Clojure',2007,'Clojure.png');
 
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Clojure') = 0 AND
+	STRCMP(Paradigma.Nome, 'agent-oriented') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Clojure') = 0 AND
+	STRCMP(Paradigma.Nome, 'concurrent') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Clojure') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Clojure') = 0 AND
+	STRCMP(Paradigma.Nome, 'logic') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Clojure') = 0 AND
+	STRCMP(Paradigma.Nome, 'macro') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Clojure') = 0 AND
+	STRCMP(Paradigma.Nome, 'pipeline') = 0);
+
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('COBOL',1959,'COBOL.jpg');
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'COBOL') = 0 AND
+	STRCMP(Paradigma.Nome, 'procedural') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'COBOL') = 0 AND
+	STRCMP(Paradigma.Nome, 'imperative') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'COBOL') = 0 AND
+	STRCMP(Paradigma.Nome, 'object-oriented') = 0);
 
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('Crystal',2014,'Crystal.png');
 
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Crystal') = 0 AND
+	STRCMP(Paradigma.Nome, 'object-oriented') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Crystal') = 0 AND
+	STRCMP(Paradigma.Nome, 'concurrent') = 0);
+
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('Dart',2012,'Dart.png');
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Dart') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Dart') = 0 AND
+	STRCMP(Paradigma.Nome, 'imperative') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Dart') = 0 AND
+	STRCMP(Paradigma.Nome, 'object-oriented') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Dart') = 0 AND
+	STRCMP(Paradigma.Nome, 'reflective') = 0);
 
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('Delphi',null,'Delphi.png');
@@ -367,8 +595,44 @@ VALUES('process-oriented');
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('Elixir',2011,'Elixir.png');
 
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Elixir') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Elixir') = 0 AND
+	STRCMP(Paradigma.Nome, 'concurrent') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Elixir') = 0 AND
+	STRCMP(Paradigma.Nome, 'distributed') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Elixir') = 0 AND
+	STRCMP(Paradigma.Nome, 'process-oriented') = 0);
+
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('Erlang',1986,'Erlang.png');
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Erlang') = 0 AND
+	STRCMP(Paradigma.Nome, 'concurrent') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Erlang') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
 
 INSERT INTO Paradigma(Nome)
 VALUES('metaprogramming');
@@ -376,8 +640,68 @@ VALUES('metaprogramming');
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('F#',2005,'F_Sharp.png');
 
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'F#') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'F#') = 0 AND
+	STRCMP(Paradigma.Nome, 'imperative') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'F#') = 0 AND
+	STRCMP(Paradigma.Nome, 'object-oriented') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'F#') = 0 AND
+	STRCMP(Paradigma.Nome, 'metaprogramming') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'F#') = 0 AND
+	STRCMP(Paradigma.Nome, 'reflective') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'F#') = 0 AND
+	STRCMP(Paradigma.Nome, 'concurrent') = 0);
+
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('Go',2009,'Go.png');
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Go') = 0 AND
+	STRCMP(Paradigma.Nome, 'concurrent') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Go') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Go') = 0 AND
+	STRCMP(Paradigma.Nome, 'imperative') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Go') = 0 AND
+	STRCMP(Paradigma.Nome, 'object-oriented') = 0);
 
 INSERT INTO Paradigma(Nome)
 VALUES('scripting');
@@ -385,8 +709,32 @@ VALUES('scripting');
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('Groovy',2003,'Groovy.png');
 
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Groovy') = 0 AND
+	STRCMP(Paradigma.Nome, 'object-oriented') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Groovy') = 0 AND
+	STRCMP(Paradigma.Nome, 'imperative') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Groovy') = 0 AND
+	STRCMP(Paradigma.Nome, 'scripting') = 0);
+
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('Haskell',1990,'Haskell.png');
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Haskell') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
 
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('HTML/CSS',null,'HTML_CSS.png');
@@ -397,14 +745,89 @@ VALUES('class-based');
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('Java',1995,'Java.png');
 
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Java') = 0 AND
+	STRCMP(Paradigma.Nome, 'generic') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Java') = 0 AND
+	STRCMP(Paradigma.Nome, 'object-oriented') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Java') = 0 AND
+	STRCMP(Paradigma.Nome, 'class-based') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Java') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Java') = 0 AND
+	STRCMP(Paradigma.Nome, 'imperative') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Java') = 0 AND
+	STRCMP(Paradigma.Nome, 'reflective') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Java') = 0 AND
+	STRCMP(Paradigma.Nome, 'concurrent') = 0);
+
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('JavaScript',1995,'JavaScript.jpg');
 
-INSERT INTO Paradigma(Nome)
-VALUES('meta');
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'JavaScript') = 0 AND
+	STRCMP(Paradigma.Nome, 'event-driven') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'JavaScript') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'JavaScript') = 0 AND
+	STRCMP(Paradigma.Nome, 'imperative') = 0);
 
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('Julia',2012,'Julia.png');
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Julia') = 0 AND
+	STRCMP(Paradigma.Nome, 'procedural') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Julia') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Julia') = 0 AND
+	STRCMP(Paradigma.Nome, 'metaprogramming') = 0);
 
 INSERT INTO Paradigma(Nome)
 VALUES('block structured');
@@ -415,11 +838,113 @@ VALUES('declarative');
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('Kotlin',2011,'Kotlin.png');
 
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Kotlin') = 0 AND
+	STRCMP(Paradigma.Nome, 'object-oriented') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Kotlin') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Kotlin') = 0 AND
+	STRCMP(Paradigma.Nome, 'imperative') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Kotlin') = 0 AND
+	STRCMP(Paradigma.Nome, 'block structured') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Kotlin') = 0 AND
+	STRCMP(Paradigma.Nome, 'declarative') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Kotlin') = 0 AND
+	STRCMP(Paradigma.Nome, 'generic') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Kotlin') = 0 AND
+	STRCMP(Paradigma.Nome, 'reflective') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Kotlin') = 0 AND
+	STRCMP(Paradigma.Nome, 'concurrent') = 0);
+
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('LISP',1958,'LISP.png');
 
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'LISP') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'LISP') = 0 AND
+	STRCMP(Paradigma.Nome, 'procedural') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'LISP') = 0 AND
+	STRCMP(Paradigma.Nome, 'reflective') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'LISP') = 0 AND
+	STRCMP(Paradigma.Nome, 'metaprogramming') = 0);
+
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('Matlab',1970,'Matlab.png');
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Matlab') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Matlab') = 0 AND
+	STRCMP(Paradigma.Nome, 'imperative') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Matlab') = 0 AND
+	STRCMP(Paradigma.Nome, 'procedural') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Matlab') = 0 AND
+	STRCMP(Paradigma.Nome, 'object-oriented') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Matlab') = 0 AND
+	STRCMP(Paradigma.Nome, 'array') = 0);
 
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('Node.js',2009,'Nodejs.png');
@@ -430,29 +955,275 @@ VALUES ('Objective-C',1984,null);
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('Perl',1988,'Perl.png');
 
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Perl') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Perl') = 0 AND
+	STRCMP(Paradigma.Nome, 'imperative') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Perl') = 0 AND
+	STRCMP(Paradigma.Nome, 'object-oriented') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Perl') = 0 AND
+	STRCMP(Paradigma.Nome, 'class-based') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Perl') = 0 AND
+	STRCMP(Paradigma.Nome, 'reflective') = 0);
+
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('PHP',1995,'PHP.png');
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'PHP') = 0 AND
+	STRCMP(Paradigma.Nome, 'imperative') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'PHP') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'PHP') = 0 AND
+	STRCMP(Paradigma.Nome, 'object-oriented') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'PHP') = 0 AND
+	STRCMP(Paradigma.Nome, 'procedural') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'PHP') = 0 AND
+	STRCMP(Paradigma.Nome, 'reflective') = 0);
 
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('PowerShell',2006,'PowerShell.png');
 
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'PowerShell') = 0 AND
+	STRCMP(Paradigma.Nome, 'imperative') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'PowerShell') = 0 AND
+	STRCMP(Paradigma.Nome, 'pipeline') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'PowerShell') = 0 AND
+	STRCMP(Paradigma.Nome, 'object-oriented') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'PowerShell') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'PowerShell') = 0 AND
+	STRCMP(Paradigma.Nome, 'reflective') = 0);
+
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('Python',1991,'Python.png');
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Python') = 0 AND
+	STRCMP(Paradigma.Nome, 'object-oriented') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Python') = 0 AND
+	STRCMP(Paradigma.Nome, 'procedural') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Python') = 0 AND
+	STRCMP(Paradigma.Nome, 'imperative') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Python') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Python') = 0 AND
+	STRCMP(Paradigma.Nome, 'structured') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Python') = 0 AND
+	STRCMP(Paradigma.Nome, 'reflective') = 0);
 
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('R',1993,'R.png');
 
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'R') = 0 AND
+	STRCMP(Paradigma.Nome, 'procedural') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'R') = 0 AND
+	STRCMP(Paradigma.Nome, 'object-oriented') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'R') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'R') = 0 AND
+	STRCMP(Paradigma.Nome, 'reflective') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'R') = 0 AND
+	STRCMP(Paradigma.Nome, 'imperative') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'R') = 0 AND
+	STRCMP(Paradigma.Nome, 'array') = 0);
+
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('Ruby',1995,'Ruby.png');
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Ruby') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Ruby') = 0 AND
+	STRCMP(Paradigma.Nome, 'imperative') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Ruby') = 0 AND
+	STRCMP(Paradigma.Nome, 'object-oriented') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Ruby') = 0 AND
+	STRCMP(Paradigma.Nome, 'reflective') = 0);
 
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('Rust',2010,'Rust.png');
 
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Rust') = 0 AND
+	STRCMP(Paradigma.Nome, 'concurrent') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Rust') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Rust') = 0 AND
+	STRCMP(Paradigma.Nome, 'generic') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Rust') = 0 AND
+	STRCMP(Paradigma.Nome, 'imperative') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Rust') = 0 AND
+	STRCMP(Paradigma.Nome, 'structured') = 0);
+
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('Scala',2004,'Scala.png');
 
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Scala') = 0 AND
+	STRCMP(Paradigma.Nome, 'concurrent') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Scala') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Scala') = 0 AND
+	STRCMP(Paradigma.Nome, 'imperative') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Scala') = 0 AND
+	STRCMP(Paradigma.Nome, 'object-oriented') = 0);
+
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('SQL',1974,null);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'SQL') = 0 AND
+	STRCMP(Paradigma.Nome, 'declarative') = 0);
 
 INSERT INTO Paradigma(Nome)
 VALUES('protocol-oriented');
@@ -460,8 +1231,68 @@ VALUES('protocol-oriented');
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('Swift',2014,'Swift.png');
 
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Swift') = 0 AND
+	STRCMP(Paradigma.Nome, 'protocol-oriented') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Swift') = 0 AND
+	STRCMP(Paradigma.Nome, 'object-oriented') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Swift') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Swift') = 0 AND
+	STRCMP(Paradigma.Nome, 'imperative') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Swift') = 0 AND
+	STRCMP(Paradigma.Nome, 'block structured') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'Swift') = 0 AND
+	STRCMP(Paradigma.Nome, 'declarative') = 0);
+
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('TypeScript',2012,'TypeScript.png');
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'TypeScript') = 0 AND
+	STRCMP(Paradigma.Nome, 'functional') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'TypeScript') = 0 AND
+	STRCMP(Paradigma.Nome, 'generic') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'TypeScript') = 0 AND
+	STRCMP(Paradigma.Nome, 'imperative') = 0);
+
+INSERT INTO Tem(fk_Linguagem_Id,fk_Paradigma_Id)
+	(SELECT Linguagem.Id, Paradigma.Id
+	FROM Linguagem, Paradigma
+	WHERE STRCMP(Linguagem.Nome, 'TypeScript') = 0 AND
+	STRCMP(Paradigma.Nome, 'object-oriented') = 0);
 
 INSERT INTO Linguagem(Nome,AnoCriacao,Logo)
 VALUES ('VBA',1993,null);

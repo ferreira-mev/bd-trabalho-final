@@ -10,8 +10,9 @@ import csv
 csv_path = "/home/duda/Documents/edu/UFRJ1/5_2021-1/bdi/trabs/03_final/bd-trabalho-final/datasets/"
 output_file = "sql/dml.sql"
 
-enum_types = ('Nuvem', 'EditorIde', 'Biblioteca', 'So', 'Outro', 'FrameworkWeb')
-# Já num formato que dá para copiar e colar da/na DDL caso alteremos
+sql_types = ('Nuvem', 'EditorIde', 'Biblioteca', 'So', 'Outro', 'FrameworkWeb')
+# Já num formato que dá para copiar e colar da definição da ENUM
+# na DDL caso alteremos
 # (Obs: melhor deixar com aspas simples)
 
 csv_types = [
@@ -25,33 +26,34 @@ csv_types = [
     "web-frameworks"
 ]
 
-type_dict = {c: e for c, e in zip(csv_types, enum_types)}
+type_dict = {c: e for c, e in zip(csv_types, sql_types)}
 # "Tradução" entre nome conforme csv e conforme a enum
 # (Obs: Atenção à ordem se forem alterar)
 
 csv_special = ["databases", "languages"]
 csv_types.extend(csv_special)  # para o loop mais abaixo
 
-enum_special = ["Sgbd", "Linguagem"]
+sql_special = ["Sgbd", "Linguagem"]
 
 type_dict = {
     **type_dict,
-    **{c: e for c, e in zip(csv_special, enum_special)}
+    **{c: e for c, e in zip(csv_special, sql_special)}
 }
+# (juntando os dois dicionários)
 
 for csv_type in csv_types:
-    enum_type = type_dict[csv_type]
+    sql_type = type_dict[csv_type]
 
     with open(output_file, "a") as out_file:
-        if enum_type == "Linguagem":
-            pdgm_set = set()  # {} gera dict por default
+        if sql_type == "Linguagem":
+            pdgm_set = set()  # porque {} gera dict por default
 
         with open(csv_path + csv_type + ".csv", "r") as csv_file:
             reader = csv.DictReader(csv_file)
             fields = reader.fieldnames
 
             for row in reader:
-                if enum_type == "Linguagem":
+                if sql_type == "Linguagem":
                     pdgm_string = row["Paradigmas"]
 
                     # Para não incluir paradigmas como atributos:
@@ -61,42 +63,61 @@ for csv_type in csv_types:
                     # Criando entradas para os paradigmas que ainda não
                     # haviam sido incluídos:
                     if pdgm_string != "null":
-                        for pdgm in pdgm_string.split(";"):
+                        pdgm_list = pdgm_string.split(";")
+                        pdgm_list = [f"'{pdgm}'" for pdgm in pdgm_list]
+
+                        for pdgm in pdgm_list:
                             if pdgm not in pdgm_set:
                                 pdgm_set.add(pdgm)
-                                insert_pdgm = "INSERT INTO Paradigma(Nome)\n"
-                                insert_pdgm += "VALUES('" + pdgm + "');\n\n"
+                                insert_pdgm = "INSERT INTO Paradigma(Nome)\n" \
+                                + f"VALUES({pdgm});\n\n"
 
                                 out_file.write(insert_pdgm)
+                    else:
+                        pdgm_list = []
 
-                insert = "INSERT INTO "
+                insert_tech = "INSERT INTO "
 
                 # Os tipos "especiais" são inseridos nas tabelas
                 # de suas respectivas entidades; os demais são
                 # inseridos em OutraTecnologia e têm uma coluna
                 # referente a seu tipo.
 
-                if enum_type in enum_special:
-                    insert += enum_type
+                if sql_type in sql_special:
+                    insert_tech += sql_type
                 else:
-                    insert += "OutraTecnologia"
+                    insert_tech += "OutraTecnologia"
 
-                insert += "(" + ",".join(fields)
+                insert_tech += "(" + ",".join(fields)
 
-                if enum_type not in enum_special:
-                    insert += ",Tipo"
+                if sql_type not in sql_special:
+                    insert_tech += ",Tipo"
 
-                insert += ")\nVALUES ("
-                insert += ",".join(row.values())
+                insert_tech += ")\nVALUES ("
+                insert_tech += ",".join(row.values())
                 
-                if enum_type not in enum_special:
-                    insert += ",'" + enum_type + "'"
+                if sql_type not in sql_special:
+                    insert_tech += f",'{sql_type}'"
 
-                insert += ");\n\n"
+                insert_tech += ");\n\n"
 
-                out_file.write(insert)
+                out_file.write(insert_tech)
+
+                if sql_type == "Linguagem":
+                    lang = row["Nome"]
+
+                    for pdgm in pdgm_list:
+                        # (pode ser vazia, mas aí nada acontece)
+
+                        insert_has = "INSERT INTO Tem(fk_Linguagem_Id," "fk_Paradigma_Id)\n\t(SELECT Linguagem.Id, " "Paradigma.Id\n\tFROM Linguagem, Paradigma\n\t"\
+                        + f"WHERE STRCMP(Linguagem.Nome, {lang}) = 0 AND" \
+                        + f"\n\tSTRCMP(Paradigma.Nome, {pdgm}) = 0);\n\n"
+
+                        out_file.write(insert_has)
+
+
+
 
             
 # TODO/Lembretes:
-# - incluir relacionamento Linguagem-Tem-Paradigma
 # - processar associations.csv
