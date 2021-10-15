@@ -1,3 +1,5 @@
+module Fixcsv where
+
 import System.Environment (getArgs)
 
 main :: IO ()

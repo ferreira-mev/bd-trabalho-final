@@ -1,0 +1,16 @@
+ID          - ResponseId    -  0
+Genero      - Gender        - 39
+FaixaEtaria - Age           - 38
+ExpTotal    - YearsCode     -  9
+ExpProfiss  - YearsCodePro  - 10
+EhProfis... - MainBranch    -  1
+TamEmpresa  - OrgSize       - 12
+Cargo       - DevType       - 11
+Salario     - ConvCompYea...- 47
+NivelEduc   - EdLevel       -  6
+Pais        - Country       -  3
+
+0, 3, 4, 8 -> Int (ok)
+1, 2, 5, 6, 10 -> Stringfy
+7 -> Setfy (ok?)
+9 -> Já é string
