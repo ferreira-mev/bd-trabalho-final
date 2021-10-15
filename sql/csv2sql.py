@@ -38,7 +38,7 @@ type_dict = {**type_dict, **{c: e for c, e in zip(csv_special, enum_special)}}
 for csv_type in csv_types:
     enum_type = type_dict[csv_type]
 
-    with open(output_file, "w") as out_file:
+    with open(output_file, "a") as out_file:
         if enum_type == "Linguagem":
             pdgm_set = set()  # {} gera dict por default
 
@@ -49,6 +49,11 @@ for csv_type in csv_types:
             for row in reader:
                 if enum_type == "Linguagem":
                     pdgm_string = row["Paradigmas"]
+
+                    # Para não incluir paradigmas como atributos:
+
+                    row = {k: v for k, v in row.items() if k != "Paradigmas"}
+                    fields = [f for f in fields if f != "Paradigmas"]
 
                     if pdgm_string != "null":
                         for pdgm in pdgm_string.split(";"):
