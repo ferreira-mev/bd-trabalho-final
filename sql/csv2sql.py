@@ -54,7 +54,7 @@ for csv_type in csv_types:
                         for pdgm in pdgm_string.split(";"):
                             if pdgm not in pdgm_set:
                                 pdgm_set.add(pdgm)
-                                insert_pdgm = "INSERT INTO Paradigma(Nome)"
+                                insert_pdgm = "INSERT INTO Paradigma(Nome)\n"
                                 insert_pdgm += "VALUES('" + pdgm + "');\n\n"
 
                                 out_file.write(insert_pdgm)
