@@ -1,12 +1,9 @@
 # Construindo o banco de dados
-1. Execute, do diretório `sql`,
-   ```
-   ./build_builder.sh >> build_database.sql
-   ```
-2. Entre no MySQL Server como um usuário com privilégios suficientes para criar e alterar tabelas e execute
-   ```
-   SOURCE build_database.sql;
-   ```
+Entre no MySQL Server como um usuário com privilégios suficientes para criar e alterar tabelas e execute
+```
+SOURCE sql/build_database.sql;
+```
+(Obs: Dei o caminho relativo à raiz do repositório; adapte conforme o caso.)
 
 # Aplicação Flask — Código de exemplo
 O código está bem comentado para orientar melhor
