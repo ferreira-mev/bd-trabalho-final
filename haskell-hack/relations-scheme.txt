@@ -1,0 +1,21 @@
+Usa:
+
+Pessoa_Id       - ResponseId                    -  0
+Sgbd_Name       - DatabaseHaveWorkedWith        - 18
+Linguagem_Name  - LanguageHaveWorkedWith        - 16
+OutraTecn_Name  - PlatformHaveWorkedWith        - 20
+OutraTecn_Name  - WebframeHaveWorkedWith        - 22
+OutraTecn_Name  - MiscTechHaveWorkedWith        - 24
+OutraTecn_Name  - ToolsTechHaveWorkedWith       - 26
+OutraTecn_Name  - NEWCollabToolsHaveWorkedWith  - 28
+
+Deseja:
+
+Pessoa_Id       - ResponseId                    -  0
+Sgbd_Name       - DatabaseHaveWorkedWith        - 19
+Linguagem_Name  - LanguageHaveWorkedWith        - 17
+OutraTecn_Name  - PlatformHaveWorkedWith        - 21
+OutraTecn_Name  - WebframeHaveWorkedWith        - 23
+OutraTecn_Name  - MiscTechHaveWorkedWith        - 25
+OutraTecn_Name  - ToolsTechHaveWorkedWith       - 27
+OutraTecn_Name  - NEWCollabToolsHaveWorkedWith  - 29
