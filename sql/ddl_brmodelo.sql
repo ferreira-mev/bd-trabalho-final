@@ -17,14 +17,14 @@ USE stackoverflow;
 --     Id INT PRIMARY KEY AUTO_INCREMENT,
 --     Genero SET,
 --     FaixaEtaria ENUM,
---     ExpTotal INT,
---     ExpProfissional INT,
 --     EhProfissional ENUM,
 --     TamEmpresa ENUM,
 --     Cargo SET,
---     Salario INT,
 --     NivelEduc ENUM,
---     Pais VARCHAR(255)
+--     Salario INT,
+--     Pais VARCHAR(255),
+--     ExpTotal INT,
+--     ExpProfissional INT
 -- );
 
 CREATE TABLE Sgbd (
