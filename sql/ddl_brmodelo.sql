@@ -15,13 +15,13 @@ USE stackoverflow;
 
 -- CREATE TABLE Pessoa (
 --     Id INT PRIMARY KEY AUTO_INCREMENT,
---     Genero ENUM,
+--     Genero SET,
 --     FaixaEtaria ENUM,
---     ExpTotal VARCHAR(255),
---     ExpProfissional VARCHAR(255),
+--     ExpTotal INT,
+--     ExpProfissional INT,
 --     EhProfissional ENUM,
 --     TamEmpresa ENUM,
---     Cargo ENUM,
+--     Cargo SET,
 --     Salario INT,
 --     NivelEduc ENUM,
 --     Pais VARCHAR(255)
