@@ -1,10 +1,8 @@
 /*
-As linhas referentes a Pessoa e seus relacionamentos estao
-comentadas para testar a conversao das demais entidades de
-csv para SQL.
+Obs: Note que os relacionamentos envolvendo Pessoa estao comentados
+por enquanto.
 
 TODO:
-- Definir enums ou mudar p/ set cf o caso
 - Adc restr integridade nao desejar SO?
 - Conferir gatilhos
 */
@@ -13,19 +11,22 @@ CREATE DATABASE IF NOT EXISTS stackoverflow;
 
 USE stackoverflow;
 
--- CREATE TABLE Pessoa (
---     Id INT PRIMARY KEY AUTO_INCREMENT,
---     Genero SET,
---     FaixaEtaria ENUM,
---     EhProfissional ENUM,
---     TamEmpresa ENUM,
---     Cargo SET,
---     NivelEduc ENUM,
---     Salario INT,
---     Pais VARCHAR(255),
---     ExpTotal INT,
---     ExpProfissional INT
--- );
+/* As virgulas dos valores dos SETs foram trocadas por "+" por causa
+da sintaxe do MySQL (virgulas *dentro* das aspas separam valores na
+hora de inserir) */
+CREATE TABLE Pessoa (
+    Id INT PRIMARY KEY AUTO_INCREMENT,
+    Genero SET('Non-binary+ genderqueer+ or gender non-conforming', 'Man', 'Woman', 'Prefer not to say', 'Or+ in your own words:'),
+	Cargo SET('Marketing or sales professional', 'Engineer: site reliability', 'Educator', 'Other (please specify):', 'Designer', 'Developer: front-end', 'Developer: QA or test', 'Data or business analyst', 'Developer: game or graphics', 'Developer: back-end', 'Engineering manager', 'Student', 'Product manager', 'Developer: full-stack', 'Data scientist or machine learning specialist', 'Academic researcher', 'Developer: embedded applications or devices', 'System administrator', 'Engineer: data', 'Senior Executive (C-Suite: VP: etc.)', 'Developer: mobile', 'DevOps specialist', 'Scientist', 'Database administrator', 'Developer: desktop or enterprise applications'),
+	FaixaEtaria ENUM('35-44 years old', '45-54 years old', '18-24 years old', 'Under 18 years old', '25-34 years old', 'Prefer not to say', '55-64 years old', '65 years or older'),
+	EhProfissional ENUM('None of these', 'I am a developer by profession', 'I am not primarily a developer, but I write code sometimes as part of my work', 'I used to be a developer by profession, but no longer am', 'I code primarily as a hobby', 'I am a student who is learning to code'),
+	TamEmpresa ENUM('2 to 9 employees', 'I don’t know', '100 to 499 employees', 'Just me - I am a freelancer, sole proprietor, etc.', '10 to 19 employees', '5,000 to 9,999 employees', '10,000 or more employees', '1,000 to 4,999 employees', '500 to 999 employees', '20 to 99 employees'),
+	NivelEduc ENUM('Some college/university study without earning a degree', 'Something else', 'Secondary school (e.g. American high school, German Realschule or Gymnasium, etc.)', 'Bachelor’s degree (B.A., B.S., B.Eng., etc.)', 'Professional degree (JD, MD, etc.)', 'Associate degree (A.A., A.S., etc.)', 'Primary/elementary school', 'Master’s degree (M.A., M.S., M.Eng., MBA, etc.)', 'Other doctoral degree (Ph.D., Ed.D., etc.)'),
+    Salario INT,
+    Pais VARCHAR(255),
+    ExpTotal INT,
+    ExpProfiss INT
+);
 
 CREATE TABLE Sgbd (
     Relacional BOOL,
