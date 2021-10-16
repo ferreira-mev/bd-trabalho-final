@@ -1,4 +1,14 @@
-# Código de exemplo
+# Construindo o banco de dados
+1. Execute, do diretório `sql`,
+   ```
+   ./build_builder.sh >> build_database.sql
+   ```
+2. Entre no MySQL Server como um usuário com privilégios suficientes para criar e alterar tabelas e execute
+   ```
+   SOURCE build_database.sql;
+   ```
+
+# Aplicação Flask — Código de exemplo
 O código está bem comentado para orientar melhor
 
 Utilizamos uma microframework chamada flask, que basicamente adiciona features do php + apache ao python
