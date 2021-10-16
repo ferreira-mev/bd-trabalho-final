@@ -4,6 +4,12 @@ import Fixcsv (at)
 pessoaFileOut :: FilePath
 pessoaFileOut = "newpessoa.csv"
 
+usaFileOut :: FilePath
+usaFileOut = "newusa.csv"
+
+desejaFileOut :: FilePath
+desejaFileOut = "newdeseja.csv"
+
 path :: FilePath -> FilePath
 path = ("./tmp/" ++)
 
@@ -12,14 +18,18 @@ main = do
     let csv = readF $ path "pessoa-sof.csv"
     pessoa <- fmap format csv
     writeFile pessoaFileOut pessoa
+    usa <- fmap (relation 0 (18, 16, [20, 22, 24, 26, 28])) csv
+    mapM (write usaFileOut) $ zip [0..] usa
+    deseja <- fmap (relation 0 (19, 17, [21, 23, 25, 27, 29])) csv
+    mapM (write desejaFileOut) $ zip [0..] deseja
     return ()
 
 readF :: FilePath -> IO String
 -- readF = fmap (filter (/='\r')) . readFile
 readF = readFile
 
--- write :: [String] -> IO ()
--- write = writeFile out . foldr1 (\ a a' -> a ++ "\n" ++ a')
+write :: FilePath -> (Int, String) -> IO ()
+write fpath (n, str) = writeFile (fpath ++ show n) str
 
 hook :: (b -> a -> c) -> (a -> b) -> a -> c
 hook f g x = flip f x $ g x
@@ -58,14 +68,16 @@ pick (i:is) xs
     | otherwise =                  pick is xs
     where len = length xs
 
+naToNull s = if s == "NA" then "null" else s
+addQuotes s = if s == "null" || (isStr s) then s else "'" ++ s ++ "'"
+isStr = fork (&&) ((=='"') . head) ((=='"') . last)
+
 stringfy :: Int -> String -> String
 stringfy col csv = unlines $ header : newlines
     where header = head $ lines csv
           linhas = tail $ lines csv
           modLine = uncolumns ',' . at col addQuotes . columns' ','
           newlines = map modLine linhas
-          addQuotes s = if s == "null" || (isStr s) then s else "'" ++ s ++ "'"
-          isStr = fork (&&) ((=='"') . head) ((=='"') . last)
 
 format :: String -> String
 format = foldr1 (.) (map stringfy [ 1, 2, 5, 6, 10 ])
@@ -76,5 +88,19 @@ format = foldr1 (.) (map stringfy [ 1, 2, 5, 6, 10 ])
        . lines
     where hard_coded = [ 0, 39, 38, 9, 10, 1, 12, 11, 47, 6, 3 ]
           hard_header = "ID,Genero,FaixaEtaria,ExpTotal,ExpProfiss,EhProfissional,TamEmpresa,Cargo,Salario,NivelEduc,Pais"
-          naToNull s = if s == "NA" then "null" else s
           replace a b x = if x == a then b else x
+
+relation :: Int -> (Int, Int, [Int]) -> String -> [String]
+relation id (sgbd, lang, others) contents = map unlines everything
+    where header = "fk_Pessoa_Id,fk_Sgbd_Id,fk_Linguagem_Id,fk_OutraTecnologia_id"
+          everything = (header : sgbd_vals) : lang_vals : others_vals
+          cols = [id, sgbd, lang] ++ others
+          csv = map (map naToNull . pick cols . columns' ',') $ tail $ lines contents
+          id_vals = map (head . pick [0]) csv
+          sgbd_vals = magic 0 1
+          lang_vals = magic 1 2
+          others_vals = map (magic 2) $ map (+2) [1..length others]
+          magic n col = concat $ zipWith (join n) id_vals $ map (map addQuotes . filter (/="null") . columns ';' . head . pick [col]) csv
+          join cnt pre = map $ \m ->
+                pre ++ nulls cnt ++ "," ++ m ++ nulls (2-cnt)
+          nulls n = foldr1 (\a b -> a ++ "," ++ b) $ "" : replicate n "null"
