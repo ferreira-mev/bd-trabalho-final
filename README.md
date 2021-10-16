@@ -1,7 +1,7 @@
 # Construindo o banco de dados
-Da raiz do repositório, entre no MySQL Server como um usuário com privilégios suficientes para criar e alterar tabelas e execute
+Do diretório sql, entre no MySQL Server como um usuário com privilégios suficientes para criar e alterar tabelas e execute
 ```
-SOURCE sql/build_database.sql;
+SOURCE build_database.sql;
 ```
 
 # Aplicação Flask — Código de exemplo
