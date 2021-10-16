@@ -1,14 +1,16 @@
 """
 Script para gerar a DML em SQL a partir dos arquivos csv das
-tecnologias.
+tecnologias. A parte DDL já foi gerada semiautomaticamente a 
+partir da conversão do modelo lógico feito no brModelo.
 
-A parte DDL já foi gerada semiautomaticamente a partir da
-conversão do modelo lógico feito no brModelo.
+Não é de forma alguma um código bonito, porque envolve distorcer
+linhas de uma planilha em strings com formato muito específico
+de maneira ad hoc, mas funciona.
 """
 import csv
 
 csv_path = "/home/duda/Documents/edu/UFRJ1/5_2021-1/bdi/trabs/03_final/bd-trabalho-final/datasets/"
-output_file = "sql/dml.sql"
+output_file = "sql/dml_tech.sql"
 
 sql_types = ('Nuvem', 'EditorIde', 'Biblioteca', 'So', 'Outro', 'FrameworkWeb')
 # Já num formato que dá para copiar e colar da definição da ENUM
