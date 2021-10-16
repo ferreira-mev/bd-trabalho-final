@@ -1,6 +1,6 @@
 """
-Script para gerar a DML em SQL a partir dos arquivos csv com
-as respostas da pesquisa.
+Script para gerar a DML da entidade Pessoa em SQL a partir dos
+arquivos csv com as respostas da pesquisa.
 """
 import csv
 
