@@ -46,7 +46,6 @@ type_dict = {
 with open(output_file, "a") as out_file:
     for csv_type in csv_types:
         sql_type = type_dict[csv_type]
-    # with open(output_file, "a") as out_file:
         if sql_type == "Linguagem":
             pdgm_set = set()  # porque {} gera dict por default
 
