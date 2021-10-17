@@ -89,61 +89,59 @@ CREATE TABLE Tem (
 ALTER TABLE Usa ADD CONSTRAINT FK_Usa_1
     FOREIGN KEY (fk_Pessoa_Id)
     REFERENCES Pessoa (Id)
-    ON DELETE SET NULL;
+    ON DELETE CASCADE;
 
 ALTER TABLE Usa ADD CONSTRAINT FK_Usa_2
     FOREIGN KEY (fk_Sgbd_Id)
     REFERENCES Sgbd (Id)
-    ON DELETE SET NULL;
+    ON DELETE CASCADE;
 
 ALTER TABLE Usa ADD CONSTRAINT FK_Usa_3
     FOREIGN KEY (fk_Linguagem_Id)
     REFERENCES Linguagem (Id)
-    ON DELETE SET NULL;
+    ON DELETE CASCADE;
 
 ALTER TABLE Usa ADD CONSTRAINT FK_Usa_4
     FOREIGN KEY (fk_OutraTecnologia_Id)
     REFERENCES OutraTecnologia (Id)
-    ON DELETE SET NULL;
+    ON DELETE CASCADE;
 
 ALTER TABLE Deseja ADD CONSTRAINT FK_Deseja_1
     FOREIGN KEY (fk_Pessoa_Id)
     REFERENCES Pessoa (Id)
-    ON DELETE SET NULL;
+    ON DELETE CASCADE;
 
 ALTER TABLE Deseja ADD CONSTRAINT FK_Deseja_2
     FOREIGN KEY (fk_Sgbd_Id)
     REFERENCES Sgbd (Id)
-    ON DELETE SET NULL;
+    ON DELETE CASCADE;
 
 ALTER TABLE Deseja ADD CONSTRAINT FK_Deseja_3
     FOREIGN KEY (fk_Linguagem_Id)
     REFERENCES Linguagem (Id)
-    ON DELETE SET NULL;
+    ON DELETE CASCADE;
 
 ALTER TABLE Deseja ADD CONSTRAINT FK_Deseja_4
     FOREIGN KEY (fk_OutraTecnologia_Id)
     REFERENCES OutraTecnologia (Id)
-    ON DELETE SET NULL;
+    ON DELETE CASCADE;
 
 ALTER TABLE Associada ADD CONSTRAINT FK_Associada_1
     FOREIGN KEY (fk_Linguagem_Id)
     REFERENCES Linguagem (Id)
-    ON DELETE SET NULL;
+    ON DELETE CASCADE;
 
 ALTER TABLE Associada ADD CONSTRAINT FK_Associada_2
     FOREIGN KEY (fk_OutraTecnologia_Id)
     REFERENCES OutraTecnologia (Id)
-    ON DELETE SET NULL;
-
-/*
-ERROR 1830 (HY000): Column 'fk_OutraTecnologia_Id' cannot be NOT NULL: needed in a foreign key constraint 'FK_Associada_2' SET NULL
-*/
+    ON DELETE CASCADE;
 
 ALTER TABLE Tem ADD CONSTRAINT FK_Tem_2
     FOREIGN KEY (fk_Linguagem_Id)
-    REFERENCES Linguagem (Id);
+    REFERENCES Linguagem (Id)
+    ON DELETE CASCADE;
 
 ALTER TABLE Tem ADD CONSTRAINT FK_Tem_3
     FOREIGN KEY (fk_Paradigma_Id)
-    REFERENCES Paradigma (Id);
+    REFERENCES Paradigma (Id)
+    ON DELETE CASCADE;
