@@ -1,19 +1,10 @@
 /* Sketching queries */
 
 -- 1) Get # of users of frameworks:
--- SELECT Usa.fk_Pessoa_Id, OutraTecnologia.Nome
 SELECT COUNT(Usa.fk_Pessoa_Id)
 FROM Usa JOIN OutraTecnologia
 ON Usa.fk_OutraTecnologia_Id = OutraTecnologia.Id
 AND OutraTecnologia.Tipo = "FrameworkWeb";
-
-SELECT COUNT(*) FROM
-(
-    SELECT Usa.fk_Pessoa_Id
-    FROM Usa JOIN OutraTecnologia
-    ON Usa.fk_OutraTecnologia_Id = OutraTecnologia.Id
-    AND OutraTecnologia.Tipo = "FrameworkWeb"
-) AS framework_users;
 -- 155814
 
 -- 2) Get # of users of frameworks of a language:
@@ -39,3 +30,7 @@ GROUP BY Linguagem.Nome;
 -- |                    4438 | Ruby       |
 -- |                    9177 | Java       |
 -- +-------------------------+------------+
+
+-- Note that F# gets thrown in with C# bc of ASP.NET
+-- even though very few people actually use it with F#...
+-- Do anything about it?
