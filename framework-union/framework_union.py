@@ -10,6 +10,20 @@ app.config.from_object(__name__)
 @app.route("/")
 def placeholder():
     return "This page will be replaced by an actual homepage"
+
+@app.route("frameworks")
+def frmwrk_ratio():
+    cnx = mysql.connector.connect(
+        host="127.0.0.1",
+        user="sods",
+        passwd="Sods_1234",
+        database="stackoverflow"
+    )
+
+    cursor = cnx.cursor(dictionary=True)
+
     
+
+
 if __name__ == "__main__":
     app.run()
