@@ -4,12 +4,13 @@ import db_functions
 app = Flask(__name__)
 
 @app.route("/") #decorator que define uma url, a função hello então será executada na url padrão       #boa prática seria criar um arquivo.py apenas para a definição de rotas
-def hello():
-    return "Hello World!"
+def main():
+    rendered_template = render_template('main.html')
+    return rendered_template
 
 
-@app.route("/dropdown")
-def dropdown():
+@app.route("/dropdown-total")
+def gera_dropdown_total():
     cnx = db_functions.connect()
 
     query = ('''
@@ -23,31 +24,78 @@ def dropdown():
     ''')
 
     query_result = db_functions.query_make(cnx, query)
-    rendered_template = render_template('dropdown.html', result = query_result)
+    rendered_template = render_template('dropdown.html', result = query_result, action = "/resultado-dropdown-total")
 
     cnx.close()
     
     return rendered_template
 
-@app.route("/segredo", methods=['GET', 'POST'])
-def consulta():
+@app.route("/dropdown-porcentagem")
+def gera_dropdown_porcentagem():
+    cnx = db_functions.connect()
 
-    # GET request
-    if request.method == 'GET':
-        print(request.form["value"])
+    query = ('''
+    SELECT * FROM(
+    SELECT Id, Nome FROM linguagem
+    UNION
+    SELECT Id, Nome FROM sgbd
+    UNION
+    Select Id, Nome from Outratecnologia) q
+    ORDER BY Nome;
+    ''')
+
+    query_result = db_functions.query_make(cnx, query)
+    rendered_template = render_template('dropdown.html', result = query_result, action = "/resultado-dropdown-porcentagem")
+
+    cnx.close()
+    
+    return rendered_template
+
+@app.route("/resultado-dropdown-total", methods=['GET', 'POST'])
+def consulta_dropdown_total():
         
     # POST request
     if request.method == 'POST':
-        query = f'''SELECT COUNT(*), {request.form["atributo"]} FROM Pessoa WHERE Id IN
-        (SELECT fk_Pessoa_Id FROM Usa WHERE fk_Sgbd_Id = {request.form["value"]} OR fk_Linguagem_Id  = {request.form["value"]} OR fk_OutraTecnologia_ID = {request.form["value"]})
-        GROUP BY {request.form["atributo"]};
+        value = request.form["value"].split(', ')
+        atributo = request.form["atributo"]
+        query = f'''SELECT COUNT(*) total, {atributo} FROM Pessoa WHERE Id IN
+        (SELECT fk_Pessoa_Id FROM Usa WHERE fk_Sgbd_Id = {value[0]} OR fk_Linguagem_Id  = {value[0]} OR fk_OutraTecnologia_ID = {value[0]})
+        GROUP BY {atributo}
+        ORDER BY total desc
+        LIMIT 20
         '''
         cnx = db_functions.connect()
         query_result = db_functions.query_make(cnx, query)
         cnx.close()
-        print(request.form["value"], request.form["atributo"])
+        print(value[0],atributo)
         rendered_template = render_template('consulta.html', result = query_result)
         return rendered_template
+
+@app.route("/resultado-dropdown-porcentagem", methods=['GET', 'POST'])
+def consulta_dropdown_porcentagem():
+        
+    # POST request
+    if request.method == 'POST':
+        value = request.form["value"].split(', ')
+        atributo = request.form["atributo"]
+        query = f'''SELECT 100 * t1.c1/t2.c2 percent, t1.{atributo} FROM
+        (SELECT COUNT(*) c1, {atributo} FROM Pessoa WHERE Id IN
+        (SELECT fk_Pessoa_Id FROM Usa WHERE fk_Sgbd_Id = {value[0]} OR fk_Linguagem_Id  = {value[0]} OR fk_OutraTecnologia_ID = {value[0]})
+        GROUP BY {atributo}) t1
+        INNER JOIN
+        (SELECT COUNT(*) c2, Id, {atributo} FROM Pessoa GROUP BY {atributo}) t2
+        ON t1.{atributo} = t2.{atributo}
+        ORDER BY percent desc
+        LIMIT 20
+        '''
+        cnx = db_functions.connect()
+        query_result = db_functions.query_make(cnx, query)
+        cnx.close()
+        print(value[0],atributo)
+        rendered_template = render_template('consulta.html', result = query_result)
+        return rendered_template
+
+#@app.route(""):
 
 if __name__ == "__main__":
     app.run() #vai começar a servir no localhost

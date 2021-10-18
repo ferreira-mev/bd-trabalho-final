@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Titulo da pagina inicial</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+</head>
+<body>
+
+    <ul class="flex-container">
+    
+        <li class="flex-item">
+            <div id="titulo">
+                <h4>Aqui vai o nome da consulta</h4>
+            </div>
+            <div id="descricao">
+                <p>Aqui pode ir uma breve explicação</p>
+            </div>
+            <button class="botao" onclick="redireciona('dropdown-total')"><span>Visualizar</span></button>
+        </li>
+        <li class="flex-item">
+            <div id="titulo">
+                <h4>Aqui vai o nome da consulta</h4>
+            </div>
+            <div id="descricao">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+            <button class="botao" onclick="redireciona('dropdown-porcentagem')"><span>Visualizar</span></button>
+        </li>
+        <li class="flex-item">
+            <div id="titulo">
+                <h4>Aqui vai o nome da consulta</h4>
+            </div>
+            <div id="descricao">
+                <p>Aqui pode ir uma breve explicação</p>
+            </div>
+            <button class="botao" onclick="redireciona(' ')"><span>Visualizar</span></button>
+        </li>
+        <li class="flex-item">
+            <div id="titulo">
+                <h4>Aqui vai o nome da consulta</h4>
+            </div>
+            <div id="descricao">
+                <p>Aqui pode ir uma breve explicação</p>
+            </div>
+            <button class="botao" onclick="redireciona(' ')"><span>Visualizar</span></button>
+        </li>
+        <li class="flex-item">
+            <div id="titulo">
+                <h4>Aqui vai o nome da consulta</h4>
+            </div>
+            <div id="descricao">
+                <p>Aqui pode ir uma breve explicação</p>
+            </div>
+            <button class="botao" onclick="redireciona(' ')"><span>Visualizar</span></button>
+        </li>
+        <li class="flex-item">
+            <div id="titulo">
+                <h4>Aqui vai o nome da consulta</h4>
+            </div>
+            <div id="descricao">
+                <p>Aqui pode ir uma breve explicação</p>
+            </div>
+            <button class="botao" onclick="redireciona(' ')"><span>Visualizar</span></button>
+        </li>
+        <li class="flex-item">
+            <div id="titulo">
+                <h4>Aqui vai o nome da consulta</h4>
+            </div>
+            <div id="descricao">
+                <p>Aqui pode ir uma breve explicação</p>
+            </div>
+            <button class="botao" onclick="redireciona(' ')"><span>Visualizar</span></button>
+        </li>
+        <li class="flex-item">
+            <div id="titulo">
+                <h4>Aqui vai o nome da consulta</h4>
+            </div>
+            <div id="descricao">
+                <p>Aqui pode ir uma breve explicação</p>
+            </div>
+            <button class="botao" onclick="redireciona(' ')"><span>Visualizar</span></button>
+        </li>
+        <li class="flex-item">
+            <div id="titulo">
+                <h4>Aqui vai o nome da consulta</h4>
+            </div>
+            <div id="descricao">
+                <p>Aqui pode ir uma breve explicação</p>
+            </div>
+            <button class="botao" onclick="redireciona(' ')"><span>Visualizar</span></button>
+        </li>
+        <li class="flex-item">
+            <div id="titulo">
+                <h4>Aqui vai o nome da consulta</h4>
+            </div>
+            <div id="descricao">
+                <p>Aqui pode ir uma breve explicação</p>
+            </div>
+            <button class="botao" onclick="redireciona(' ')"><span>Visualizar</span></button>
+        </li>
+
+    </ul>
+
+    <ul id="navigation">
+    {% for rows in result %}   <!-- jinja age aqui-->
+        <li><h5>{{rows}}</h5></li>
+    {% endfor %}
+    </ul>
+</body>
+
+<script>
+    function redireciona(value){
+        console.log(value);
+        window.location.assign("http://localhost:5000/"+ value)
+    }
+</script>
+
+</html>
