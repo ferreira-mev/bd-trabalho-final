@@ -1,4 +1,4 @@
--- DROP DATABASE stackoverflow;
+DROP DATABASE IF EXISTS stackoverflow;
 SOURCE ddl.sql;
 SOURCE dml_Pessoa.sql;
 SOURCE dml_tech.sql;
