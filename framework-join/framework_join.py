@@ -1,5 +1,6 @@
 from flask import Flask, url_for, render_template, request, redirect
 import mysql.connector
+from collections import OrderedDict
 
 app = Flask(__name__)
 
@@ -33,15 +34,12 @@ def frmwrk_ratio():
 
     cursor.execute(qr_total)
 
-    for row in cursor:
-        print(row)
-
-    # total_users = cursor[0]["total_users"]
-
+    total_users = cursor.fetchone()["total_users"] # 155814
 
     # Usuários por linguagem:
     qr_lang = """
-        SELECT COUNT(Usa.fk_Pessoa_Id) AS lang_users, Linguagem.Nome
+        SELECT COUNT(Usa.fk_Pessoa_Id) AS lang_users,
+        Linguagem.Nome AS name
         FROM Usa JOIN OutraTecnologia JOIN Associada JOIN Linguagem
         ON Usa.fk_OutraTecnologia_Id = OutraTecnologia.Id
         AND OutraTecnologia.Id = Associada.fk_OutraTecnologia_Id
@@ -53,8 +51,12 @@ def frmwrk_ratio():
 
     cursor.execute(qr_lang)
 
+    perc_lang_users = OrderedDict()
+
     for row in cursor:
-        print(row)
+        perc_lang_users[row["name"]] = row["lang_users"] / total_users
+    
+    print(perc_lang_users)
 
     rendered_template = render_template('frameworks.html.j2', cursor_from_python_code = cursor)
 

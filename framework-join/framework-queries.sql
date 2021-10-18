@@ -4,7 +4,7 @@
 SELECT COUNT(Usa.fk_Pessoa_Id)
 FROM Usa JOIN OutraTecnologia
 ON Usa.fk_OutraTecnologia_Id = OutraTecnologia.Id
-AND OutraTecnologia.Tipo = "FrameworkWeb";
+AND OutraTecnologia.Tipo = 'FrameworkWeb';
 -- 155814
 
 -- 2) Get # of users of frameworks of a language:
