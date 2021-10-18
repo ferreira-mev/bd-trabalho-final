@@ -129,10 +129,10 @@ with open(output_file, "a") as out_file:
             depends = row["Depende"]
 
             insert_assoc = "INSERT INTO Associada(Dependente," + \
-            "fk_Linguagem_Id, fk_OutraTecnologia_Id)\n\t" + \
+            "fk_OutraTecnologia_Id, fk_Linguagem_Id)\n\t" + \
             f"(SELECT {depends}, OutraTecnologia.Id, Linguagem.Id" + \
             "\n\tFROM OutraTecnologia, Linguagem\n\t" \
-            + f"WHERE STRCMP(OutraTecnologia.Nome, {lang}) = 0 AND" \
-            + f"\n\tSTRCMP(Linguagem.Nome, {other}) = 0);\n\n"
+            + f"WHERE STRCMP(OutraTecnologia.Nome, {other}) = 0 AND" \
+            + f"\n\tSTRCMP(Linguagem.Nome, {lang}) = 0);\n\n"
 
             out_file.write(insert_assoc)

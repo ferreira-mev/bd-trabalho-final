@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dropdown</title>
+    <script type="text/javascript" src="{{url_for('static', filename='script/consulta.js')}}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/consulta.css') }}">
+</head>
+<body>
+
+    <form action="/segredo" method = "post">
+        <select name = "value" class="dropdown">
+            {% for rows in result %}
+                <option value="{{rows['Id']}}">{{rows['Nome']}}</option>
+            {% endfor %}
+        </select>
+
+        
+        <select name = "atributo" class="dropdown">
+            <option value="Cargo">Cargo</option>
+            <option value="FaixaEtaria">Faixa Etária</option>
+            <option value="Genero">Gênero</option>
+            <option value="Pais">País</option>
+        </select>
+        <input class= "botao" type = "submit", value = "Submit">
+    </form>
+    
+    
+</body>
+</html>
