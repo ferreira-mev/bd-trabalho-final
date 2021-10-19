@@ -1,7 +1,7 @@
 from flask import Flask, url_for, render_template, request, redirect
 import mysql.connector
 from collections import OrderedDict
-import plottwist
+import plottwist, db_functions
 
 app = Flask(__name__)
 
@@ -15,12 +15,7 @@ def placeholder():
 
 @app.route("/frameworks")
 def frmwrk_ratio():
-    cnx = mysql.connector.connect(
-        host="127.0.0.1",
-        user="sods",
-        passwd="Sods_1234",
-        database="stackoverflow"
-    )
+    cnx = db_functions.connect()
 
     cursor = cnx.cursor(dictionary=True, buffered=True)
     # Buffering: https://stackoverflow.com/a/33632767
