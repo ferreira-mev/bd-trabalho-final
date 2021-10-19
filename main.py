@@ -78,6 +78,24 @@ def gera_dropdown_porcentagem():
     
     return rendered_template
 
+@app.route("/mais-desejada", methods=['GET', 'POST'])
+def consulta_mais_desejada():
+    # POST request
+   
+    query = f'''SELECT Count(*) c, faixaetaria, linguagem.nome 
+    FROM pessoa p
+    INNER JOIN deseja ON p.Id = fk_pessoa_id
+    -- INNER JOIN (SELECT Id, Nome FROM linguagem UNION SELECT Id, Nome FROM sgbd UNION Select Id, Nome from Outratecnologia) tecnologia ON tecnologia.id = fk_sgbd_Id OR tecnologia.id = fk_linguagem_id OR tecnologia.id = fk_outratecnologia_id
+    INNER JOIN linguagem ON linguagem.id = fk_linguagem_id
+    GROUP BY faixaetaria, linguagem.nome
+    ORDER BY c desc
+    '''
+    cnx = db_functions.connect()
+    query_result = db_functions.query_make(cnx, query)
+    cnx.close()
+        
+    rendered_template = render_template('consulta.html', result = query_result)
+    return rendered_template
 
 @app.route("/resultado-tecnologia", methods=['GET', 'POST'])
 def consulta_tecnologia():

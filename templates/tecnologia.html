@@ -3,49 +3,48 @@
 <head>
     <title>Tecnologia</title>
     <script type="text/javascript" src="{{url_for('static', filename='script/tecnologia.js')}}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/tecnologia.css') }}">
 </head>
 <body>
 
-    <h3>Botar um título</h3>
+    <div class="flex-container">
+        <div class="flex-item" id="titulo">
+            <h3>Escolha a tecnologia que quer conhecer</h3>
+        </div>
 
-    <form>
-        <input onclick="mudaTipo(value)" type="radio" id="radio" name="tipo-tecnologia" value="SGBD">
-        <label for="SGBD">SGBD</label>
-        <input onclick="mudaTipo(value)" type="radio" id="radio" name="tipo-tecnologia" value="Linguagem">
-        <label for="Linguagem">Linguagem</label>
-        <input onclick="mudaTipo(value)" type="radio" id="radio" name="tipo-tecnologia" value="Outra tecnologia">
-        <label for="Outra tecnologia">Outra tecnologia</label>
-    </form>
+        <div class="flex-item" id="radio-box">
+            <label class="radio-container">SGBD
+                <input onclick="mudaTipo(value)" type="radio" id="radio" name="tipo-tecnologia" value="SGBD">
+                <span class="checkmark"></span>
+            </label>
+            <label class="radio-container">Linguagem
+                <input onclick="mudaTipo(value)" type="radio" id="radio" name="tipo-tecnologia" value="Linguagem">
+                <span class="checkmark"></span>
+            </label>
+            <label class="radio-container">Outra tecnologia
+                <input onclick="mudaTipo(value)" type="radio" id="radio" name="tipo-tecnologia" value="Outra tecnologia">
+                <span class="checkmark"></span>
+            </label>
+        </div>
 
-    <select id="linguagem" class="dropdown" onchange="display(value, 'linguagem')" >
-        {% for rows in linguagens %}
-            <option value="{{rows['Id']}}">{{rows['Nome']}}</option>
-        {% endfor %}
-    </select>
-    <select id="SGBD" class="dropdown" onchange="display(value, 'sgbd')">
-        {% for rows in sgbds %}
-            <option value="{{rows['Id']}}">{{rows['Nome']}}</option>
-        {% endfor %}
-    </select>
-    <select id="outra-tecnologia" class="dropdown" onchange="display(value, 'outratecnologia')">
-        {% for rows in tecnos %}
-            <option value="{{rows['Id']}}">{{rows['Nome']}}</option>
-        {% endfor %}
-    </select>
+        <div class="flex-item" id="dropdowns">
+            <select id="linguagem" class="dropdown" onchange="display(value, 'linguagem')" >
+                {% for rows in linguagens %}
+                    <option value="{{rows['Id']}}">{{rows['Nome']}}</option>
+                {% endfor %}
+            </select>
+            <select id="SGBD" class="dropdown" onchange="display(value, 'sgbd')">
+                {% for rows in sgbds %}
+                    <option value="{{rows['Id']}}">{{rows['Nome']}}</option>
+                {% endfor %}
+            </select>
+            <select id="outra-tecnologia" class="dropdown" onchange="display(value, 'outratecnologia')">
+                {% for rows in tecnos %}
+                    <option value="{{rows['Id']}}">{{rows['Nome']}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
 
 </body>
-
-<style>
-
-    #SGBD{
-        display: none;
-    }
-    #linguagem{
-        display: none;
-    }
-    #outra-tecnologia{
-        display:none;
-    }
-
-</style>
 </html>

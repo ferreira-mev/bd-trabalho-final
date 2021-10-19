@@ -52,6 +52,12 @@
 .botao:hover span {
     padding-right: 25px;
 }
+
+.botao:hover{
+    background-color: #2196F3;
+    color: white;
+}
+
 .botao span:after {
     content: '\00bb';
     position: absolute;
