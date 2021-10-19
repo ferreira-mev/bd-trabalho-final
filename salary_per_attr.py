@@ -32,11 +32,15 @@ def frmwrk_ratio():
     # viria de um dropdown (?)
 
     # Total de usuários de frameworks:
-    query = """
-        ...
+    query = f"""
+        SELECT AVG(Salario) AS avg_sal, {attr}
+        FROM Pessoa
+        GROUP BY {attr};
     """
 
     cursor.execute(query)
+
+    print(cursor.fetchall())
 
     rendered_template = render_template(
         'plot-page.html.j2',
