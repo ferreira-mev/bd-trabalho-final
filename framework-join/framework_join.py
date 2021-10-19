@@ -11,7 +11,7 @@ app.config.from_object(__name__)
 
 
 # Gráfico de pizza:
-plot_path = "templates/plots/"
+plot_path = "static/plots/"
 plot_ext = ".png"
 
 def plot_file(plot_name):
@@ -87,7 +87,7 @@ def frmwrk_ratio():
     rendered_template = render_template(
         'frameworks.html.j2',
         cursor_from_python_code = cursor,
-        plot=pie.replace("templates/", "")
+        plot=pie
     )
 
     cursor.close()
