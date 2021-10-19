@@ -21,9 +21,14 @@ def bake_pie(ord_dict):
     """
     Gera e salva o gráfico de pizza, retornando seu caminho.
     """
+    labels = [
+        f"{lang}: {(perc * 100):.2f}%"
+        for lang, perc in ord_dict.items()
+    ]
+
     plt.pie(
         np.array(list(ord_dict.values())),
-        labels=list(ord_dict.keys())
+        labels=labels
     )
 
     plt.savefig(plot_file("pie"), bbox_inches="tight")
