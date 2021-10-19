@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt, numpy as np
 # Se der erro com "um tal de PIL" ao importar plt, tente
 # pip install Pillow --upgrade
 
+from ui_display import display_str
+
 plot_path = "static/plots/"
 plot_ext = ".png"  # qual usar?
 
@@ -42,7 +44,7 @@ def add_perc_to_labels(ord_dict):
     Retorna uma lista de rótulos da forma "Nome: x.xx%". (É uma lista por conta da forma como o Matplotlib recebe esse argumento.)
     """
     labels = [
-        f"{lang}: {(perc * 100):.2f}%"
+        f"{display_str(lang)}: {(perc * 100):.2f}%"
         for lang, perc in ord_dict.items()
     ]
 
@@ -75,6 +77,14 @@ def plot_bar_abs(ord_dict):
 
     Gera e salva um gráfico de barras, retornando seu caminho.
     """
+
+    plt.barh(
+        np.arange(len(ord_dict.keys())),
+        list(ord_dict.values()),
+        align="center",
+        tick_label = [display_str(k) for k in ord_dict.keys()]
+    )
+
     plot_name = "bar"
 
     return custom_save(plot_name)

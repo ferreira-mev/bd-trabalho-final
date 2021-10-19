@@ -1,4 +1,4 @@
-def display(string):
+def display_str(string):
     """
     Versão "para impressão" de nomes e valores de atributos.
     """

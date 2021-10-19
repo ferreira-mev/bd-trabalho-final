@@ -10,6 +10,7 @@ from flask import Flask, url_for, render_template, request, redirect
 import mysql.connector
 from collections import OrderedDict
 import plottwist, db_functions
+from ui_display import display_str
 
 app = Flask(__name__)
 
@@ -44,16 +45,21 @@ def frmwrk_ratio():
     sal_per_attr = OrderedDict()
 
     for row in cursor:
-        sal_per_attr[row["attr_value"]] = row["avg_sal"]
+        if row["attr_value"]:
+            sal_per_attr[row["attr_value"]] = row["avg_sal"]
+        else:  # pode ser None
+            sal_per_attr["N/A"] = row["avg_sal"]
+
+    print(sal_per_attr)
 
     bar = plottwist.plot_bar_abs(sal_per_attr)
 
     rendered_template = render_template(
         'plot-page.html.j2',
         cursor_from_python_code=cursor,
-        # plot=bar,
+        plot=bar,
         alt_text="Gráfico de barras",
-        page_title=f"Salário por {attr_name}"
+        page_title=f"Salário por {display_str(attr_name)}"
         # TODO: "versão para impressão" dos nomes dos atributos
         # (e tb de seus valores -- alguns são muito longos p/ gráficos)
     )
