@@ -11,7 +11,7 @@ app.config.from_object(__name__)
 
 
 # Gráfico de pizza:
-plot_path = "plots/"
+plot_path = "templates/plots/"
 plot_ext = ".png"
 
 def plot_file(plot_name):
@@ -26,7 +26,7 @@ def bake_pie(ord_dict):
         labels=list(ord_dict.keys())
     )
 
-    plt.savefig(plot_file("pie"))
+    plt.savefig(plot_file("pie"), bbox_inches="tight")
 
     return plot_file("pie")
 
@@ -84,7 +84,11 @@ def frmwrk_ratio():
     
     pie = bake_pie(perc_lang_users)
 
-    rendered_template = render_template('frameworks.html.j2', cursor_from_python_code = cursor)
+    rendered_template = render_template(
+        'frameworks.html.j2',
+        cursor_from_python_code = cursor,
+        plot=pie.replace("templates/", "")
+    )
 
     cursor.close()
     cnx.close()
