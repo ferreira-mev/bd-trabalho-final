@@ -1,12 +1,19 @@
 from flask import Flask, url_for, render_template, request, redirect
 import mysql.connector
 from collections import OrderedDict
+import matplotlib.pyplot as plt, numpy as np
 
 app = Flask(__name__)
 
 DEBUG = True
 ENV = 'development'
 app.config.from_object(__name__)
+
+plot_path = "plots/"
+plot_ext = ".png"
+
+def plot_file(plot_name):
+    return plot_path + plot_name + plot_ext
 
 @app.route("/")
 def placeholder():
@@ -55,8 +62,15 @@ def frmwrk_ratio():
 
     for row in cursor:
         perc_lang_users[row["name"]] = row["lang_users"] / total_users
+
+    # OrderedDict([('JavaScript', 0.6411618981606274), ('Python', 0.14162398757492908), ('PHP', 0.06618147278164992), ('C#', 0.06365281682005468), ('F#', 0.06365281682005468), ('Java', 0.058897146597866684), ('Ruby', 0.02848267806487222)])
     
-    print(perc_lang_users)
+    plt.pie(
+        np.array(list(perc_lang_users.values())),
+        labels=list(perc_lang_users.keys())
+    )
+
+    plt.savefig(plot_file("pie"))
 
     rendered_template = render_template('frameworks.html.j2', cursor_from_python_code = cursor)
 
