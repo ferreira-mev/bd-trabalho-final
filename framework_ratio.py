@@ -10,10 +10,10 @@ ENV = 'development'
 app.config.from_object(__name__)
 
 @app.route("/")
-def placeholder():
-    return "This page will be replaced by an actual homepage"
+# def placeholder():
+#     return "This page will be replaced by an actual homepage"
 
-@app.route("/frameworks")
+# @app.route("/frameworks")
 def frmwrk_ratio():
     cnx = db_functions.connect()
 
