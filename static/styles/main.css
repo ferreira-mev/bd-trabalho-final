@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap');
+
+.flex-container{
+    display:flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: stretch;
+    align-content: flex-start;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    width: 90vw;
+    margin-left: 5vw;
+    gap: 0;
+}
+
+.flex-item{
+    flex-basis: 30%;
+    border: rgb(209, 209, 209) solid 1px;
+    border-radius: 20px;
+    height: 350px;
+    margin: 0.6vw;
+    font-family: 'Lato', sans-serif;
+    font-size: 1.2em;
+    text-align: center;
+    display: flex;
+    flex-flow: column wrap;
+}
+
+#titulo{
+    height: 25%;
+}
+
+#descricao{
+    height:50%;
+    width:80%;
+    margin-left: 10%;
+}
+
+.botao{
+    height: 25%;
+    border-radius: 0 0 20px 20px;
+    border: none;
+    font-family: 'Lato', sans-serif;
+    font-size: 1.2em;
+}
+.botao:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+.botao:hover span {
+    padding-right: 25px;
+}
+
+.botao:hover{
+    background-color: #2196F3;
+    color: white;
+}
+
+.botao span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+.botao span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}

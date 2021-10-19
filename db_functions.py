@@ -20,7 +20,7 @@ def query_make(cnx, query):
 #essa função não fecha o cursor, então já precisa receber ele aberto
 def queries_make(cursor,query):
     cursor.execute(query)
-    return cursor
+    return cursor.fetchall()
 
 def close_connection(cnx):
     cnx.close()
