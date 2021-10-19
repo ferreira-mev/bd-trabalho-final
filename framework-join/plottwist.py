@@ -14,6 +14,17 @@ def plot_file(plot_name):
     """
     return plot_path + plot_name + plot_ext
 
+def custom_save(plot_name, *args, **kwargs):
+    """
+    Função plt.savefig com parâmetros padrão para reuso.
+    """
+    if "bbox_inches" not in kwargs:
+        kwargs["bbox_inches"] = "tight"
+
+    plt.savefig(plot_file(plot_name), *args, **kwargs)
+
+    # (não é pra retornar nada mesmo, a savefig salva e é isso)
+
 def bake_pie(ord_dict):
     """
     Recebe um dicionário ou dicionário ordenado da forma {Nome: %}
@@ -31,6 +42,7 @@ def bake_pie(ord_dict):
         labels=labels
     )
 
-    plt.savefig(plot_file("pie"), bbox_inches="tight")
+    # plt.savefig(plot_file("pie"), bbox_inches="tight")
+    custom_save("pie")
 
     return plot_file("pie")
