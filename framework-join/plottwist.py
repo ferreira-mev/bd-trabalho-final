@@ -8,22 +8,28 @@ import matplotlib.pyplot as plt, numpy as np
 plot_path = "static/plots/"
 plot_ext = ".png"  # qual usar?
 
-def plot_file(plot_name):
+def add_plot_path(plot_name):
     """
-    Retorna o nome do arquivo gerado, com caminho.
+    (srsly é uma linha)
     """
     return plot_path + plot_name + plot_ext
+
 
 def custom_save(plot_name, *args, **kwargs):
     """
     Função plt.savefig com parâmetros padrão para reuso.
+
+    Retorna o nome do arquivo gerado, com caminho.
     """
     if "bbox_inches" not in kwargs:
         kwargs["bbox_inches"] = "tight"
 
-    plt.savefig(plot_file(plot_name), *args, **kwargs)
+    name_with_path = add_plot_path(plot_name)
 
-    # (não é pra retornar nada mesmo, a savefig salva e é isso)
+    plt.savefig(name_with_path, *args, **kwargs)
+
+    return name_with_path
+
 
 def bake_pie(ord_dict):
     """
@@ -42,7 +48,6 @@ def bake_pie(ord_dict):
         labels=labels
     )
 
-    # plt.savefig(plot_file("pie"), bbox_inches="tight")
-    custom_save("pie")
+    plot_name = "pie"
 
-    return plot_file("pie")
+    return custom_save(plot_name)
