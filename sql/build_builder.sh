@@ -5,7 +5,7 @@
 
 echo "DROP DATABASE IF EXISTS stackoverflow;";
 echo "SOURCE ddl.sql;";
-echo "SOURCE ddl_dml_gender_role.sql";
+echo "SOURCE ddl_dml_gender_role.sql;";
 echo "SOURCE dml_Pessoa.sql;";
 echo "SOURCE dml_tech.sql;";
 

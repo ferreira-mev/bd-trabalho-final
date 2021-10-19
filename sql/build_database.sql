@@ -1,6 +1,6 @@
 DROP DATABASE IF EXISTS stackoverflow;
 SOURCE ddl.sql;
-SOURCE ddl_dml_gender_role.sql
+SOURCE ddl_dml_gender_role.sql;
 SOURCE dml_Pessoa.sql;
 SOURCE dml_tech.sql;
 SOURCE dml_rels/dml_TemGenero00.sql;
