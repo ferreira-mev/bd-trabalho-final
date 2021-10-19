@@ -1,7 +1,7 @@
 from flask import Flask, url_for, render_template, request, redirect
 import mysql.connector
 from collections import OrderedDict
-import matplotlib.pyplot as plt, numpy as np
+import plottwist
 
 app = Flask(__name__)
 
@@ -9,34 +9,6 @@ DEBUG = True
 ENV = 'development'
 app.config.from_object(__name__)
 
-
-# Gráfico de pizza:
-plot_path = "static/plots/"
-plot_ext = ".png"
-
-def plot_file(plot_name):
-    return plot_path + plot_name + plot_ext
-
-def bake_pie(ord_dict):
-    """
-    Gera e salva o gráfico de pizza, retornando seu caminho.
-    """
-    labels = [
-        f"{lang}: {(perc * 100):.2f}%"
-        for lang, perc in ord_dict.items()
-    ]
-
-    plt.pie(
-        np.array(list(ord_dict.values())),
-        labels=labels
-    )
-
-    plt.savefig(plot_file("pie"), bbox_inches="tight")
-
-    return plot_file("pie")
-
-
-# Aplicação web:
 @app.route("/")
 def placeholder():
     return "This page will be replaced by an actual homepage"
@@ -87,7 +59,7 @@ def frmwrk_ratio():
 
     # OrderedDict([('JavaScript', 0.6411618981606274), ('Python', 0.14162398757492908), ('PHP', 0.06618147278164992), ('C#', 0.06365281682005468), ('F#', 0.06365281682005468), ('Java', 0.058897146597866684), ('Ruby', 0.02848267806487222)])
     
-    pie = bake_pie(perc_lang_users)
+    pie = plottwist.bake_pie(perc_lang_users)
 
     rendered_template = render_template(
         'frameworks.html.j2',
