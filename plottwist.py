@@ -80,15 +80,23 @@ def plot_bar_abs(ord_dict, unit=None):
     # Referência:
     # https://matplotlib.org/stable/gallery/statistics/barchart_demo.html
 
-    fig, ax1 = plt.subplots()
+    n_elems = len(ord_dict.keys())
 
-    pos = np.arange(len(ord_dict.keys()))
+    # bar_height = .8  # default
+    # # space_between_bars = .1
+
+    # plot_height = bar_height * n_elems / 2  # espaço entre?
+
+    fig, ax1 = plt.subplots()#figsize=(10, plot_height))
+
+    pos = np.arange(n_elems)
 
     ax1.barh(
         pos,
         list(ord_dict.values()),
         align="center",
-        tick_label = [display_str(k) for k in ord_dict.keys()]
+        tick_label = [display_str(k) for k in ord_dict.keys()]#,
+        # height=bar_height
     )
 
     ax2 = ax1.twinx()  # segundo eixo vertical à direita
@@ -111,7 +119,6 @@ def unit_format(value, unit):
     Obs: A unidade também pode ser um símbolo de percentagem.
     """
     # se der tempo ponho ponto/vírgula
-    print(value)
 
     value = f"{value:.2f}"
 

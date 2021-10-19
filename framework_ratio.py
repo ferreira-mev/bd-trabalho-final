@@ -47,10 +47,12 @@ def frmwrk_ratio():
 
     cursor.execute(qr_lang)
 
-    perc_lang_users = OrderedDict()
+    perc_lang_users = db_functions.get_ord_dict(
+        cursor, "name", "lang_users"
+    )
 
-    for row in cursor:
-        perc_lang_users[row["name"]] = row["lang_users"] / total_users
+    for k, v in perc_lang_users.items():
+        perc_lang_users[k] = v / total_users
 
     # OrderedDict([('JavaScript', 0.6411618981606274), ('Python', 0.14162398757492908), ('PHP', 0.06618147278164992), ('C#', 0.06365281682005468), ('F#', 0.06365281682005468), ('Java', 0.058897146597866684), ('Ruby', 0.02848267806487222)])
     

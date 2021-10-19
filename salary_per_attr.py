@@ -30,7 +30,10 @@ def frmwrk_ratio():
     # Buffering: https://stackoverflow.com/a/33632767
 
     attr_name = "NivelEduc"  # placeholder;
-    # viria de um dropdown (?)
+    # viria de um dropdown
+    # ainda não funciona p/ set
+    # NÃO usar com Pais, fica um espaçamento zoado e eu ainda não
+    # consegui corrigir
 
     # Total de usuários de frameworks:
     query = f"""
@@ -42,13 +45,9 @@ def frmwrk_ratio():
 
     cursor.execute(query)
 
-    sal_per_attr = OrderedDict()
-
-    for row in cursor:
-        if row["attr_value"]:
-            sal_per_attr[row["attr_value"]] = row["avg_sal"]
-        else:  # pode ser None
-            sal_per_attr["N/A"] = row["avg_sal"]
+    sal_per_attr = db_functions.get_ord_dict(
+        cursor, "attr_value", "avg_sal"
+    )
 
     bar = plottwist.plot_bar_abs(sal_per_attr, unit="USD")
 
