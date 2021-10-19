@@ -28,14 +28,14 @@ def frmwrk_ratio():
     cursor = cnx.cursor(dictionary=True, buffered=True)
     # Buffering: https://stackoverflow.com/a/33632767
 
-    attr = "NivelEduc"  # placeholder;
+    attr_name = "NivelEduc"  # placeholder;
     # viria de um dropdown (?)
 
     # Total de usuários de frameworks:
     query = f"""
-        SELECT AVG(Salario) AS avg_sal, {attr}
+        SELECT AVG(Salario) AS avg_sal, {attr_name} AS attr_value
         FROM Pessoa
-        GROUP BY {attr};
+        GROUP BY {attr_name};
     """
 
     cursor.execute(query)
@@ -47,7 +47,7 @@ def frmwrk_ratio():
         cursor_from_python_code=cursor,
         # plot=pie,
         alt_text="Gráfico de barras",
-        page_title=f"Salário por {attr}"
+        page_title=f"Salário por {attr_name}"
         # TODO: "versão para impressão" dos nomes dos atributos
     )
 
