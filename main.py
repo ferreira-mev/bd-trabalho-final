@@ -15,20 +15,20 @@ def gera_dropdown_tecnologia():
     cursor = cnx.cursor(dictionary=True)
     
     query = ('''
-    SELECT Id, Nome FROM linguagem;
+    SELECT Id, Nome FROM Linguagem;
     ''')
-    query_linguagem = db_functions.queries_make(cursor, query)
+    query_Linguagem = db_functions.queries_make(cursor, query)
 
     query = ('''
-    SELECT Id, Nome FROM sgbd;
+    SELECT Id, Nome FROM Sgbd;
     ''')
-    query_sgbd = db_functions.queries_make(cursor, query)
+    query_Sgbd = db_functions.queries_make(cursor, query)
 
     query = ('''
-    SELECT Id, Nome FROM Outratecnologia;
+    SELECT Id, Nome FROM OutraTecnologia;
     ''')
     query_tecno = db_functions.queries_make(cursor, query)
-    rendered_template = render_template('tecnologia.html', linguagens = query_linguagem, sgbds = query_sgbd, tecnos = query_tecno)
+    rendered_template = render_template('tecnologia.html', linguagens = query_Linguagem, Sgbds = query_Sgbd, tecnos = query_tecno)
     
     cursor.close()
     cnx.close()
@@ -42,11 +42,11 @@ def gera_dropdown_total():
 
     query = ('''
     SELECT * FROM(
-    SELECT Id, Nome FROM linguagem
+    SELECT Id, Nome FROM Linguagem
     UNION
-    SELECT Id, Nome FROM sgbd
+    SELECT Id, Nome FROM Sgbd
     UNION
-    Select Id, Nome from Outratecnologia) q
+    Select Id, Nome from OutraTecnologia) q
     ORDER BY Nome;
     ''')
 
@@ -63,11 +63,11 @@ def gera_dropdown_porcentagem():
 
     query = ('''
     SELECT * FROM(
-    SELECT Id, Nome FROM linguagem
+    SELECT Id, Nome FROM Linguagem
     UNION
-    SELECT Id, Nome FROM sgbd
+    SELECT Id, Nome FROM Sgbd
     UNION
-    Select Id, Nome from Outratecnologia) q
+    Select Id, Nome from OutraTecnologia) q
     ORDER BY Nome;
     ''')
 
@@ -82,12 +82,12 @@ def gera_dropdown_porcentagem():
 def consulta_mais_desejada():
     # POST request
    
-    query = f'''SELECT Count(*) c, faixaetaria, linguagem.nome 
+    query = f'''SELECT Count(*) c, faixaetaria, Linguagem.Nome 
     FROM pessoa p
-    INNER JOIN deseja ON p.Id = fk_pessoa_id
-    -- INNER JOIN (SELECT Id, Nome FROM linguagem UNION SELECT Id, Nome FROM sgbd UNION Select Id, Nome from Outratecnologia) tecnologia ON tecnologia.id = fk_sgbd_Id OR tecnologia.id = fk_linguagem_id OR tecnologia.id = fk_outratecnologia_id
-    INNER JOIN linguagem ON linguagem.id = fk_linguagem_id
-    GROUP BY faixaetaria, linguagem.nome
+    INNER JOIN deseja ON p.Id = fk_Pessoa_Id
+    -- INNER JOIN (SELECT Id, Nome FROM Linguagem UNION SELECT Id, Nome FROM Sgbd UNION Select Id, Nome from OutraTecnologia) tecnologia ON tecnologia.Id = fk_Sgbd_Id OR tecnologia.Id = fk_Linguagem_Id OR tecnologia.Id = fk_outratecnologia_Id
+    INNER JOIN Linguagem ON Linguagem.Id = fk_Linguagem_Id
+    GROUP BY faixaetaria, Linguagem.Nome
     ORDER BY c desc
     '''
     cnx = db_functions.connect()
@@ -124,7 +124,7 @@ def consulta_dropdown_total():
         value = request.form["value"].split(', ')
         atributo = request.form["atributo"]
         query = f'''SELECT COUNT(*) total, {atributo} FROM Pessoa WHERE Id IN
-        (SELECT fk_Pessoa_Id FROM Usa WHERE fk_Sgbd_Id = {value[0]} OR fk_Linguagem_Id  = {value[0]} OR fk_OutraTecnologia_ID = {value[0]})
+        (SELECT fk_Pessoa_Id FROM Usa WHERE fk_Sgbd_Id = {value[0]} OR fk_Linguagem_Id  = {value[0]} OR fk_OutraTecnologia_Id = {value[0]})
         GROUP BY {atributo}
         ORDER BY total desc
         LIMIT 30
@@ -145,7 +145,7 @@ def consulta_dropdown_porcentagem():
         atributo = request.form["atributo"]
         query = f'''SELECT 100 * t1.c1/t2.c2 percent, t1.{atributo} FROM
         (SELECT COUNT(*) c1, {atributo} FROM Pessoa WHERE Id IN
-        (SELECT fk_Pessoa_Id FROM Usa WHERE fk_Sgbd_Id = {value[0]} OR fk_Linguagem_Id  = {value[0]} OR fk_OutraTecnologia_ID = {value[0]})
+        (SELECT fk_Pessoa_Id FROM Usa WHERE fk_Sgbd_Id = {value[0]} OR fk_Linguagem_Id  = {value[0]} OR fk_OutraTecnologia_Id = {value[0]})
         GROUP BY {atributo}) t1
         INNER JOIN
         (SELECT COUNT(*) c2, Id, {atributo} FROM Pessoa GROUP BY {atributo}) t2
