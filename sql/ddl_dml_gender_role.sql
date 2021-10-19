@@ -5,10 +5,10 @@ CREATE TABLE Genero(
 
 INSERT INTO Genero(Nome) VALUES
 	('Prefer not to say'),
-	('Non-binary+ genderqueer+ or gender non-conforming'),
+	('Non-binary, genderqueer, or gender non-conforming'),
 	('Man'),
 	('Woman'),
-	('Or+ in your own words:');
+	('Or, in your own words:');
 
 CREATE TABLE Cargo(
 	Id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,

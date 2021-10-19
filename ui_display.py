@@ -60,10 +60,10 @@ def display_str(string):
     if check:
         return check
 
-    elif string == "Or+ in your own words:" or \
+    elif string == "Or, in your own words:" or \
         string == "Other (please specify):":
         return "Other"
-    elif string == "Non-binary+ genderqueer+ or gender non-conforming":
+    elif string == "Non-binary, genderqueer, or gender non-conforming":
         return "Non-binary"
 
     # String vazia ou None:
