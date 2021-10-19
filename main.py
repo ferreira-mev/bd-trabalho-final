@@ -9,6 +9,33 @@ def main():
     return rendered_template
 
 
+@app.route("/dropdown-tecnologia")
+def gera_dropdown_tecnologia():
+    cnx = db_functions.connect()
+    cursor = cnx.cursor(dictionary=True)
+    
+    query = ('''
+    SELECT Id, Nome FROM linguagem;
+    ''')
+    query_linguagem = db_functions.queries_make(cursor, query)
+
+    query = ('''
+    SELECT Id, Nome FROM sgbd;
+    ''')
+    query_sgbd = db_functions.queries_make(cursor, query)
+
+    query = ('''
+    SELECT Id, Nome FROM Outratecnologia;
+    ''')
+    query_tecno = db_functions.queries_make(cursor, query)
+    rendered_template = render_template('tecnologia.html', linguagens = query_linguagem, sgbds = query_sgbd, tecnos = query_tecno)
+    
+    cursor.close()
+    cnx.close()
+    
+    return rendered_template
+
+
 @app.route("/dropdown-total")
 def gera_dropdown_total():
     cnx = db_functions.connect()
@@ -51,6 +78,26 @@ def gera_dropdown_porcentagem():
     
     return rendered_template
 
+
+@app.route("/resultado-tecnologia", methods=['GET', 'POST'])
+def consulta_tecnologia():
+    # POST request
+    if request.method == 'POST':
+        value = request.form["value"]
+        print(value)
+        tipo = request.form["tipo"]
+        print(tipo)
+        query = f'''SELECT * 
+        FROM {tipo}
+        WHERE Id = {value}
+        '''
+        cnx = db_functions.connect()
+        query_result = db_functions.query_make(cnx, query)
+        cnx.close()
+        
+        rendered_template = render_template('consulta.html', result = query_result)
+        return rendered_template
+
 @app.route("/resultado-dropdown-total", methods=['GET', 'POST'])
 def consulta_dropdown_total():
         
@@ -62,7 +109,7 @@ def consulta_dropdown_total():
         (SELECT fk_Pessoa_Id FROM Usa WHERE fk_Sgbd_Id = {value[0]} OR fk_Linguagem_Id  = {value[0]} OR fk_OutraTecnologia_ID = {value[0]})
         GROUP BY {atributo}
         ORDER BY total desc
-        LIMIT 20
+        LIMIT 30
         '''
         cnx = db_functions.connect()
         query_result = db_functions.query_make(cnx, query)
@@ -86,7 +133,7 @@ def consulta_dropdown_porcentagem():
         (SELECT COUNT(*) c2, Id, {atributo} FROM Pessoa GROUP BY {atributo}) t2
         ON t1.{atributo} = t2.{atributo}
         ORDER BY percent desc
-        LIMIT 20
+        LIMIT 30
         '''
         cnx = db_functions.connect()
         query_result = db_functions.query_make(cnx, query)

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Tecnologia</title>
+    <script type="text/javascript" src="{{url_for('static', filename='script/tecnologia.js')}}"></script>
+</head>
+<body>
+
+    <h3>Botar um título</h3>
+
+    <form>
+        <input onclick="mudaTipo(value)" type="radio" id="radio" name="tipo-tecnologia" value="SGBD">
+        <label for="SGBD">SGBD</label>
+        <input onclick="mudaTipo(value)" type="radio" id="radio" name="tipo-tecnologia" value="Linguagem">
+        <label for="Linguagem">Linguagem</label>
+        <input onclick="mudaTipo(value)" type="radio" id="radio" name="tipo-tecnologia" value="Outra tecnologia">
+        <label for="Outra tecnologia">Outra tecnologia</label>
+    </form>
+
+    <select id="linguagem" class="dropdown" onchange="display(value, 'linguagem')" >
+        {% for rows in linguagens %}
+            <option value="{{rows['Id']}}">{{rows['Nome']}}</option>
+        {% endfor %}
+    </select>
+    <select id="SGBD" class="dropdown" onchange="display(value, 'sgbd')">
+        {% for rows in sgbds %}
+            <option value="{{rows['Id']}}">{{rows['Nome']}}</option>
+        {% endfor %}
+    </select>
+    <select id="outra-tecnologia" class="dropdown" onchange="display(value, 'outratecnologia')">
+        {% for rows in tecnos %}
+            <option value="{{rows['Id']}}">{{rows['Nome']}}</option>
+        {% endfor %}
+    </select>
+
+</body>
+
+<style>
+
+    #SGBD{
+        display: none;
+    }
+    #linguagem{
+        display: none;
+    }
+    #outra-tecnologia{
+        display:none;
+    }
+
+</style>
+</html>
