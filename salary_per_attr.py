@@ -50,9 +50,7 @@ def frmwrk_ratio():
         else:  # pode ser None
             sal_per_attr["N/A"] = row["avg_sal"]
 
-    print(sal_per_attr)
-
-    bar = plottwist.plot_bar_abs(sal_per_attr)
+    bar = plottwist.plot_bar_abs(sal_per_attr, unit="USD")
 
     rendered_template = render_template(
         'plot-page.html.j2',

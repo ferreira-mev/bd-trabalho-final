@@ -44,7 +44,7 @@ def add_perc_to_labels(ord_dict):
     Retorna uma lista de rótulos da forma "Nome: x.xx%". (É uma lista por conta da forma como o Matplotlib recebe esse argumento.)
     """
     labels = [
-        f"{display_str(lang)}: {(perc * 100):.2f}%"
+        f"{display_str(lang)}: {unit_format(perc * 100, '%')}"
         for lang, perc in ord_dict.items()
     ]
 
@@ -69,22 +69,53 @@ def bake_pie(ord_dict):
 
     return custom_save(plot_name)
 
-def plot_bar_abs(ord_dict):
+def plot_bar_abs(ord_dict, unit=None):
     """
     Recebe um dicionário ordenado da forma {string: valor}, onde valor
     é um int denotando uma quantidade ou um float denotando um valor
-    médio (i.e., não são percentagens).
+    médio (i.e., não são percentagens); além de uma unidade.
 
     Gera e salva um gráfico de barras, retornando seu caminho.
     """
+    # Referência:
+    # https://matplotlib.org/stable/gallery/statistics/barchart_demo.html
 
-    plt.barh(
-        np.arange(len(ord_dict.keys())),
+    fig, ax1 = plt.subplots()
+
+    pos = np.arange(len(ord_dict.keys()))
+
+    ax1.barh(
+        pos,
         list(ord_dict.values()),
         align="center",
         tick_label = [display_str(k) for k in ord_dict.keys()]
     )
 
+    ax2 = ax1.twinx()  # segundo eixo vertical à direita
+
+    ax2.set_yticks(pos)
+    ax2.set_ylim(ax1.get_ylim())
+
+    ax2.set_yticklabels(
+        [unit_format(v, unit) for v in ord_dict.values()]
+    )
+
     plot_name = "bar"
 
     return custom_save(plot_name)
+
+def unit_format(value, unit):
+    """
+    Formata valores com unidade para impressão.
+
+    Obs: A unidade também pode ser um símbolo de percentagem.
+    """
+    # se der tempo ponho ponto/vírgula
+    print(value)
+
+    value = f"{value:.2f}"
+
+    if not unit:
+        return value
+
+    return value + " " + unit
