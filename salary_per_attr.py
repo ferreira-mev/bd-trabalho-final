@@ -35,20 +35,27 @@ def frmwrk_ratio():
     query = f"""
         SELECT AVG(Salario) AS avg_sal, {attr_name} AS attr_value
         FROM Pessoa
-        GROUP BY {attr_name};
+        GROUP BY {attr_name}
+        ORDER BY avg_sal DESC;
     """
 
     cursor.execute(query)
 
-    print(cursor.fetchall())
+    sal_per_attr = OrderedDict()
+
+    for row in cursor:
+        sal_per_attr[row["attr_value"]] = row["avg_sal"]
+
+    bar = plottwist.plot_bar_abs(sal_per_attr)
 
     rendered_template = render_template(
         'plot-page.html.j2',
         cursor_from_python_code=cursor,
-        # plot=pie,
+        # plot=bar,
         alt_text="Gráfico de barras",
         page_title=f"Salário por {attr_name}"
         # TODO: "versão para impressão" dos nomes dos atributos
+        # (e tb de seus valores -- alguns são muito longos p/ gráficos)
     )
 
     cursor.close()

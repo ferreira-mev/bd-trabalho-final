@@ -8,6 +8,9 @@ import matplotlib.pyplot as plt, numpy as np
 plot_path = "static/plots/"
 plot_ext = ".png"  # qual usar?
 
+# TODO: vamos adotar algum formato específico para salvar
+# os nomes dos arquivos?
+
 def add_plot_path(plot_name):
     """
     (srsly, é uma linha, lê aí)
@@ -48,7 +51,7 @@ def add_perc_to_labels(ord_dict):
 
 def bake_pie(ord_dict):
     """
-    Recebe um dicionário ordenado da forma {Nome: %} (a percentagem é 
+    Recebe um dicionário ordenado da forma {string: %} (a percentagem é 
     um float entre 0 e 1).
 
     Gera e salva um gráfico de setores (pizza), retornando seu caminho.
@@ -61,5 +64,17 @@ def bake_pie(ord_dict):
     )
 
     plot_name = "pie"
+
+    return custom_save(plot_name)
+
+def plot_bar_abs(ord_dict):
+    """
+    Recebe um dicionário ordenado da forma {string: valor}, onde valor
+    é um int denotando uma quantidade ou um float denotando um valor
+    médio (i.e., não são percentagens).
+
+    Gera e salva um gráfico de barras, retornando seu caminho.
+    """
+    plot_name = "bar"
 
     return custom_save(plot_name)
