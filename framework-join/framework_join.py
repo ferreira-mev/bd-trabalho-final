@@ -57,9 +57,11 @@ def frmwrk_ratio():
     pie = plottwist.bake_pie(perc_lang_users)
 
     rendered_template = render_template(
-        'frameworks.html.j2',
-        cursor_from_python_code = cursor,
-        plot=pie
+        'plot-page.html.j2',
+        cursor_from_python_code=cursor,
+        plot=pie,
+        alt_text="Gráfico de setores",
+        page_title="Frameworks por linguagem"
     )
 
     cursor.close()
