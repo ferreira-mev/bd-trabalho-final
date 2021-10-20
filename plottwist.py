@@ -100,7 +100,7 @@ def plot_bar_abs(ord_dict, unit=None):
     ax2.set_ylim(ax1.get_ylim())
 
     ax2.set_yticklabels(
-        [unit_format(v, unit, space=space) for v in ord_dict.values()]
+        [unit_format(v, unit) for v in ord_dict.values()]
     )
 
     plot_name = "bar"
