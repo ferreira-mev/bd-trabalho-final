@@ -16,13 +16,8 @@ app.config.from_object(__name__)
 
 @app.route("/", methods=['GET', 'POST'])
 def placeholder():
-    # cnx = db_functions.connect()
-
-    # cursor = cnx.cursor(dictionary=True, buffered=True) 
-
     rendered_template = render_template(
         'group-by-selector.html.j2',
-        # cursor_from_python_code=cursor,
         attr_dict=build_attr_dict(["FaixaEtaria", "TamEmpresa", "NivelEduc","Genero", "Cargo"])
     )
 
