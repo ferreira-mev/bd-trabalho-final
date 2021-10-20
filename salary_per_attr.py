@@ -35,7 +35,6 @@ def frmwrk_ratio():
     # NÃO usar com Pais, fica um espaçamento zoado e eu ainda não
     # consegui corrigir
 
-    # Total de usuários de frameworks:
     query = f"""
         SELECT AVG(Salario) AS avg_sal, {attr_name} AS attr_value
         FROM Pessoa
