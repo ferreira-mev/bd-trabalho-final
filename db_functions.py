@@ -73,3 +73,8 @@ def subquery(attr_name):
         ) AS A
         ON Pessoa.Id = A.PTem
     """ # sem ;
+
+def comp_or_null(value):
+    if value == "null":
+        return "IS NULL"
+    return f"= '{value}'"

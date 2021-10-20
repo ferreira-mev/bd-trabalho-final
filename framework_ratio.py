@@ -13,9 +13,9 @@ DEBUG = True
 ENV = 'development'
 app.config.from_object(__name__)
 
-app.secret_key = 'BAD_SECRET_KEY'
-
-
+app.secret_key = "NEED_A_KEY_FOR_SESSION_VARIABLES"
+# (this is obviously unsafe, but I'm having enough trouble
+# as it is :P)
 
 @app.route("/")
 def placeholder():
@@ -83,11 +83,6 @@ def value_selector():
 
     return rendered_template
 
-def comp_or_null(value):  # onde colocar isso?
-    if value == "null":
-        return "IS NULL"
-    return f"= '{value}'"
-
 @app.route("/frameworks", methods=['GET', 'POST'])
 def frmwrk_ratio():
     attr_name, attr_value = request.form.get("value-select").split("#")
@@ -125,7 +120,7 @@ def frmwrk_ratio():
             FROM Usa JOIN OutraTecnologia JOIN Pessoa
             ON Usa.fk_OutraTecnologia_Id = OutraTecnologia.Id
             AND Usa.fk_Pessoa_Id = Pessoa.Id
-            AND Pessoa.{attr_name} {comp_or_null(attr_value)}
+            AND Pessoa.{attr_name} {db_functions.comp_or_null(attr_value)}
             AND OutraTecnologia.Tipo = 'FrameworkWeb';
             """,
             f"""
@@ -138,7 +133,7 @@ def frmwrk_ratio():
             AND Linguagem.Id = Associada.fk_Linguagem_Id
             AND OutraTecnologia.Tipo = 'FrameworkWeb'
             AND Usa.fk_Pessoa_Id = Pessoa.Id
-            AND Pessoa.{attr_name} {comp_or_null(attr_value)}
+            AND Pessoa.{attr_name} {db_functions.comp_or_null(attr_value)}
             GROUP BY Linguagem.Nome
             ORDER BY lang_users DESC;
             """
