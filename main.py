@@ -58,18 +58,45 @@ def gera_dropdown_porcentagem():
     
     return rendered_template
 
+@app.route("/mais-desejada-dropdown", methods=['GET', 'POST'])
+def dropdown_mais_desejada():
+    rendered_template = render_template('dropdown-desejadas.html', action = "/mais-desejada")
+    return rendered_template
+
 @app.route("/mais-desejada", methods=['GET', 'POST'])
 def consulta_mais_desejada():
     # POST request
-   
-    query = f'''SELECT Count(*) c, faixaetaria, Linguagem.Nome 
-    FROM pessoa p
-    INNER JOIN deseja ON p.Id = fk_Pessoa_Id
-    -- INNER JOIN (SELECT Id, Nome FROM Linguagem UNION SELECT Id, Nome FROM Sgbd UNION Select Id, Nome from OutraTecnologia) tecnologia ON tecnologia.Id = fk_Sgbd_Id OR tecnologia.Id = fk_Linguagem_Id OR tecnologia.Id = fk_outratecnologia_Id
-    INNER JOIN Linguagem ON Linguagem.Id = fk_Linguagem_Id
-    GROUP BY faixaetaria, Linguagem.Nome
-    ORDER BY c desc
-    '''
+    tipo = request.form["tecnologia"]    
+    atributo = request.form["atributo"]
+    if atributo != "cargo" and atributo != "genero":
+        print("aqui")
+        query = f''' SELECT MAX(C) MaiorDesejo, {atributo}, grupo.Nome FROM
+        (SELECT Count(*) c, {atributo}, Linguagem.Nome 
+        FROM pessoa p
+        INNER JOIN deseja ON p.Id = fk_Pessoa_Id
+        INNER JOIN {tipo} ON {tipo}.Id = fk_{tipo}_Id
+        GROUP BY {atributo}, {tipo}.Nome
+        ORDER BY c desc
+        ) grupo
+        GROUP BY {atributo}
+        '''
+    else :
+        print("ali")
+        query = f''' SELECT MAX(C) MaiorDesejo, {atributo}, grupo.Nome FROM
+        (SELECT Count(*) c, {atributo}, grupo.Nome
+        FROM (
+            SELECT pessoa.Id, {atributo}.Nome {atributo}
+            FROM pessoa
+            INNER JOIN tem{atributo} ON pessoa.Id = fk_pessoa_id
+            INNER JOIN {atributo} ON {atributo}.Id = fk_{atributo}_id
+        ) pessoa
+        INNER JOIN deseja ON pessoa.Id = fk_Pessoa_Id
+        INNER JOIN {tipo} ON {tipo}.Id = fk_{tipo}_Id
+        GROUP BY {atributo}, {tipo}.Nome
+        ORDER BY c desc
+        ) grupo
+        GROUP BY {atributo}
+        '''
     cnx = db_functions.connect()
     query_result = db_functions.query_make(cnx, query)
     cnx.close()
@@ -82,9 +109,9 @@ def consulta_tecnologia():
     # POST request
     if request.method == 'POST':
         value = request.form["value"]
-        print(value)
+        
         tipo = request.form["tipo"]
-        print(tipo)
+        
         query = f'''SELECT * 
         FROM {tipo}
         WHERE Id = {value}

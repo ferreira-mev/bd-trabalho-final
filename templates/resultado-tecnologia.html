@@ -8,20 +8,16 @@
     <div class="flex-container">
         {% for rows in result %}  
 
-        <div class="flex-item" id="titulo">
-            <h3>{{rows['Nome']}}</h3>
+        <img class="sub-flex-item" id="imagem" src="../static/logos/{{rows['Logo']}}">
+
+        <div class="sub-flex-item" id="dados">
+            <ul class="lista-dados">
+                <h3>Nome: {{rows['Nome']}}</h3>
+                <li><h5>Ano de criação: {{rows['AnoCriacao']}}</h5></li>
+                <li><h5>Tipo de tecnologia: {{rows['Tipo']}}</h5></li>
+            </ul>
         </div>
 
-        <div class="flex-item" id="infos">
-            <img class="sub-flex-item" id="imagem" src="../static/logos/{{rows['Logo']}}">
-
-            <div class="sub-flex-item" id="dados">
-                <ul class="lista-dados">
-                    <li><h5>Ano de criação: {{rows['AnoCriacao']}}</h5></li>
-                    <li><h5>Tipo de tecnologia: {{rows['Tipo']}}</h5></li>
-                </ul>
-            </div>
-        </div>
         {% endfor %}
     </div>
 </body>
