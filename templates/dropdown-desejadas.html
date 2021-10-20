@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Porcentagem de desejadas por tecnologia</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/template-dropdowns.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/dropdown.css') }}">
+</head>
+<body>
+
+    <div class="flex-container">
+        <div class="flex-item" id="titulo">
+            <h3>Escolha o tipo da tecnologia e o agrupamento das pessoas pesquisadas</h3>
+        </div>
+        <div class="flex-item" id="dropdowns">
+            <form action="{{action}}" method = "post">
+                <select name = "tecnologia" class="dropdown">
+                    <option value="Linguagem">Linguagem</option>
+                    <option value="Sgbd">SGBD</option>
+                    <option value="OutraTecnologia">Outra Tecnologia</option>
+                </select>
+                
+                <select name = "atributo" class="dropdown">
+                    <option value="EhProfissional">Profissionalidade</option>
+                    <option value="TamEmpresa">Tamanho da empresa</option>
+                    <option value="Genero">Gênero</option>
+                    <option value="Cargo">Cargo</option>
+                    <option value="FaixaEtaria">Faixa Etária</option>
+                    <option value="Pais">País</option>
+                </select>
+                <input class= "botao" type = "submit", value = "Submit">
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

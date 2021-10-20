@@ -1,5 +1,6 @@
 from flask import Flask, url_for,render_template, request, jsonify
 import db_functions
+from plottwist import plot_wanted
 
 app = Flask(__name__)
 
@@ -36,26 +37,6 @@ def gera_dropdown_tecnologia():
     return rendered_template
 
 
-@app.route("/dropdown-total")
-def gera_dropdown_total():
-    cnx = db_functions.connect()
-
-    query = ('''
-    SELECT * FROM(
-    SELECT Id, Nome FROM Linguagem
-    UNION
-    SELECT Id, Nome FROM Sgbd
-    UNION
-    Select Id, Nome from OutraTecnologia) q
-    ORDER BY Nome;
-    ''')
-
-    query_result = db_functions.query_make(cnx, query)
-    rendered_template = render_template('dropdown.html', result = query_result, action = "/resultado-dropdown-total")
-
-    cnx.close()
-    
-    return rendered_template
 
 @app.route("/dropdown-porcentagem")
 def gera_dropdown_porcentagem():
@@ -78,23 +59,50 @@ def gera_dropdown_porcentagem():
     
     return rendered_template
 
+@app.route("/mais-desejada-dropdown", methods=['GET', 'POST'])
+def dropdown_mais_desejada():
+    rendered_template = render_template('dropdown-desejadas.html', action = "/mais-desejada")
+    return rendered_template
+
 @app.route("/mais-desejada", methods=['GET', 'POST'])
 def consulta_mais_desejada():
     # POST request
-   
-    query = f'''SELECT Count(*) c, faixaetaria, Linguagem.Nome 
-    FROM pessoa p
-    INNER JOIN deseja ON p.Id = fk_Pessoa_Id
-    -- INNER JOIN (SELECT Id, Nome FROM Linguagem UNION SELECT Id, Nome FROM Sgbd UNION Select Id, Nome from OutraTecnologia) tecnologia ON tecnologia.Id = fk_Sgbd_Id OR tecnologia.Id = fk_Linguagem_Id OR tecnologia.Id = fk_outratecnologia_Id
-    INNER JOIN Linguagem ON Linguagem.Id = fk_Linguagem_Id
-    GROUP BY faixaetaria, Linguagem.Nome
-    ORDER BY c desc
-    '''
+    tipo = request.form["tecnologia"]    
+    atributo = request.form["atributo"]
+    if atributo != "cargo" and atributo != "genero":
+        print("aqui")
+        query = f''' SELECT MAX(C) MaiorDesejo, {atributo}, grupo.Nome FROM
+        (SELECT Count(*) c, {atributo}, Linguagem.Nome 
+        FROM Pessoa p
+        INNER JOIN Deseja ON p.Id = fk_Pessoa_Id
+        INNER JOIN {tipo} ON {tipo}.Id = fk_{tipo}_Id
+        GROUP BY {atributo}, {tipo}.Nome
+        ORDER BY c desc
+        ) grupo
+        GROUP BY {atributo}
+        '''
+    else :
+        print("ali")
+        query = f''' SELECT MAX(C) MaiorDesejo, {atributo}, grupo.Nome FROM
+        (SELECT Count(*) c, {atributo}, grupo.Nome
+        FROM (
+            SELECT Pessoa.Id, {atributo}.Nome {atributo}
+            FROM Pessoa
+            INNER JOIN Tem{atributo} ON Pessoa.Id = fk_Pessoa_Id
+            INNER JOIN {atributo} ON {atributo}.Id = fk_{atributo}_Id
+        ) Pessoa
+        INNER JOIN Deseja ON Pessoa.Id = fk_Pessoa_Id
+        INNER JOIN {tipo} ON {tipo}.Id = fk_{tipo}_Id
+        GROUP BY {atributo}, {tipo}.Nome
+        ORDER BY c desc
+        ) grupo
+        GROUP BY {atributo}
+        '''
     cnx = db_functions.connect()
     query_result = db_functions.query_make(cnx, query)
     cnx.close()
         
-    rendered_template = render_template('consulta.html', result = query_result)
+    rendered_template = render_template('single-l.html', result = query_result)
     return rendered_template
 
 @app.route("/resultado-tecnologia", methods=['GET', 'POST'])
@@ -102,9 +110,9 @@ def consulta_tecnologia():
     # POST request
     if request.method == 'POST':
         value = request.form["value"]
-        print(value)
+        
         tipo = request.form["tipo"]
-        print(tipo)
+        
         query = f'''SELECT * 
         FROM {tipo}
         WHERE Id = {value}
@@ -113,28 +121,9 @@ def consulta_tecnologia():
         query_result = db_functions.query_make(cnx, query)
         cnx.close()
         
-        rendered_template = render_template('consulta.html', result = query_result)
+        rendered_template = render_template('resultado-tecnologia.html', result = query_result)
         return rendered_template
 
-@app.route("/resultado-dropdown-total", methods=['GET', 'POST'])
-def consulta_dropdown_total():
-        
-    # POST request
-    if request.method == 'POST':
-        value = request.form["value"].split(', ')
-        atributo = request.form["atributo"]
-        query = f'''SELECT COUNT(*) total, {atributo} FROM Pessoa WHERE Id IN
-        (SELECT fk_Pessoa_Id FROM Usa WHERE fk_Sgbd_Id = {value[0]} OR fk_Linguagem_Id  = {value[0]} OR fk_OutraTecnologia_Id = {value[0]})
-        GROUP BY {atributo}
-        ORDER BY total desc
-        LIMIT 30
-        '''
-        cnx = db_functions.connect()
-        query_result = db_functions.query_make(cnx, query)
-        cnx.close()
-        print(value[0],atributo)
-        rendered_template = render_template('consulta.html', result = query_result)
-        return rendered_template
 
 @app.route("/resultado-dropdown-porcentagem", methods=['GET', 'POST'])
 def consulta_dropdown_porcentagem():
@@ -143,21 +132,59 @@ def consulta_dropdown_porcentagem():
     if request.method == 'POST':
         value = request.form["value"].split(', ')
         atributo = request.form["atributo"]
-        query = f'''SELECT 100 * t1.c1/t2.c2 percent, t1.{atributo} FROM
-        (SELECT COUNT(*) c1, {atributo} FROM Pessoa WHERE Id IN
-        (SELECT fk_Pessoa_Id FROM Usa WHERE fk_Sgbd_Id = {value[0]} OR fk_Linguagem_Id  = {value[0]} OR fk_OutraTecnologia_Id = {value[0]})
-        GROUP BY {atributo}) t1
-        INNER JOIN
-        (SELECT COUNT(*) c2, Id, {atributo} FROM Pessoa GROUP BY {atributo}) t2
-        ON t1.{atributo} = t2.{atributo}
-        ORDER BY percent desc
-        LIMIT 30
-        '''
+        if atributo != "Cargo" and atributo != "Genero":
+            print(atributo)
+            query = f'''(SELECT c1 total, 100 * t1.c1/t2.c2 percent, t1.{atributo} FROM
+            (SELECT COUNT(*) c1, {atributo} FROM Pessoa WHERE Id IN
+            (SELECT fk_Pessoa_Id FROM Usa WHERE fk_Sgbd_Id = {value[0]} OR fk_Linguagem_Id  = {value[0]} OR fk_OutraTecnologia_Id = {value[0]})
+            GROUP BY {atributo}) t1
+            INNER JOIN
+            (SELECT COUNT(*) c2, Id, {atributo} FROM Pessoa GROUP BY {atributo}) t2
+            ON t1.{atributo} = t2.{atributo}
+            ORDER BY percent asc
+            LIMIT 15)
+
+            UNION
+            (SELECT c1 total, 100 * t1.c1/t2.c2 percent, t1.{atributo} FROM
+            (SELECT COUNT(*) c1, {atributo} FROM Pessoa WHERE Id IN
+            (SELECT fk_Pessoa_Id FROM Usa WHERE fk_Sgbd_Id = {value[0]} OR fk_Linguagem_Id  = {value[0]} OR fk_OutraTecnologia_Id = {value[0]})
+            GROUP BY {atributo}) t1
+            INNER JOIN
+            (SELECT COUNT(*) c2, Id, {atributo} FROM Pessoa GROUP BY {atributo}) t2
+            ON t1.{atributo} = t2.{atributo}
+            ORDER BY percent desc
+            LIMIT 15)    
+            '''
+        else :
+            query = f'''(SELECT c1 total, 100 * t1.c1/t2.c2 percent, t1.{atributo} FROM
+            (SELECT COUNT(*) c1, {atributo}.Nome {atributo} FROM Pessoa INNER JOIN Tem{atributo} ON Pessoa.Id = Tem{atributo}.fk_Pessoa_Id INNER JOIN {atributo} ON {atributo}.Id = Tem{atributo}.fk_{atributo}_Id
+            WHERE Pessoa.Id IN
+            (SELECT fk_Pessoa_Id FROM Usa WHERE fk_Sgbd_Id = {value[0]} OR fk_Linguagem_Id  = {value[0]} OR fk_OutraTecnologia_Id = {value[0]})
+            GROUP BY {atributo}) t1
+            INNER JOIN
+            (SELECT COUNT(*) c2, Pessoa.Id, {atributo}.Nome {atributo} FROM Pessoa INNER JOIN Tem{atributo} ON Pessoa.Id = Tem{atributo}.fk_Pessoa_Id INNER JOIN {atributo} ON {atributo}.Id = Tem{atributo}.fk_{atributo}_Id GROUP BY {atributo}) t2
+            ON t1.{atributo} = t2.{atributo}
+            ORDER BY percent asc
+            LIMIT 15)
+
+            UNION
+            (SELECT c1 total, 100 * t1.c1/t2.c2 percent, t1.{atributo} FROM
+            (SELECT COUNT(*) c1, {atributo}.Nome {atributo} FROM Pessoa INNER JOIN Tem{atributo} ON Pessoa.Id = Tem{atributo}.fk_Pessoa_Id INNER JOIN {atributo} ON {atributo}.Id = Tem{atributo}.fk_{atributo}_Id
+            WHERE Pessoa.Id IN
+            (SELECT fk_Pessoa_Id FROM Usa WHERE fk_Sgbd_Id = {value[0]} OR fk_Linguagem_Id  = {value[0]} OR fk_OutraTecnologia_Id = {value[0]})
+            GROUP BY {atributo}) t1
+            INNER JOIN
+            (SELECT COUNT(*) c2, Pessoa.Id, {atributo}.Nome {atributo} FROM Pessoa INNER JOIN Tem{atributo} ON Pessoa.Id = Tem{atributo}.fk_Pessoa_Id INNER JOIN {atributo} ON {atributo}.Id = Tem{atributo}.fk_{atributo}_Id GROUP BY {atributo}) t2
+            ON t1.{atributo} = t2.{atributo}
+            ORDER BY percent desc
+            LIMIT 15)'''
         cnx = db_functions.connect()
         query_result = db_functions.query_make(cnx, query)
         cnx.close()
-        print(value[0],atributo)
-        rendered_template = render_template('consulta.html', result = query_result)
+        
+        bar = plot_wanted(query_result)
+
+        rendered_template = render_template('single-plot-page.html.j2', result = query_result, page_title=f"Uso de {value[1]} por {atributo}", plot=bar)
         return rendered_template
 
 #@app.route(""):

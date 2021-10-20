@@ -4,9 +4,23 @@ arquivos csv com as respostas da pesquisa.
 """
 import csv
 
-survey_csv = "/home/duda/Documents/edu/UFRJ1/5_2021-1/bdi/trabs/03_final/bd-trabalho-final/datasets/pessoa.csv"
+survey_csv = "datasets/pessoa.csv"
 dml_out = "sql/dml_Pessoa.sql"
 ddl_out = "sql/sets_enums.txt"  # será copiado para a DDL
+
+
+rows_written = {"Genero": 0, "Cargo": 0}
+MAX_ROWS = 50000
+
+def fix_name(attr):
+    n = str(rows_written[attr] // MAX_ROWS).zfill(2)
+    return f"sql/dml_rels/dml_Tem{attr}{n}.sql"
+
+# for attr in {"Genero", "Cargo"}:
+#     with open(fix_name(attr), "w") as fix_file:
+#         fix_file.write(
+#             f"INSERT INTO Tem{attr}(fk_Pessoa_Id, fk_{attr}_Id) VALUES\n"
+#         )
 
 ########
 # Deixei comentadas as linhas referentes à determinação dos
@@ -25,7 +39,7 @@ ddl_out = "sql/sets_enums.txt"  # será copiado para a DDL
 #     k: {col: set() for col in v} for k, v in set_enum_cols.items()
 # }
 
-# Para não acrescentas aspas às colunas com valores numéricos:
+# Para não acrescentar aspas às colunas com valores numéricos:
 numeric_cols = {"Id", "ExpTotal", "ExpProfiss", "Salario"}
 
 def strip_quotes(string):
@@ -50,7 +64,7 @@ def single_quotes(string):
 
 with open(survey_csv, "r") as csv_file:
     reader = csv.DictReader(csv_file)
-    fields = reader.fieldnames
+    fields = [f for f in reader.fieldnames if f not in {"Genero", "Cargo"}]
     header = f"INSERT INTO Pessoa({', '.join(fields)}) VALUES\n"
 
     with open(dml_out, "w") as dml_file:
@@ -60,12 +74,38 @@ with open(survey_csv, "r") as csv_file:
 
         for row in reader:
             for col, entry in row.items():
-                # Separando os valores das colunas de tipo
-                # SET:
-                if col == "Genero":
-                    values = swap_commas(entry).split(";")
-                elif col == "Cargo":
-                    values = swap_commas(entry).split("#")
+                # Deu ruim com atributo que só descobrimos depois que
+                # era multivalorado; gambiarrando um conserto aqui
+                # que é o que dá pra fazer de última hora:
+
+                if col in {"Genero", "Cargo"}:
+                    if entry == "null":
+                        continue
+                    
+                    if col == "Genero":
+                        values = entry.split(";")
+                    else:
+                        values = entry.split("#")
+
+                    for val in values:
+                        with open(fix_name(col), "a") as fix_file:
+                            if not (rows_written[col] % MAX_ROWS): 
+                                fix_file.write(
+                                    f"INSERT INTO Tem{col}(fk_Pessoa_Id, fk_{col}_Id) VALUES\n"
+                                )
+                            else:
+                                fix_file.write(",\n")
+
+                            fix_file.write(f"\t({row['Id']},\n")
+                            fix_file.write(f"\t\t(SELECT Id FROM {col}\n\t\tWHERE Nome = {single_quotes(val)})\n\t)")
+
+                            if not ((rows_written[col] + 1) % MAX_ROWS):  # fim do arquivo
+                                fix_file.write(";\n")
+
+                            rows_written[col] += 1
+
+                    continue
+                    
                 else:
                     if "Exp" in col:
                         # Há valores não numéricos nessas colunas
@@ -102,15 +142,17 @@ with open(survey_csv, "r") as csv_file:
             if row and not first_row:
                 dml_file.write(",\n")
             
-            dml_file.write(f"\t({', '.join(row.values())})")
+            vals_to_write = [
+                v for k, v in row.items() if k not in {"Genero", "Cargo"}
+            ]
+
+            dml_file.write(f"\t({', '.join(vals_to_write)})")
             
             first_row = False
 
         dml_file.write(";\n")
 
-# with open(ddl_out, "w") as ddl_file:
-#     for mysql_type, cols_dict in set_enum_values.items():
-#         for col, col_set in cols_dict.items():
-#             ddl_file.write(f"\t{col} {mysql_type}(")
-#             col_set = [single_quotes(s) for s in col_set]
-#             ddl_file.write(", ".join(col_set) + "),\n")
+# O ";" final:
+for col in {"Genero", "Cargo"}:
+    with open(fix_name(col), "a") as fix_file:
+        fix_file.write(";\n")

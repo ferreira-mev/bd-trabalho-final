@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<head>
+    <title>
+        {% if page_title %}
+        {{ page_title }}
+        {% else %}
+        Gráfico sem título {# Artista Desconhecido #}
+        {% endif %}
+    </title>
+    <meta charset="utf-8">
+</head>
+<body>
+{% if plot %}
+<img src="{{plot}}" {% if alt_text %}alt="{{ alt_text }}"{% endif %}>
+{% endif %}
+</body>
+</html>
