@@ -48,7 +48,7 @@ def salary():
     bar = plottwist.plot_bar_abs(sal_per_attr, unit="USD")
 
     rendered_template = render_template(
-        'plot-page.html.j2',
+        'single-plot-page.html.j2',
         cursor_from_python_code=cursor,
         plot=bar,
         alt_text="Gráfico de barras",

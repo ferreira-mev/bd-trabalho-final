@@ -8,18 +8,20 @@ from role_ratio import app_roles
 from salary_per_attr import app_salary
 from framework_ratio import app_framework
 
-app = Flask(__name__)
-app.register_blueprint(app_roles)
-app.register_blueprint(app_salary)
-app.register_blueprint(app_framework)
+app_b = Blueprint('app_b',__name__)
 
-DEBUG = True
-ENV = 'development'
-app.config.from_object(__name__)
+# app_b = Flask(__name__)
+# app_b.register_blueprint(app_roles)
+# app_b.register_blueprint(app_salary)
+# app_b.register_blueprint(app_framework)
 
-app.secret_key = "NEED_A_KEY_FOR_SESSION_VARIABLES"
-# (this is obviously unsafe, but I'm having enough trouble
-# as it is :P)
+# DEBUG = True
+# ENV = 'development'
+# app_b.config.from_object(__name__)
+
+# app_b.secret_key = "NEED_A_KEY_FOR_SESSION_VARIABLES"
+# # (this is obviously unsafe, but I'm having enough trouble
+# # as it is :P)
 
 pages_dict = {
     "cargos": "Cargos por valor de atributo",
@@ -29,11 +31,11 @@ pages_dict = {
 
 attrs_dict = {
     "cargos": ["FaixaEtaria", "TamEmpresa", "NivelEduc"],
-    "frameworks": ["FaixaEtaria", "TamEmpresa", "NivelEduc", "Pais"],
+    "frameworks": ["FaixaEtaria", "TamEmpresa", "NivelEduc", "Pais", "EhProfissional"],
     "salarios": ["FaixaEtaria", "TamEmpresa", "NivelEduc", "Genero", "Cargo"]
 }
 
-@app.route("/")
+@app_b.route("/alt-home")
 def home():
     rendered_template = render_template(
         'b-side-main.html.j2',
@@ -43,7 +45,7 @@ def home():
 
     return rendered_template
 
-@app.route("/selecionar-atributo", methods=['GET', 'POST'])
+@app_b.route("/selecionar-atributo", methods=['GET', 'POST'])
 def attr_selector():
     if request.method != 'POST':
         return "Erro"
@@ -64,7 +66,7 @@ def attr_selector():
 
     return rendered_template
 
-@app.route("/selecionar-valor", methods=['GET', 'POST'])
+@app_b.route("/selecionar-valor", methods=['GET', 'POST'])
 def value_selector():
     if request.method != 'POST':
         return "Erro"
@@ -117,5 +119,5 @@ def value_selector():
     return rendered_template
 
 
-if __name__ == "__main__":
-    app.run()
+# if __name__ == "__main__":
+#     app_b.run()

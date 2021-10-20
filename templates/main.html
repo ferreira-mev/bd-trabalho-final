@@ -37,32 +37,33 @@
         </li>
         <li class="flex-item">
             <div id="titulo">
-                <h4>Aqui vai o nome da consulta</h4>
+                <h4>Salário médio por agrupamento</h4>
             </div>
             <div id="descricao">
-                <p>Aqui pode ir uma breve explicação</p>
+                <p>Exibe um gráfico de barras com o salário anual médio, em dólares americanos, agrupados segundo um atributo escolhido pelo usuário.</p>
             </div>
-            <button class="botao" onclick="redireciona(' ')"><span>Visualizar</span></button>
+            <button class="botao" onclick='choosePage("selecionar-atributo", "salarios")'><span>Visualizar</span></button>
         </li>
         <li class="flex-item">
             <div id="titulo">
-                <h4>Aqui vai o nome da consulta</h4>
+                <h4>Cargos de acordo com características</h4>
             </div>
             <div id="descricao">
-                <p>Aqui pode ir uma breve explicação</p>
+                <p>Exibe um gráfico de barras com os cargos dos respondentes em geral comparado com outro, somente daqueles com um valor de atributo escolhido pelo usuário.</p>
             </div>
-            <button class="botao" onclick="redireciona(' ')"><span>Visualizar</span></button>
+            <button class="botao" onclick='choosePage("selecionar-atributo", "cargos")'><span>Visualizar</span></button>
         </li>
         <li class="flex-item">
             <div id="titulo">
-                <h4>Aqui vai o nome da consulta</h4>
+                <h4>Linguagens web de acordo com características</h4>
             </div>
             <div id="descricao">
-                <p>Aqui pode ir uma breve explicação</p>
+                <p>Compara, por meio de dois gráficos de setores (pizza), a adoção de frameworks web associados a linguagens em geral e entre respondentes com um valor de atributo escolhido pelo usuário.</p>
             </div>
-            <button class="botao" onclick="redireciona(' ')"><span>Visualizar</span></button>
+            <button class="botao" onclick='choosePage("selecionar-atributo", "frameworks")'><span>Visualizar</span></button>
         </li>
-        <li class="flex-item">
+        <!-- Apagar abaixo? Não utilizados -->
+        <!-- <li class="flex-item">
             <div id="titulo">
                 <h4>Aqui vai o nome da consulta</h4>
             </div>
@@ -88,7 +89,7 @@
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
             </div>
             <button class="botao" onclick="redireciona(' ')"><span>Visualizar</span></button>
-        </li>
+        </li> -->
 
     </ul>
 
@@ -98,6 +99,22 @@
     function redireciona(value){
         console.log(value);
         window.location.assign("http://localhost:5000/"+ value)
+    }
+
+    function choosePage(url, value){
+        // Papel que é cumprido pelo select com id "choose-page"
+        // em b-side-main.html.j2; adaptei da redirect de tecnologia.js
+        let form = document.createElement('form');
+        document.body.appendChild(form);
+        form.method = "POST";
+        form.action = "http://localhost:5000/" + url;
+        let input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = "choose-page";
+        input.value = value;
+        form.appendChild(input);
+        form.submit();
+        document.body.removeChild(form);
     }
 </script>
 
