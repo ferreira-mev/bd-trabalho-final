@@ -21,13 +21,30 @@ app.secret_key = "NEED_A_KEY_FOR_SESSION_VARIABLES"
 # (this is obviously unsafe, but I'm having enough trouble
 # as it is :P)
 
-@app.route("/")
-def placeholder():
-    session["goal"] = "frameworks"
-    # session["goal"] = "cargos"
-    # session["goal"] = "salarios"
+pages_dict = {
+    "cargos": "Cargos por valor de atributo",
+    "frameworks": "Frameworks por valor de atributo",
+    "salarios": "Salários agrupados por atributo"
+}
 
-    if session["goal"] == "salarios":
+@app.route("/")
+def home():
+    rendered_template = render_template(
+        'b-side-main.html.j2',
+        pages_dict=pages_dict,
+        action_url="http://localhost:5000/selecionar-atributo"
+    )
+
+    return rendered_template
+
+@app.route("/selecionar-atributo", methods=['GET', 'POST'])
+def attr_selector():
+    if request.method != 'POST':
+        return "Erro"
+    
+    page_name = request.form.get("choose-page")
+
+    if page_name == "salarios":
         action_url = "http://localhost:5000/salarios"
     else:
         action_url = "http://localhost:5000/selecionar-valor"
