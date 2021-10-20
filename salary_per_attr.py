@@ -18,7 +18,8 @@ app.config.from_object(__name__)
 def placeholder():
     rendered_template = render_template(
         'attribute-selector.html.j2',
-        attr_dict=build_attr_dict(["FaixaEtaria", "TamEmpresa", "NivelEduc","Genero", "Cargo"]),
+        attr_list=["FaixaEtaria", "TamEmpresa", "NivelEduc","Genero", "Cargo"],
+        display_fn=display_str,
         action_url="http://localhost:5000/salario-por-atributo"
     )
 
