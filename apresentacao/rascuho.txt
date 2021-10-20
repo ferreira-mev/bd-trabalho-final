@@ -1,0 +1,20 @@
+- Apresentar tela (Duda)
+
+- Apresentar o trabalho (Duda)
+    - Stackoverflow ...
+
+- Foto dos modelos
+    - Falar que o modelo vai mudar
+
+- Processar CSV, criar CSV (Hashi?)
+
+- Aplicação
+
+- Problemas:
+    - Não sabemos mexer com SET: Mudanças de última hora por causa disso
+
+- Como a gente está fazendo o trabalho:
+    - Todo mundo fez os modelos junto
+    - Dividimos para fazer as partes
+        - Tratar os CSVs
+        - Fazer o app
