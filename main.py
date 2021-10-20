@@ -1,5 +1,6 @@
 from flask import Flask, url_for,render_template, request, jsonify
 import db_functions
+from plottwist import plot_wanted
 
 app = Flask(__name__)
 
@@ -100,9 +101,8 @@ def consulta_mais_desejada():
     cnx = db_functions.connect()
     query_result = db_functions.query_make(cnx, query)
     cnx.close()
-    print(query_result)
         
-    rendered_template = render_template('consulta.html', result = query_result)
+    rendered_template = render_template('single-l.html', result = query_result)
     return rendered_template
 
 @app.route("/resultado-tecnologia", methods=['GET', 'POST'])
@@ -182,7 +182,9 @@ def consulta_dropdown_porcentagem():
         query_result = db_functions.query_make(cnx, query)
         cnx.close()
         
-        rendered_template = render_template('consulta.html', result = query_result)
+        bar = plot_wanted(query_result)
+
+        rendered_template = render_template('single-plot-page.html.j2', result = query_result, page_title=f"Interesse em {value[1]} por {atributo}", plot=bar)
         return rendered_template
 
 #@app.route(""):

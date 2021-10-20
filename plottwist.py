@@ -107,6 +107,54 @@ def plot_bar_abs(ord_dict, unit=None):
 
     return custom_save(plot_name)
 
+
+def plot_wanted(dict_list):
+    """
+    Adaptação de plot_bar_abs para o formato de retorno das queries
+    sobre tecnologias desejadas por grupos.
+
+    Gera e salva um gráfico de barras, retornando seu caminho.
+    """
+    n_elems = len(dict_list)
+
+    fig, ax1 = plt.subplots()
+
+    pos = np.arange(n_elems)
+
+    print("pos = ", pos)
+
+    values = [d["percent"] for d in dict_list]
+    print(len(values), values)
+
+    labels = [
+                [
+                    display_str(v) for k, v in d.items() if k not in {"total", "percent"}  # p/ não precisar do nome
+                    # do atributo como parâmetro (esses não mudam)
+                ] for d in dict_list
+    ]
+
+    labels = [l[0] for l in labels]
+
+    ax1.barh(
+        pos,
+        values,
+        align="center",
+        tick_label=labels
+    )
+
+    ax2 = ax1.twinx()  # segundo eixo vertical à direita
+
+    ax2.set_yticks(pos)
+    ax2.set_ylim(ax1.get_ylim())
+
+    ax2.set_yticklabels(
+        [f"{d['percent']:.2f} % ({d['total']})" for d in dict_list]
+    )
+
+    plot_name = "bar"
+
+    return custom_save(plot_name)
+
 def unit_format(value, unit):
     """
     Formata valores com unidade para impressão.
