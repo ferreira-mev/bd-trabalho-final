@@ -72,8 +72,7 @@ def bake_pie(ord_dict):
 def plot_bar_abs(ord_dict, unit=None):
     """
     Recebe um dicionário ordenado da forma {string: valor}, onde valor
-    é um int denotando uma quantidade ou um float denotando um valor
-    médio (i.e., não são percentagens); além de uma unidade.
+    é um int ou float, além de uma unidade.
 
     Gera e salva um gráfico de barras, retornando seu caminho.
     """

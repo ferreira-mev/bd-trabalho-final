@@ -29,8 +29,8 @@ def close_connection(cnx):
 
 def get_ord_dict(cursor, key_attr, val_attr, numeric=True):
     """
-    Recebe um cursor, o nome de um atributo a usar como chave
-    (key_attr) e o de outro a usar como valor (val_attr).
+    Recebe um cursor (após uma query), o nome de um atributo a usar 
+    como chave (key_attr) e o de outro a usar como valor (val_attr).
 
     Gera um OrderedDict a partir das linhas do cursor, na ordem em
     que foram obtidas, de modo a preservar o ORDER BY do MySQL.

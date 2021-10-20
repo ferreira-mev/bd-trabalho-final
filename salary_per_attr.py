@@ -35,7 +35,6 @@ def frmwrk_ratio():
     # NÃO usar com Pais, fica um espaçamento zoado e eu ainda não
     # consegui corrigir
 
-    # Total de usuários de frameworks:
     query = f"""
         SELECT AVG(Salario) AS avg_sal, {attr_name} AS attr_value
         FROM Pessoa
@@ -57,8 +56,6 @@ def frmwrk_ratio():
         plot=bar,
         alt_text="Gráfico de barras",
         page_title=f"Salário por {display_str(attr_name)}"
-        # TODO: "versão para impressão" dos nomes dos atributos
-        # (e tb de seus valores -- alguns são muito longos p/ gráficos)
     )
 
     cursor.close()
