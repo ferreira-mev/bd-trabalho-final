@@ -57,14 +57,13 @@ def frmwrk_ratio():
     else:
         subquery = db_functions.subquery(attr_name)
         query = f"""
-            SELECT AVG(Salario) AS avg_sal, S.{attr_name} AS {attr_name}
+            SELECT AVG(Salario) AS avg_sal, S.{attr_name} AS attr_value
             FROM ({subquery}) AS S
-            GROUP BY {attr_name}
+            GROUP BY attr_value
             ORDER BY avg_sal DESC;
         """ # OK
-        
+
     cursor.execute(query)
-    print(cursor)
 
     sal_per_attr = db_functions.get_ord_dict(
         cursor, "attr_value", "avg_sal"
