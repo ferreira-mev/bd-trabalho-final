@@ -22,14 +22,16 @@ app.config.from_object(__name__)
 def placeholder():
     # cnx = db_functions.connect()
 
-    # cursor = cnx.cursor(dictionary=True, buffered=True)
-    
+    # cursor = cnx.cursor(dictionary=True, buffered=True) 
 
     rendered_template = render_template(
-        'group-by-chooser.html.j2',
+        'group-by-selector.html.j2',
         # cursor_from_python_code=cursor,
-        attr_dict=build_attr_dict(["FaixaEtaria", "TamEmpresa", "NivelEduc"])# "Genero", "Cargo"}
+        attr_dict=build_attr_dict(["FaixaEtaria", "TamEmpresa", "NivelEduc","Genero", "Cargo"])
     )
+
+    # NÃO usar com Pais, fica um espaçamento zoado e eu ainda não
+    # consegui corrigir
 
     return rendered_template
 
@@ -45,17 +47,24 @@ def frmwrk_ratio():
 
     attr_name = request.form.get("attr-select")
 
-    # NÃO usar com Pais, fica um espaçamento zoado e eu ainda não
-    # consegui corrigir
-
-    query = f"""
-        SELECT AVG(Salario) AS avg_sal, {attr_name} AS attr_value
-        FROM Pessoa
-        GROUP BY {attr_name}
-        ORDER BY avg_sal DESC;
-    """
-
+    if attr_name not in {"Genero", "Cargo"}:
+        query = f"""
+            SELECT AVG(Salario) AS avg_sal, {attr_name} AS attr_value
+            FROM Pessoa
+            GROUP BY {attr_name}
+            ORDER BY avg_sal DESC;
+        """
+    else:
+        subquery = db_functions.subquery(attr_name)
+        query = f"""
+            SELECT AVG(Salario) AS avg_sal, S.{attr_name} AS {attr_name}
+            FROM ({subquery}) AS S
+            GROUP BY {attr_name}
+            ORDER BY avg_sal DESC;
+        """ # OK
+        
     cursor.execute(query)
+    print(cursor)
 
     sal_per_attr = db_functions.get_ord_dict(
         cursor, "attr_value", "avg_sal"
