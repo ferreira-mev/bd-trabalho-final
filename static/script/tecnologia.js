@@ -27,16 +27,16 @@ function display(value, type){
 }
 
 function mudaTipo(value){
-    if(value == "Sgdb"){
-        document.getElementById('Sgdb').style.display='block'
+    if(value == "Sgbd"){
+        document.getElementById('Sgbd').style.display='block'
         document.getElementById('Linguagem').style.display='none'
         document.getElementById('OutraTecnologia').style.display='none'
     }else if(value == "Linguagem"){
-        document.getElementById('Sgdb').style.display='none'
+        document.getElementById('Sgbd').style.display='none'
         document.getElementById('Linguagem').style.display='block'
         document.getElementById('OutraTecnologia').style.display='none'
     }else{
-        document.getElementById('Sgdb').style.display='none'
+        document.getElementById('Sgbd').style.display='none'
         document.getElementById('Linguagem').style.display='none'
         document.getElementById('OutraTecnologia').style.display='block'
     }
