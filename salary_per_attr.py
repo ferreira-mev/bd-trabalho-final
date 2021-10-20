@@ -1,46 +1,43 @@
 """
-Produz um gráfico de barras com o salário médio agrupado por valor
-de atributo.
-
-Por enquanto estou fazendo com NivelEduc, mas poderia ser interessante
-usar dropdowns para alternar entre esse e TamEmpresa, FaixaEtaria,
-Pais, ... (Os qualitativos -- que são quase todos.)
+Produz um gráfico de barras com o salário médio agrupado por um atributo
+selecionado por um dropdown.
 """
-from flask import Flask, url_for, render_template, request, redirect
+from flask import Flask, Blueprint, url_for, render_template, request, redirect
 import mysql.connector
 from collections import OrderedDict
 import plottwist, db_functions
-from ui_display import display_str
+from ui_display import display_str, build_attr_dict
 
-app = Flask(__name__)
+app_salary = Blueprint('app_salary',__name__)
 
-DEBUG = True
-ENV = 'development'
-app.config.from_object(__name__)
 
-@app.route("/")
-# def placeholder():
-#     return "This page will be replaced by an actual homepage"
+@app_salary.route("/salarios", methods=['GET', 'POST'])
+def salary():
+    if request.method != 'POST':
+        return "Erro"
 
-# @app.route("/salario-por-atributo")
-def frmwrk_ratio():
     cnx = db_functions.connect()
 
     cursor = cnx.cursor(dictionary=True, buffered=True)
     # Buffering: https://stackoverflow.com/a/33632767
 
-    attr_name = "NivelEduc"  # placeholder;
-    # viria de um dropdown
-    # ainda não funciona p/ set
-    # NÃO usar com Pais, fica um espaçamento zoado e eu ainda não
-    # consegui corrigir
+    attr_name = request.form.get("attr-select")
 
-    query = f"""
-        SELECT AVG(Salario) AS avg_sal, {attr_name} AS attr_value
-        FROM Pessoa
-        GROUP BY {attr_name}
-        ORDER BY avg_sal DESC;
-    """
+    if attr_name not in {"Genero", "Cargo"}:
+        query = f"""
+            SELECT AVG(Salario) AS avg_sal, {attr_name} AS attr_value
+            FROM Pessoa
+            GROUP BY {attr_name}
+            ORDER BY avg_sal DESC;
+        """
+    else:
+        subquery = db_functions.subquery(attr_name)
+        query = f"""
+            SELECT AVG(Salario) AS avg_sal, S.{attr_name} AS attr_value
+            FROM ({subquery}) AS S
+            GROUP BY attr_value
+            ORDER BY avg_sal DESC;
+        """
 
     cursor.execute(query)
 
@@ -65,4 +62,4 @@ def frmwrk_ratio():
 
 
 if __name__ == "__main__":
-    app.run()
+    app_salary.run()

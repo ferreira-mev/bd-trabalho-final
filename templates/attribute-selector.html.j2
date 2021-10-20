@@ -1,0 +1,19 @@
+{# Seleção de atributo qualitativo #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Seleção de atributo</title>
+</head>
+<body>
+    <h3>Selecione um atributo:</h3>
+    <form id="attr-form" method="POST" action="{{ action_url }}">
+        <select id="attr-select" name="attr-select">
+        {% for k in attr_list %}
+            <option value="{{k}}" name="{{k}}">{{display_fn(k)}}</option>
+        {% endfor %}
+        </select>
+        <input type="submit" value="OK">
+    </form>
+
+</body>
+</html>

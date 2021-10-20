@@ -1,3 +1,17 @@
+full_attr_list = {
+    "Id",
+    "Genero",  # "pseudo"
+    "FaixaEtaria",
+    "ExpTotal",
+    "ExpProfiss",
+    "EhProfissional",
+    "TamEmpresa",
+    "Cargo",  # "pseudo"
+    "Salario",
+    "NivelEduc",
+    "Pais"
+}
+
 def display_str(string):
     """
     Versão "para impressão" de nomes e valores de atributos.
@@ -68,10 +82,18 @@ def display_str(string):
 
     # String vazia ou None:
 
-    elif not string:
+    elif not string or string == "null":
         return "N/A"
 
     # Default/fallback:
 
     else:
         return string
+
+
+def build_attr_dict(attr_list):
+    """
+    Dada uma lista de atributos, constrói um dicionário contendo
+    as associações entre seus nomes no SQL e para leitura humana.
+    """
+    return {k: display_str(k) for k in attr_list}
