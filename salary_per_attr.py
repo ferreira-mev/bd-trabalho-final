@@ -10,7 +10,7 @@ from flask import Flask, url_for, render_template, request, redirect
 import mysql.connector
 from collections import OrderedDict
 import plottwist, db_functions
-from ui_display import display_str
+from ui_display import display_str, build_attr_dict
 
 app = Flask(__name__)
 
@@ -18,20 +18,33 @@ DEBUG = True
 ENV = 'development'
 app.config.from_object(__name__)
 
-@app.route("/")
-# def placeholder():
-#     return "This page will be replaced by an actual homepage"
+@app.route("/", methods=['GET', 'POST'])
+def placeholder():
+    # cnx = db_functions.connect()
 
-# @app.route("/salario-por-atributo")
+    # cursor = cnx.cursor(dictionary=True, buffered=True)
+    
+
+    rendered_template = render_template(
+        'group-by-chooser.html.j2',
+        # cursor_from_python_code=cursor,
+        attr_dict=build_attr_dict(["FaixaEtaria", "TamEmpresa", "NivelEduc"])# "Genero", "Cargo"}
+    )
+
+    return rendered_template
+
+@app.route("/salario-por-atributo", methods=['GET', 'POST'])
 def frmwrk_ratio():
+    if request.method != 'POST':
+        return "Erro"
+
     cnx = db_functions.connect()
 
     cursor = cnx.cursor(dictionary=True, buffered=True)
     # Buffering: https://stackoverflow.com/a/33632767
 
-    attr_name = "NivelEduc"  # placeholder;
-    # viria de um dropdown
-    # ainda não funciona p/ set
+    attr_name = request.form.get("attr-select")
+
     # NÃO usar com Pais, fica um espaçamento zoado e eu ainda não
     # consegui corrigir
 

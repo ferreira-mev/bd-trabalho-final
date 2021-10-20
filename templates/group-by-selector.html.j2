@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Seleção de atributo</title>
+</head>
+<body>
+    <h3>Selecione o atributo pelo qual agrupar dados de salário:</h3>
+    <form id="attr-form" method="POST"  action="http://localhost:5000/salario-por-atributo" >
+        <select id="attr-select" name="attr-select">
+        {% for k, v in attr_dict.items() %}
+            <option value="{{k}}" name="{{k}}">{{v}}</option>
+        {% endfor %}
+        </select>
+        {# <input type="text" name="aaaa"> #}
+        {# <button type="button">OK</button>  #}
+        <input type="submit" value="OK">
+    </form>
+    {# <div>
+        <div>
+            
+        </div>
+
+        <div class="flex-item" id="dropdowns">
+            <select id="linguagem" class="dropdown">
+                {% for k, v in attr_dict.items() %}
+                    <option value="{{k}}">{{v}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        
+    </div> #}
+
+</body>
+</html>
