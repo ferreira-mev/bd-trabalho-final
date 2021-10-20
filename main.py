@@ -59,12 +59,12 @@ def gera_dropdown_porcentagem():
     return rendered_template
 
 @app.route("/mais-desejada-dropdown", methods=['GET', 'POST'])
-def dropdown_mais_Desejada():
+def dropdown_mais_desejada():
     rendered_template = render_template('dropdown-desejadas.html', action = "/mais-desejada")
     return rendered_template
 
 @app.route("/mais-desejada", methods=['GET', 'POST'])
-def consulta_mais_Desejada():
+def consulta_mais_desejada():
     # POST request
     tipo = request.form["tecnologia"]    
     atributo = request.form["atributo"]
@@ -100,6 +100,7 @@ def consulta_mais_Desejada():
     cnx = db_functions.connect()
     query_result = db_functions.query_make(cnx, query)
     cnx.close()
+    print(query_result)
         
     rendered_template = render_template('consulta.html', result = query_result)
     return rendered_template
@@ -131,7 +132,7 @@ def consulta_dropdown_porcentagem():
     if request.method == 'POST':
         value = request.form["value"].split(', ')
         atributo = request.form["atributo"]
-        if atributo != "cargo" and atributo != "genero":
+        if atributo != "Cargo" and atributo != "Genero":
             print(atributo)
             query = f'''(SELECT c1 total, 100 * t1.c1/t2.c2 percent, t1.{atributo} FROM
             (SELECT COUNT(*) c1, {atributo} FROM Pessoa WHERE Id IN

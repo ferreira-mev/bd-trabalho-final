@@ -83,12 +83,7 @@ def plot_bar_abs(ord_dict, unit=None):
 
     n_elems = len(ord_dict.keys())
 
-    # bar_height = .8  # default
-    # # space_between_bars = .1
-
-    # plot_height = bar_height * n_elems / 2  # espaço entre?
-
-    fig, ax1 = plt.subplots()#figsize=(10, plot_height))
+    fig, ax1 = plt.subplots()
 
     pos = np.arange(n_elems)
 
@@ -97,7 +92,6 @@ def plot_bar_abs(ord_dict, unit=None):
         list(ord_dict.values()),
         align="center",
         tick_label = [display_str(k) for k in ord_dict.keys()]#,
-        # height=bar_height
     )
 
     ax2 = ax1.twinx()  # segundo eixo vertical à direita

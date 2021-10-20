@@ -4,11 +4,30 @@
     <title>Consulta</title>
 </head>
 <body>
-        {% for rows in result %}  
+        <!-- {% for rows in result %}  
             <ul class="lista-dados">
                 <li><h5>{{rows}}</h5></li>
             </ul>
+        {% endfor %} -->
+    <table>
+        {% for row in result %}
+            {% if loop.first %}
+                <tr>            
+                    {% for key in row.keys() %}
+                        <th>{{ key }}</th>
+                    {% endfor %}
+                </tr>
+            {% endif %}
+            <tr>
+                {% for value in row.values() %}
+                    <td>
+                        {{ value | center }}
+                    </td>
+                {% endfor %}
+            </tr>
         {% endfor %}
+    </table>
+
     </div>
 </body>
 </html>
