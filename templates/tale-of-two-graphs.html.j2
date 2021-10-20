@@ -6,9 +6,9 @@
 </head>
 <body>
     <h3>Resultado global</h3>
-    <img src="{{plot}}" {% if alt_text %}alt="{{ alt_text }}"{% endif %}>
+    <img src="{{gen_plot}}">
 
-    <h3>Resultado para atributo: {{value_name}}</h3>
+    <h3>Resultado para {{attr_name}}: {{value_name}}</h3>
     </form>
 
 </body>

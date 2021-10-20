@@ -5,11 +5,11 @@
     <title>Seleção de valor</title>
 </head>
 <body>
-    <h3>Selecione um valor de {{attr_name}}:</h3>
+    <h3>Selecione um valor de {{display_fn(attr_name)}}:</h3>
     <form id="attr-form" method="POST" action="{{ action_url }}">
         <select id="attr-select" name="value-select">
         {% for v in attr_values %}
-            <option value="{{v}}" name="{{v}}">{{v}}</option>
+            <option value="{{attr_name + '#' + v}}" name="{{display_fn(v)}}">{{v}}</option>
         {% endfor %}
         </select>
         <input type="submit" value="OK">
