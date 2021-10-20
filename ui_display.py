@@ -1,4 +1,4 @@
-attr_list = {
+full_attr_list = {
     "Id",
     "Genero",  # "pseudo"
     "FaixaEtaria",
@@ -89,3 +89,11 @@ def display_str(string):
 
     else:
         return string
+
+
+def build_attr_dict(attr_list):
+    """
+    Dada uma lista de atributos, constrói um dicionário contendo
+    as associações entre seus nomes no SQL e para leitura humana.
+    """
+    return {k: display_str(k) for k in attr_list}
