@@ -1,3 +1,17 @@
+attr_list = {
+    "Id",
+    "Genero",  # "pseudo"
+    "FaixaEtaria",
+    "ExpTotal",
+    "ExpProfiss",
+    "EhProfissional",
+    "TamEmpresa",
+    "Cargo",  # "pseudo"
+    "Salario",
+    "NivelEduc",
+    "Pais"
+}
+
 def display_str(string):
     """
     Versão "para impressão" de nomes e valores de atributos.
