@@ -35,7 +35,7 @@ attrs_dict = {
     "salarios": ["FaixaEtaria", "TamEmpresa", "NivelEduc", "Genero", "Cargo"]
 }
 
-@app_b.route("/")
+@app_b.route("/alt-home")
 def home():
     rendered_template = render_template(
         'b-side-main.html.j2',
@@ -119,5 +119,5 @@ def value_selector():
     return rendered_template
 
 
-if __name__ == "__main__":
-    app_b.run()
+# if __name__ == "__main__":
+#     app_b.run()
