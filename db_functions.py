@@ -58,9 +58,12 @@ def subquery(attr_name):
     """
     Retorna uma subquery que substitui a tabela Pessoa para agregar 
     sobre Genero ou Cargo.
+
+    Na tabela gerada, o valor do atributo está na coluna que tem seu 
+    nome.
     """
     return f"""
-        SELECT Pessoa.*, A.ANome, A.AId FROM
+        SELECT Pessoa.*, A.ANome AS {attr_name}, A.AId FROM
         Pessoa LEFT JOIN 
         (
             SELECT {attr_name}.Nome AS ANome, {attr_name}.Id AS AId,
