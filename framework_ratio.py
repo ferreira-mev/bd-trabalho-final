@@ -2,6 +2,7 @@ from flask import Flask, url_for, render_template, request, redirect
 import mysql.connector
 from collections import OrderedDict
 import plottwist, db_functions
+from ui_display import display_str, build_attr_dict
 
 app = Flask(__name__)
 
@@ -10,11 +11,71 @@ ENV = 'development'
 app.config.from_object(__name__)
 
 @app.route("/")
-# def placeholder():
-#     return "This page will be replaced by an actual homepage"
+def placeholder():
+    rendered_template = render_template(
+        'attribute-selector.html.j2',
+        attr_dict=build_attr_dict(["FaixaEtaria", "TamEmpresa", "NivelEduc","Genero", "Cargo", "Pais"]),
+        action_url="http://localhost:5000/selecionar-valor"
+    )
 
-# @app.route("/frameworks")
+    return rendered_template
+
+# jogar o outro junto aqui embaixo, c/ algum param p/ saber
+# ql a pág?
+
+@app.route("/selecionar-valor", methods=['GET', 'POST'])
+def value_selector():
+    if request.method != 'POST':
+        return "Erro"
+    
+    cnx = db_functions.connect()
+
+    cursor = cnx.cursor(dictionary=True, buffered=True)
+    # Buffering: https://stackoverflow.com/a/33632767
+
+    attr_name = request.form.get("attr-select")
+
+    if attr_name not in {"Genero", "Cargo"}:
+        query = f"""
+            SELECT {attr_name} AS attr_value
+            FROM Pessoa
+            GROUP BY attr_value
+            ORDER BY attr_value;
+        """
+    else:
+        subquery = db_functions.subquery(attr_name)
+        query = f"""
+            SELECT S.{attr_name} AS attr_value
+            FROM ({subquery}) AS S
+            GROUP BY attr_value
+            ORDER BY attr_value;
+        """ # OK
+
+    cursor.execute(query)
+
+    values = []
+
+    for row in cursor:
+        values.append(display_str(row["attr_value"]))
+    
+    rendered_template = render_template(
+        'value-selector.html.j2',
+        attr_name=display_str(attr_name),
+        attr_values=values,
+        action_url="http://localhost:5000/perc-frameworks"
+    )
+
+    cursor.close()
+    cnx.close()
+
+    return rendered_template
+
+    return "TODO"
+
+@app.route("/perc-frameworks", methods=['GET', 'POST'])
 def frmwrk_ratio():
+    value_name = request.form.get("value-select")
+
     cnx = db_functions.connect()
 
     cursor = cnx.cursor(dictionary=True, buffered=True)
@@ -59,11 +120,12 @@ def frmwrk_ratio():
     pie = plottwist.bake_pie(perc_lang_users)
 
     rendered_template = render_template(
-        'plot-page.html.j2',
+        'tale-of-two-graphs.html.j2',
         cursor_from_python_code=cursor,
         plot=pie,
         alt_text="Gráfico de setores",
-        page_title="Frameworks por linguagem"
+        value_name=display_str(value_name)
+        # page_title="Frameworks por linguagem"
     )
 
     cursor.close()

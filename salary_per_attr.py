@@ -17,8 +17,9 @@ app.config.from_object(__name__)
 @app.route("/", methods=['GET', 'POST'])
 def placeholder():
     rendered_template = render_template(
-        'group-by-selector.html.j2',
-        attr_dict=build_attr_dict(["FaixaEtaria", "TamEmpresa", "NivelEduc","Genero", "Cargo"])
+        'attribute-selector.html.j2',
+        attr_dict=build_attr_dict(["FaixaEtaria", "TamEmpresa", "NivelEduc","Genero", "Cargo"]),
+        action_url="http://localhost:5000/salario-por-atributo"
     )
 
     # NÃO usar com Pais, fica um espaçamento zoado e eu ainda não

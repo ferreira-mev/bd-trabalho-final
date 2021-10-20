@@ -6,7 +6,7 @@
 </head>
 <body>
     <h3>Selecione um atributo:</h3>
-    <form id="attr-form" method="POST"  action="http://localhost:5000/salario-por-atributo" >
+    <form id="attr-form" method="POST" action="{{ action_url }}">
         <select id="attr-select" name="attr-select">
         {% for k, v in attr_dict.items() %}
             <option value="{{k}}" name="{{k}}">{{v}}</option>
