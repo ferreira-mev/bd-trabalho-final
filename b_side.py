@@ -31,7 +31,7 @@ pages_dict = {
 
 attrs_dict = {
     "cargos": ["FaixaEtaria", "TamEmpresa", "NivelEduc"],
-    "frameworks": ["FaixaEtaria", "TamEmpresa", "NivelEduc", "Pais"],
+    "frameworks": ["FaixaEtaria", "TamEmpresa", "NivelEduc", "Pais", "EhProfissional"],
     "salarios": ["FaixaEtaria", "TamEmpresa", "NivelEduc", "Genero", "Cargo"]
 }
 
