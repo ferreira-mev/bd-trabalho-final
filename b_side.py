@@ -27,6 +27,12 @@ pages_dict = {
     "salarios": "Salários agrupados por atributo"
 }
 
+attrs_dict = {
+    "cargos": ["FaixaEtaria", "TamEmpresa", "NivelEduc", "Pais"],
+    "frameworks": ["FaixaEtaria", "TamEmpresa", "NivelEduc", "Pais"],
+    "salario": ["FaixaEtaria", "TamEmpresa", "NivelEduc","Genero", "Cargo"]
+}
+
 @app.route("/")
 def home():
     rendered_template = render_template(
@@ -51,7 +57,7 @@ def attr_selector():
     
     rendered_template = render_template(
         'attribute-selector.html.j2',
-        attr_list=["FaixaEtaria", "TamEmpresa", "NivelEduc", "Pais"], #"Genero", "Cargo"],
+        attr_list=attrs_dict[session["goal"]],
         display_fn=display_str,
         action_url=action_url
     )
