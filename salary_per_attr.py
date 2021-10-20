@@ -1,10 +1,6 @@
 """
-Produz um gráfico de barras com o salário médio agrupado por valor
-de atributo.
-
-Por enquanto estou fazendo com NivelEduc, mas poderia ser interessante
-usar dropdowns para alternar entre esse e TamEmpresa, FaixaEtaria,
-Pais, ... (Os qualitativos -- que são quase todos.)
+Produz um gráfico de barras com o salário médio agrupado por um atributo
+selecionado por um dropdown.
 """
 from flask import Flask, url_for, render_template, request, redirect
 import mysql.connector
