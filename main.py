@@ -60,7 +60,7 @@ def gera_dropdown_porcentagem():
 
 @app.route("/mais-desejada-dropdown", methods=['GET', 'POST'])
 def dropdown_mais_Desejada():
-    rendered_template = render_template('dropdown-Desejadas.html', action = "/mais-desejada")
+    rendered_template = render_template('dropdown-desejadas.html', action = "/mais-desejada")
     return rendered_template
 
 @app.route("/mais-desejada", methods=['GET', 'POST'])
