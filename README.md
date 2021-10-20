@@ -1,5 +1,5 @@
 # Construindo o banco de dados
-Do diretório `sql`, entre no MySQL Server como um usuário com privilégios suficientes para criar e alterar tabelas e execute
+Clone o repositório e, do diretório `sql`, entre no MySQL Server como um usuário com privilégios suficientes para criar e alterar tabelas e execute
 ```
 SOURCE build_database.sql;
 ```
