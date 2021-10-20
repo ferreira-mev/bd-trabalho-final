@@ -42,9 +42,9 @@ def attr_selector():
     if request.method != 'POST':
         return "Erro"
     
-    page_name = request.form.get("choose-page")
+    session["goal"] = request.form.get("choose-page")
 
-    if page_name == "salarios":
+    if session["goal"] == "salarios":
         action_url = "http://localhost:5000/salarios"
     else:
         action_url = "http://localhost:5000/selecionar-valor"
@@ -69,7 +69,7 @@ def value_selector():
     # Buffering: https://stackoverflow.com/a/33632767
 
     attr_name = request.form.get("attr-select")
-    print(attr_name)
+    # print(attr_name)
 
     if attr_name not in {"Genero", "Cargo"}:
         query = f"""
