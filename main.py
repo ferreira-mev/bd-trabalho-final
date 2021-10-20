@@ -71,7 +71,7 @@ def consulta_mais_desejada():
     if atributo != "cargo" and atributo != "genero":
         print("aqui")
         query = f''' SELECT MAX(C) MaiorDesejo, {atributo}, grupo.Nome FROM
-        (SELECT Count(*) c, {atributo}, Linguagem.Nome 
+        (SELECT Count(*) c, {atributo}, {tipo}.Nome 
         FROM pessoa p
         INNER JOIN deseja ON p.Id = fk_Pessoa_Id
         INNER JOIN {tipo} ON {tipo}.Id = fk_{tipo}_Id
@@ -81,9 +81,9 @@ def consulta_mais_desejada():
         GROUP BY {atributo}
         '''
     else :
-        print("ali")
+        s
         query = f''' SELECT MAX(C) MaiorDesejo, {atributo}, grupo.Nome FROM
-        (SELECT Count(*) c, {atributo}, grupo.Nome
+        (SELECT Count(*) c, {atributo}, {tipo}.Nome
         FROM (
             SELECT pessoa.Id, {atributo}.Nome {atributo}
             FROM pessoa
