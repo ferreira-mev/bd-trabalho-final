@@ -28,9 +28,9 @@ pages_dict = {
 }
 
 attrs_dict = {
-    "cargos": ["FaixaEtaria", "TamEmpresa", "NivelEduc", "Pais"],
+    "cargos": ["FaixaEtaria", "TamEmpresa", "NivelEduc"],
     "frameworks": ["FaixaEtaria", "TamEmpresa", "NivelEduc", "Pais"],
-    "salarios": ["FaixaEtaria", "TamEmpresa", "NivelEduc","Genero", "Cargo"]
+    "salarios": ["FaixaEtaria", "TamEmpresa", "NivelEduc", "Genero", "Cargo"]
 }
 
 @app.route("/")
