@@ -56,8 +56,6 @@ def frmwrk_ratio():
         plot=bar,
         alt_text="Gráfico de barras",
         page_title=f"Salário por {display_str(attr_name)}"
-        # TODO: "versão para impressão" dos nomes dos atributos
-        # (e tb de seus valores -- alguns são muito longos p/ gráficos)
     )
 
     cursor.close()
