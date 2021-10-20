@@ -2,34 +2,36 @@
 Produz um gráfico de barras com o salário médio agrupado por um atributo
 selecionado por um dropdown.
 """
-from flask import Flask, url_for, render_template, request, redirect
+from flask import Flask, Blueprint, url_for, render_template, request, redirect
 import mysql.connector
 from collections import OrderedDict
 import plottwist, db_functions
 from ui_display import display_str, build_attr_dict
 
-app = Flask(__name__)
+# app_salary = Flask(__name__)
 
-DEBUG = True
-ENV = 'development'
-app.config.from_object(__name__)
+# DEBUG = True
+# ENV = 'development'
+# app.config.from_object(__name__)
 
-@app.route("/", methods=['GET', 'POST'])
-def placeholder():
-    rendered_template = render_template(
-        'attribute-selector.html.j2',
-        attr_list=["FaixaEtaria", "TamEmpresa", "NivelEduc","Genero", "Cargo"],
-        display_fn=display_str,
-        action_url="http://localhost:5000/salario-por-atributo"
-    )
+app_salary = Blueprint('app_salary',__name__)
 
-    # NÃO usar com Pais, fica um espaçamento zoado e eu ainda não
-    # consegui corrigir
+# @app_salary.route("/", methods=['GET', 'POST'])
+# def placeholder():
+#     rendered_template = render_template(
+#         'attribute-selector.html.j2',
+#         attr_list=["FaixaEtaria", "TamEmpresa", "NivelEduc","Genero", "Cargo"],
+#         display_fn=display_str,
+#         action_url="http://localhost:5000/salario-por-atributo"
+#     )
 
-    return rendered_template
+#     # NÃO usar com Pais, fica um espaçamento zoado e eu ainda não
+#     # consegui corrigir
 
-@app.route("/salario-por-atributo", methods=['GET', 'POST'])
-def frmwrk_ratio():
+#     return rendered_template
+
+@app_salary.route("/salarios", methods=['GET', 'POST'])
+def salary():
     if request.method != 'POST':
         return "Erro"
 
@@ -79,4 +81,4 @@ def frmwrk_ratio():
 
 
 if __name__ == "__main__":
-    app.run()
+    app_salary.run()

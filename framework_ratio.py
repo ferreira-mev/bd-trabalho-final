@@ -5,9 +5,11 @@ import plottwist, db_functions
 from ui_display import display_str, build_attr_dict
 
 from role_ratio import app_roles
+from salary_per_attr import app_salary
 
 app = Flask(__name__)
 app.register_blueprint(app_roles)
+app.register_blueprint(app_salary)
 
 DEBUG = True
 ENV = 'development'
@@ -20,13 +22,19 @@ app.secret_key = "NEED_A_KEY_FOR_SESSION_VARIABLES"
 @app.route("/")
 def placeholder():
     # session["goal"] = "frameworks"
-    session["goal"] = "cargos"
+    # session["goal"] = "cargos"
+    session["goal"] = "salarios"
+
+    if session["goal"] == "salarios":
+        action_url = "http://localhost:5000/salarios"
+    else:
+        action_url = "http://localhost:5000/selecionar-valor"
     
     rendered_template = render_template(
         'attribute-selector.html.j2',
         attr_list=["FaixaEtaria", "TamEmpresa", "NivelEduc", "Pais"], #"Genero", "Cargo"],
         display_fn=display_str,
-        action_url="http://localhost:5000/selecionar-valor"
+        action_url=action_url
     )
 
     return rendered_template
