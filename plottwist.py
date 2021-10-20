@@ -115,16 +115,15 @@ def plot_wanted(dict_list):
 
     Gera e salva um gráfico de barras, retornando seu caminho.
     """
+    dict_list.sort(key=lambda x: x["percent"])
+
     n_elems = len(dict_list)
 
     fig, ax1 = plt.subplots()
 
     pos = np.arange(n_elems)
 
-    print("pos = ", pos)
-
     values = [d["percent"] for d in dict_list]
-    print(len(values), values)
 
     labels = [
                 [

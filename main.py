@@ -184,7 +184,7 @@ def consulta_dropdown_porcentagem():
         
         bar = plot_wanted(query_result)
 
-        rendered_template = render_template('single-plot-page.html.j2', result = query_result, page_title=f"Interesse em {value[1]} por {atributo}", plot=bar)
+        rendered_template = render_template('single-plot-page.html.j2', result = query_result, page_title=f"Uso de {value[1]} por {atributo}", plot=bar)
         return rendered_template
 
 #@app.route(""):
