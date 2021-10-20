@@ -23,7 +23,7 @@ app.secret_key = "NEED_A_KEY_FOR_SESSION_VARIABLES"
 
 pages_dict = {
     "cargos": "Cargos por valor de atributo",
-    "frameworks": "Frameworks por valor de atributo",
+    "frameworks": "Linguagens de frameworks por valor de atributo",
     "salarios": "Salários agrupados por atributo"
 }
 
