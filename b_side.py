@@ -91,7 +91,7 @@ def value_selector():
             FROM ({subquery}) AS S
             GROUP BY attr_value
             ORDER BY attr_value;
-        """ # OK
+        """
 
     cursor.execute(query)
 

@@ -8,16 +8,6 @@ from collections import OrderedDict
 import plottwist, db_functions
 from ui_display import display_str
 
-# app = Flask(__name__)
-
-# DEBUG = True
-# ENV = 'development'
-# app.config.from_object(__name__)
-
-# @app.route("/")
-# def placeholder():
-#     return "This page will be replaced by an actual homepage"
-
 app_roles = Blueprint('app_role',__name__)
 
 @app_roles.route("/cargos", methods=['GET', 'POST'])
@@ -26,8 +16,6 @@ def role_per_attr():
         return "Erro"
 
     attr_name, attr_value = request.form.get("value-select").split("#")
-    # attr_name = "Pais"
-    # attr_value = "Brazil"
 
     cnx = db_functions.connect()
     cursor = cnx.cursor(dictionary=True, buffered=True)
@@ -72,7 +60,7 @@ def role_per_attr():
     for pair in queries:
         cursor.execute(pair[0])
 
-        total = cursor.fetchone()['c']  # pode ser 0?
+        total = cursor.fetchone()['c']
 
         cursor.execute(pair[1])
 
@@ -89,14 +77,9 @@ def role_per_attr():
         plots=bars,
         attr_name=display_str(attr_name),
         value_name=display_str(attr_value)
-        # alt_text="Gráfico de barras",
-        # page_title="Proporção dos cargos"
     )
 
     cursor.close()
     cnx.close()
 
     return rendered_template
-
-# if __name__ == "__main__":
-#     app.run()

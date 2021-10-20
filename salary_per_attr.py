@@ -8,27 +8,8 @@ from collections import OrderedDict
 import plottwist, db_functions
 from ui_display import display_str, build_attr_dict
 
-# app_salary = Flask(__name__)
-
-# DEBUG = True
-# ENV = 'development'
-# app.config.from_object(__name__)
-
 app_salary = Blueprint('app_salary',__name__)
 
-# @app_salary.route("/", methods=['GET', 'POST'])
-# def placeholder():
-#     rendered_template = render_template(
-#         'attribute-selector.html.j2',
-#         attr_list=["FaixaEtaria", "TamEmpresa", "NivelEduc","Genero", "Cargo"],
-#         display_fn=display_str,
-#         action_url="http://localhost:5000/salario-por-atributo"
-#     )
-
-#     # NÃO usar com Pais, fica um espaçamento zoado e eu ainda não
-#     # consegui corrigir
-
-#     return rendered_template
 
 @app_salary.route("/salarios", methods=['GET', 'POST'])
 def salary():
@@ -56,7 +37,7 @@ def salary():
             FROM ({subquery}) AS S
             GROUP BY attr_value
             ORDER BY avg_sal DESC;
-        """ # OK
+        """
 
     cursor.execute(query)
 

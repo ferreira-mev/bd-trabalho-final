@@ -4,12 +4,6 @@ from collections import OrderedDict
 import plottwist, db_functions
 from ui_display import display_str, build_attr_dict
 
-# app_salary = Flask(__name__)
-
-# DEBUG = True
-# ENV = 'development'
-# app.config.from_object(__name__)
-
 app_framework = Blueprint('app_framework',__name__)
 
 @app_framework.route("/frameworks", methods=['GET', 'POST'])
