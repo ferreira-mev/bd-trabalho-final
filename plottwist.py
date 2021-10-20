@@ -100,7 +100,7 @@ def plot_bar_abs(ord_dict, unit=None):
     ax2.set_ylim(ax1.get_ylim())
 
     ax2.set_yticklabels(
-        [unit_format(v, unit) for v in ord_dict.values()]
+        [unit_format(v, unit, space=space) for v in ord_dict.values()]
     )
 
     plot_name = "bar"
@@ -147,14 +147,14 @@ def plot_wanted(dict_list):
     ax2.set_ylim(ax1.get_ylim())
 
     ax2.set_yticklabels(
-        [f"{d['percent']:.2f} % ({d['total']})" for d in dict_list]
+        [f"{d['percent']:.2f}% ({d['total']})" for d in dict_list]
     )
 
     plot_name = "bar"
 
     return custom_save(plot_name)
 
-def unit_format(value, unit):
+def unit_format(value, unit, space=True):
     """
     Formata valores com unidade para impressão.
 
@@ -166,5 +166,8 @@ def unit_format(value, unit):
 
     if not unit:
         return value
+
+    if not space or unit == "%":
+        return value + unit
 
     return value + " " + unit
