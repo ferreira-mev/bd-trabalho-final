@@ -4,24 +4,27 @@ profissão.
 
 TODO: Comparar geral com valor de atributo?
 """
-from flask import Flask, url_for, render_template, request, redirect
+from flask import Blueprint, session, Flask, url_for, render_template, request, redirect
 import mysql.connector
 from collections import OrderedDict
 import plottwist, db_functions
 from ui_display import display_str
 
-app = Flask(__name__)
+# app = Flask(__name__)
 
-DEBUG = True
-ENV = 'development'
-app.config.from_object(__name__)
+# DEBUG = True
+# ENV = 'development'
+# app.config.from_object(__name__)
 
-@app.route("/")
+# @app.route("/")
 # def placeholder():
 #     return "This page will be replaced by an actual homepage"
 
-# @app.route("/pessoas-por-cargo")
+app_roles = Blueprint('app_role',__name__)
+
+@app_roles.route("/cargos", methods=['GET', 'POST'])
 def role_per_attr():
+    print(session["goal"])
     attr_filter = "Pais"
     filter_value = "Brazil"
     cnx = db_functions.connect()
@@ -71,5 +74,5 @@ def role_per_attr():
 
     return rendered_template
 
-if __name__ == "__main__":
-    app.run()
+# if __name__ == "__main__":
+#     app.run()

@@ -1,17 +1,27 @@
-from flask import Flask, url_for, render_template, request, redirect
+from flask import Blueprint, Flask, session, url_for, render_template, request, redirect
 import mysql.connector
 from collections import OrderedDict
 import plottwist, db_functions
 from ui_display import display_str, build_attr_dict
 
+from role_ratio import app_roles
+
 app = Flask(__name__)
+app.register_blueprint(app_roles)
 
 DEBUG = True
 ENV = 'development'
 app.config.from_object(__name__)
 
+app.secret_key = 'BAD_SECRET_KEY'
+
+
+
 @app.route("/")
 def placeholder():
+    # session["goal"] = "frameworks"
+    session["goal"] = "cargos"
+    
     rendered_template = render_template(
         'attribute-selector.html.j2',
         attr_list=["FaixaEtaria", "TamEmpresa", "NivelEduc", "Pais"], #"Genero", "Cargo"],
@@ -20,9 +30,6 @@ def placeholder():
     )
 
     return rendered_template
-
-# jogar o outro junto aqui embaixo, c/ algum param p/ saber
-# ql a pág?
 
 @app.route("/selecionar-valor", methods=['GET', 'POST'])
 def value_selector():
@@ -68,7 +75,7 @@ def value_selector():
         attr_name=attr_name,
         attr_values=values,
         display_fn=display_str,
-        action_url="http://localhost:5000/perc-frameworks"
+        action_url="http://localhost:5000/" + session["goal"]
     )
 
     cursor.close()
@@ -76,14 +83,12 @@ def value_selector():
 
     return rendered_template
 
-    return "TODO"
-
 def comp_or_null(value):  # onde colocar isso?
     if value == "null":
         return "IS NULL"
     return f"= '{value}'"
 
-@app.route("/perc-frameworks", methods=['GET', 'POST'])
+@app.route("/frameworks", methods=['GET', 'POST'])
 def frmwrk_ratio():
     attr_name, attr_value = request.form.get("value-select").split("#")
 
@@ -94,7 +99,6 @@ def frmwrk_ratio():
 
     perc_lang_users, pies = [], []
 
-    # Geral:
     queries = [
         [
             f"""
