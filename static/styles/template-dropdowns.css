@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap');
+
+
+.flex-container{
+    display:flex;
+    align-self: center;
+    width: 70vw;
+    margin-top: 10vw;
+    margin-left: 15vw;
+    height: 50vh;
+    border: #2196F3 solid 1px;
+    border-radius: 20px;
+    font-family: 'Lato', sans-serif;
+    align-content: flex-start;
+    flex-flow: column wrap;
+    text-align: center;
+}
+
+.flex-item{
+    width: 100%;
+}
+
+#titulo{
+    background-color: #2196F3;
+    border-radius: 20px 20px 0 0;
+    color: white;
+}
+#radio-box{
+    padding-top: 5vh;
+}
+#dropdowns{
+    padding-top: 5vh;
+    display: flex;
+    justify-content: center;
+}
+
+.dropdown option:hover{
+    background-color: #2196F3;
+}
+
+.dropdown{
+    font-family: 'Lato', sans-serif;
+    border: #2196F3 solid 1px;
+    border-radius: 5px;
+    padding: .6em 1.4em .5em .8em;
+    width: 30%;
+}

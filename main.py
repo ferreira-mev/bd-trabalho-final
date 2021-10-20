@@ -36,26 +36,6 @@ def gera_dropdown_tecnologia():
     return rendered_template
 
 
-@app.route("/dropdown-total")
-def gera_dropdown_total():
-    cnx = db_functions.connect()
-
-    query = ('''
-    SELECT * FROM(
-    SELECT Id, Nome FROM Linguagem
-    UNION
-    SELECT Id, Nome FROM Sgbd
-    UNION
-    Select Id, Nome from OutraTecnologia) q
-    ORDER BY Nome;
-    ''')
-
-    query_result = db_functions.query_make(cnx, query)
-    rendered_template = render_template('dropdown.html', result = query_result, action = "/resultado-dropdown-total")
-
-    cnx.close()
-    
-    return rendered_template
 
 @app.route("/dropdown-porcentagem")
 def gera_dropdown_porcentagem():
@@ -113,28 +93,9 @@ def consulta_tecnologia():
         query_result = db_functions.query_make(cnx, query)
         cnx.close()
         
-        rendered_template = render_template('consulta.html', result = query_result)
+        rendered_template = render_template('resultado-tecnologia.html', result = query_result)
         return rendered_template
 
-@app.route("/resultado-dropdown-total", methods=['GET', 'POST'])
-def consulta_dropdown_total():
-        
-    # POST request
-    if request.method == 'POST':
-        value = request.form["value"].split(', ')
-        atributo = request.form["atributo"]
-        query = f'''SELECT COUNT(*) total, {atributo} FROM Pessoa WHERE Id IN
-        (SELECT fk_Pessoa_Id FROM Usa WHERE fk_Sgbd_Id = {value[0]} OR fk_Linguagem_Id  = {value[0]} OR fk_OutraTecnologia_Id = {value[0]})
-        GROUP BY {atributo}
-        ORDER BY total desc
-        LIMIT 30
-        '''
-        cnx = db_functions.connect()
-        query_result = db_functions.query_make(cnx, query)
-        cnx.close()
-        print(value[0],atributo)
-        rendered_template = render_template('consulta.html', result = query_result)
-        return rendered_template
 
 @app.route("/resultado-dropdown-porcentagem", methods=['GET', 'POST'])
 def consulta_dropdown_porcentagem():
@@ -143,20 +104,56 @@ def consulta_dropdown_porcentagem():
     if request.method == 'POST':
         value = request.form["value"].split(', ')
         atributo = request.form["atributo"]
-        query = f'''SELECT 100 * t1.c1/t2.c2 percent, t1.{atributo} FROM
-        (SELECT COUNT(*) c1, {atributo} FROM Pessoa WHERE Id IN
-        (SELECT fk_Pessoa_Id FROM Usa WHERE fk_Sgbd_Id = {value[0]} OR fk_Linguagem_Id  = {value[0]} OR fk_OutraTecnologia_Id = {value[0]})
-        GROUP BY {atributo}) t1
-        INNER JOIN
-        (SELECT COUNT(*) c2, Id, {atributo} FROM Pessoa GROUP BY {atributo}) t2
-        ON t1.{atributo} = t2.{atributo}
-        ORDER BY percent desc
-        LIMIT 30
-        '''
+        if atributo != "cargo" and atributo != "genero":
+            print(atributo)
+            query = f'''(SELECT c1 total, 100 * t1.c1/t2.c2 percent, t1.{atributo} FROM
+            (SELECT COUNT(*) c1, {atributo} FROM Pessoa WHERE Id IN
+            (SELECT fk_Pessoa_Id FROM Usa WHERE fk_Sgbd_Id = {value[0]} OR fk_Linguagem_Id  = {value[0]} OR fk_OutraTecnologia_Id = {value[0]})
+            GROUP BY {atributo}) t1
+            INNER JOIN
+            (SELECT COUNT(*) c2, Id, {atributo} FROM Pessoa GROUP BY {atributo}) t2
+            ON t1.{atributo} = t2.{atributo}
+            ORDER BY percent asc
+            LIMIT 15)
+
+            UNION
+            (SELECT c1 total, 100 * t1.c1/t2.c2 percent, t1.{atributo} FROM
+            (SELECT COUNT(*) c1, {atributo} FROM Pessoa WHERE Id IN
+            (SELECT fk_Pessoa_Id FROM Usa WHERE fk_Sgbd_Id = {value[0]} OR fk_Linguagem_Id  = {value[0]} OR fk_OutraTecnologia_Id = {value[0]})
+            GROUP BY {atributo}) t1
+            INNER JOIN
+            (SELECT COUNT(*) c2, Id, {atributo} FROM Pessoa GROUP BY {atributo}) t2
+            ON t1.{atributo} = t2.{atributo}
+            ORDER BY percent desc
+            LIMIT 15)    
+            '''
+        else :
+            query = f'''(SELECT c1 total, 100 * t1.c1/t2.c2 percent, t1.{atributo} FROM
+            (SELECT COUNT(*) c1, {atributo}.Nome {atributo} FROM Pessoa INNER JOIN tem{atributo} ON Pessoa.Id = tem{atributo}.fk_Pessoa_Id INNER JOIN {atributo} ON {atributo}.Id = tem{atributo}.fk_{atributo}_id
+            WHERE pessoa.Id IN
+            (SELECT fk_Pessoa_Id FROM Usa WHERE fk_Sgbd_Id = {value[0]} OR fk_Linguagem_Id  = {value[0]} OR fk_OutraTecnologia_Id = {value[0]})
+            GROUP BY {atributo}) t1
+            INNER JOIN
+            (SELECT COUNT(*) c2, pessoa.Id, {atributo}.Nome {atributo} FROM Pessoa INNER JOIN tem{atributo} ON Pessoa.Id = tem{atributo}.fk_Pessoa_Id INNER JOIN {atributo} ON {atributo}.Id = tem{atributo}.fk_{atributo}_id GROUP BY {atributo}) t2
+            ON t1.{atributo} = t2.{atributo}
+            ORDER BY percent asc
+            LIMIT 15)
+
+            UNION
+            (SELECT c1 total, 100 * t1.c1/t2.c2 percent, t1.{atributo} FROM
+            (SELECT COUNT(*) c1, {atributo}.Nome {atributo} FROM Pessoa INNER JOIN tem{atributo} ON Pessoa.Id = tem{atributo}.fk_Pessoa_Id INNER JOIN {atributo} ON {atributo}.Id = tem{atributo}.fk_{atributo}_id
+            WHERE pessoa.Id IN
+            (SELECT fk_Pessoa_Id FROM Usa WHERE fk_Sgbd_Id = {value[0]} OR fk_Linguagem_Id  = {value[0]} OR fk_OutraTecnologia_Id = {value[0]})
+            GROUP BY {atributo}) t1
+            INNER JOIN
+            (SELECT COUNT(*) c2, pessoa.Id, {atributo}.Nome {atributo} FROM Pessoa INNER JOIN tem{atributo} ON Pessoa.Id = tem{atributo}.fk_Pessoa_Id INNER JOIN {atributo} ON {atributo}.Id = tem{atributo}.fk_{atributo}_id GROUP BY {atributo}) t2
+            ON t1.{atributo} = t2.{atributo}
+            ORDER BY percent desc
+            LIMIT 15)'''
         cnx = db_functions.connect()
         query_result = db_functions.query_make(cnx, query)
         cnx.close()
-        print(value[0],atributo)
+        
         rendered_template = render_template('consulta.html', result = query_result)
         return rendered_template
 

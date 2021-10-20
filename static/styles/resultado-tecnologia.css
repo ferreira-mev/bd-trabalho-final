@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap');
+
+.flex-container{
+    display:flex;
+    align-self: center;
+    width: 75vw;
+    margin-top: 10vw;
+    margin-left: 10vw;
+    height: 80vh;
+    border: #2196F3 solid 1px;
+    border-radius: 20px;
+    font-family: 'Lato', sans-serif;
+    align-content: flex-start;
+    flex-flow: column wrap;
+    text-align: center;
+}
+
+.flex-item{
+    width: 100%;
+}
+
+#infos{
+    display: flex;
+    flex-flow: row nowrap;
+    align-content: flex-start;
+}
+
+#titulo{
+    background-color: #2196F3;
+    border-radius: 20px 20px 0 0;
+    color: white;
+}
+
+#imagem{
+    width:30%;
+    border-radius: 0 0 0 20px;
+}
+
+img{
+    width:100%;
+    height:100%;
+    object-fit: cover;
+}

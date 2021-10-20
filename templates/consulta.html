@@ -4,11 +4,11 @@
     <title>Consulta</title>
 </head>
 <body>
-    <h1>teste</h1>
-    <ul id="navigation">
-    {% for rows in result %}   <!-- jinja age aqui-->
-        <li><h5>{{rows}}</h5></li>
-    {% endfor %}
-    </ul>
+        {% for rows in result %}  
+            <ul class="lista-dados">
+                <li><h5>{{rows}}</h5></li>
+            </ul>
+        {% endfor %}
+    </div>
 </body>
 </html>
