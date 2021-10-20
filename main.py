@@ -58,22 +58,22 @@ def gera_dropdown_porcentagem():
     
     return rendered_template
 
-@app.route("/mais-desejada-dropdown", methods=['GET', 'POST'])
-def dropdown_mais_desejada():
-    rendered_template = render_template('dropdown-desejadas.html', action = "/mais-desejada")
+@app.route("/mais-Desejada-dropdown", methods=['GET', 'POST'])
+def dropdown_mais_Desejada():
+    rendered_template = render_template('dropdown-Desejadas.html', action = "/mais-Desejada")
     return rendered_template
 
-@app.route("/mais-desejada", methods=['GET', 'POST'])
-def consulta_mais_desejada():
+@app.route("/mais-Desejada", methods=['GET', 'POST'])
+def consulta_mais_Desejada():
     # POST request
     tipo = request.form["tecnologia"]    
     atributo = request.form["atributo"]
     if atributo != "cargo" and atributo != "genero":
         print("aqui")
         query = f''' SELECT MAX(C) MaiorDesejo, {atributo}, grupo.Nome FROM
-        (SELECT Count(*) c, {atributo}, {tipo}.Nome 
-        FROM pessoa p
-        INNER JOIN deseja ON p.Id = fk_Pessoa_Id
+        (SELECT Count(*) c, {atributo}, Linguagem.Nome 
+        FROM Pessoa p
+        INNER JOIN Deseja ON p.Id = fk_Pessoa_Id
         INNER JOIN {tipo} ON {tipo}.Id = fk_{tipo}_Id
         GROUP BY {atributo}, {tipo}.Nome
         ORDER BY c desc
@@ -81,16 +81,16 @@ def consulta_mais_desejada():
         GROUP BY {atributo}
         '''
     else :
-        s
+        print("ali")
         query = f''' SELECT MAX(C) MaiorDesejo, {atributo}, grupo.Nome FROM
-        (SELECT Count(*) c, {atributo}, {tipo}.Nome
+        (SELECT Count(*) c, {atributo}, grupo.Nome
         FROM (
-            SELECT pessoa.Id, {atributo}.Nome {atributo}
-            FROM pessoa
-            INNER JOIN tem{atributo} ON pessoa.Id = fk_pessoa_id
-            INNER JOIN {atributo} ON {atributo}.Id = fk_{atributo}_id
-        ) pessoa
-        INNER JOIN deseja ON pessoa.Id = fk_Pessoa_Id
+            SELECT Pessoa.Id, {atributo}.Nome {atributo}
+            FROM Pessoa
+            INNER JOIN Tem{atributo} ON Pessoa.Id = fk_Pessoa_Id
+            INNER JOIN {atributo} ON {atributo}.Id = fk_{atributo}_Id
+        ) Pessoa
+        INNER JOIN Deseja ON Pessoa.Id = fk_Pessoa_Id
         INNER JOIN {tipo} ON {tipo}.Id = fk_{tipo}_Id
         GROUP BY {atributo}, {tipo}.Nome
         ORDER BY c desc
@@ -156,24 +156,24 @@ def consulta_dropdown_porcentagem():
             '''
         else :
             query = f'''(SELECT c1 total, 100 * t1.c1/t2.c2 percent, t1.{atributo} FROM
-            (SELECT COUNT(*) c1, {atributo}.Nome {atributo} FROM Pessoa INNER JOIN tem{atributo} ON Pessoa.Id = tem{atributo}.fk_Pessoa_Id INNER JOIN {atributo} ON {atributo}.Id = tem{atributo}.fk_{atributo}_id
-            WHERE pessoa.Id IN
+            (SELECT COUNT(*) c1, {atributo}.Nome {atributo} FROM Pessoa INNER JOIN Tem{atributo} ON Pessoa.Id = Tem{atributo}.fk_Pessoa_Id INNER JOIN {atributo} ON {atributo}.Id = Tem{atributo}.fk_{atributo}_Id
+            WHERE Pessoa.Id IN
             (SELECT fk_Pessoa_Id FROM Usa WHERE fk_Sgbd_Id = {value[0]} OR fk_Linguagem_Id  = {value[0]} OR fk_OutraTecnologia_Id = {value[0]})
             GROUP BY {atributo}) t1
             INNER JOIN
-            (SELECT COUNT(*) c2, pessoa.Id, {atributo}.Nome {atributo} FROM Pessoa INNER JOIN tem{atributo} ON Pessoa.Id = tem{atributo}.fk_Pessoa_Id INNER JOIN {atributo} ON {atributo}.Id = tem{atributo}.fk_{atributo}_id GROUP BY {atributo}) t2
+            (SELECT COUNT(*) c2, Pessoa.Id, {atributo}.Nome {atributo} FROM Pessoa INNER JOIN Tem{atributo} ON Pessoa.Id = Tem{atributo}.fk_Pessoa_Id INNER JOIN {atributo} ON {atributo}.Id = Tem{atributo}.fk_{atributo}_Id GROUP BY {atributo}) t2
             ON t1.{atributo} = t2.{atributo}
             ORDER BY percent asc
             LIMIT 15)
 
             UNION
             (SELECT c1 total, 100 * t1.c1/t2.c2 percent, t1.{atributo} FROM
-            (SELECT COUNT(*) c1, {atributo}.Nome {atributo} FROM Pessoa INNER JOIN tem{atributo} ON Pessoa.Id = tem{atributo}.fk_Pessoa_Id INNER JOIN {atributo} ON {atributo}.Id = tem{atributo}.fk_{atributo}_id
-            WHERE pessoa.Id IN
+            (SELECT COUNT(*) c1, {atributo}.Nome {atributo} FROM Pessoa INNER JOIN Tem{atributo} ON Pessoa.Id = Tem{atributo}.fk_Pessoa_Id INNER JOIN {atributo} ON {atributo}.Id = Tem{atributo}.fk_{atributo}_Id
+            WHERE Pessoa.Id IN
             (SELECT fk_Pessoa_Id FROM Usa WHERE fk_Sgbd_Id = {value[0]} OR fk_Linguagem_Id  = {value[0]} OR fk_OutraTecnologia_Id = {value[0]})
             GROUP BY {atributo}) t1
             INNER JOIN
-            (SELECT COUNT(*) c2, pessoa.Id, {atributo}.Nome {atributo} FROM Pessoa INNER JOIN tem{atributo} ON Pessoa.Id = tem{atributo}.fk_Pessoa_Id INNER JOIN {atributo} ON {atributo}.Id = tem{atributo}.fk_{atributo}_id GROUP BY {atributo}) t2
+            (SELECT COUNT(*) c2, Pessoa.Id, {atributo}.Nome {atributo} FROM Pessoa INNER JOIN Tem{atributo} ON Pessoa.Id = Tem{atributo}.fk_Pessoa_Id INNER JOIN {atributo} ON {atributo}.Id = Tem{atributo}.fk_{atributo}_Id GROUP BY {atributo}) t2
             ON t1.{atributo} = t2.{atributo}
             ORDER BY percent desc
             LIMIT 15)'''

@@ -27,18 +27,18 @@ function display(value, type){
 }
 
 function mudaTipo(value){
-    if(value == "SGBD"){
-        document.getElementById('SGBD').style.display='block'
-        document.getElementById('linguagem').style.display='none'
-        document.getElementById('outra-tecnologia').style.display='none'
+    if(value == "Sgdb"){
+        document.getElementById('Sgdb').style.display='block'
+        document.getElementById('Linguagem').style.display='none'
+        document.getElementById('OutraTecnologia').style.display='none'
     }else if(value == "Linguagem"){
-        document.getElementById('SGBD').style.display='none'
-        document.getElementById('linguagem').style.display='block'
-        document.getElementById('outra-tecnologia').style.display='none'
+        document.getElementById('Sgdb').style.display='none'
+        document.getElementById('Linguagem').style.display='block'
+        document.getElementById('OutraTecnologia').style.display='none'
     }else{
-        document.getElementById('SGBD').style.display='none'
-        document.getElementById('linguagem').style.display='none'
-        document.getElementById('outra-tecnologia').style.display='block'
+        document.getElementById('Sgdb').style.display='none'
+        document.getElementById('Linguagem').style.display='none'
+        document.getElementById('OutraTecnologia').style.display='block'
     }
 
 }

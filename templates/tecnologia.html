@@ -15,7 +15,7 @@
 
         <div class="flex-item" id="radio-box">
             <label class="radio-container">SGBD
-                <input onclick="mudaTipo(value)" type="radio" id="radio" name="tipo-tecnologia" value="SGBD">
+                <input onclick="mudaTipo(value)" type="radio" id="radio" name="tipo-tecnologia" value="Sgbd">
                 <span class="checkmark"></span>
             </label>
             <label class="radio-container">Linguagem
@@ -23,18 +23,18 @@
                 <span class="checkmark"></span>
             </label>
             <label class="radio-container">Outra tecnologia
-                <input onclick="mudaTipo(value)" type="radio" id="radio" name="tipo-tecnologia" value="Outra tecnologia">
+                <input onclick="mudaTipo(value)" type="radio" id="radio" name="tipo-tecnologia" value="OutraTecnologia">
                 <span class="checkmark"></span>
             </label>
         </div>
 
         <div class="flex-item" id="dropdowns">
-            <select id="linguagem" class="dropdown" onchange="display(value, 'linguagem')" >
+            <select id="Linguagem" class="dropdown" onchange="display(value, 'Linguagem')" >
                 {% for rows in linguagens %}
                     <option value="{{rows['Id']}}">{{rows['Nome']}}</option>
                 {% endfor %}
             </select>
-            <select id="SGBD" class="dropdown" onchange="display(value, 'sgbd')">
+            <select id="Sgbd" class="dropdown" onchange="display(value, 'Sgbd')">
                 {% for rows in Sgbds %}
                     <option value="{{rows['Id']}}">{{rows['Nome']}}</option>
                 {% endfor %}
