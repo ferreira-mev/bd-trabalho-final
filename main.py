@@ -1,8 +1,23 @@
-from flask import Flask, url_for,render_template, request, jsonify
+from flask import Flask, Blueprint, url_for, render_template, request, jsonify, session
 import db_functions
 from plottwist import plot_wanted
 
+# Para as que estão em páginas separadas:
+from role_ratio import app_roles
+from salary_per_attr import app_salary
+from framework_ratio import app_framework
+from b_side import app_b
+
 app = Flask(__name__)
+
+app.register_blueprint(app_roles)
+app.register_blueprint(app_salary)
+app.register_blueprint(app_framework)
+app.register_blueprint(app_b)
+
+app.secret_key = "NEED_A_KEY_FOR_SESSION_VARIABLES"
+# (this is obviously unsafe, but I'm having enough trouble
+# as it is :P)
 
 @app.route("/") #decorator que define uma url, a função hello então será executada na url padrão       #boa prática seria criar um arquivo.py apenas para a definição de rotas
 def main():

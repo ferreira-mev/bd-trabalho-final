@@ -42,7 +42,7 @@
             <div id="descricao">
                 <p>Aqui pode ir uma breve explicação</p>
             </div>
-            <button class="botao" onclick="redireciona(' ')"><span>Visualizar</span></button>
+            <button class="botao" onclick='choosePage("http://localhost:5000/selecionar-atributo", "salarios")'><span>Visualizar</span></button>
         </li>
         <li class="flex-item">
             <div id="titulo">
@@ -98,6 +98,22 @@
     function redireciona(value){
         console.log(value);
         window.location.assign("http://localhost:5000/"+ value)
+    }
+
+    function choosePage(url, value){
+        // Papel que é cumprido pelo select com id "choose-page"
+        // em b-side-main.html.j2; adaptei da redirect de tecnologia.js
+        let form = document.createElement('form');
+        document.body.appendChild(form);
+        form.method = "POST";
+        form.action = url;
+        let input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = "choose-page";
+        input.value = value;
+        form.appendChild(input);
+        form.submit();
+        document.body.removeChild(form);
     }
 </script>
 
