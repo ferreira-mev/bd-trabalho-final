@@ -25,7 +25,7 @@ Fora isso, para evitar erros do matplotlib, você pode já aproveitar para atual
 pip install Pillow --upgrade
 ```
 
-E, para evitar erros do MySQL relacionadas a queries em algumas das páginas, é recomendado alterar suas configurações para:
+E, para evitar erros do MySQL relacionados a queries em algumas das páginas, é recomendado alterar suas configurações para:
 ```
 SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY','')); 
 ```
