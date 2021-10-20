@@ -9,7 +9,7 @@
     <form id="attr-form" method="POST" action="{{ action_url }}">
         <select id="attr-select" name="value-select">
         {% for v in attr_values %}
-            <option value="{{attr_name + '#' + v}}" name="{{display_fn(v)}}">{{v}}</option>
+            <option value="{{attr_name + '#' + v}}" name="{{display_fn(v)}}">{{display_fn(v)}}</option>
         {% endfor %}
         </select>
         <input type="submit" value="OK">

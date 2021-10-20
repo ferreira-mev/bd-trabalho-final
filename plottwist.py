@@ -2,6 +2,7 @@
 Funções para visualização de dados usando o Matplotlib.
 """
 import matplotlib.pyplot as plt, numpy as np
+import datetime
 # Se der erro com "um tal de PIL" ao importar plt, tente
 # pip install Pillow --upgrade
 
@@ -14,10 +15,9 @@ plot_ext = ".png"  # qual usar?
 # os nomes dos arquivos?
 
 def add_plot_path(plot_name):
-    """
-    (srsly, é uma linha, lê aí)
-    """
-    return plot_path + plot_name + plot_ext
+    return plot_path + plot_name \
+        + datetime.datetime.now().strftime("%Y-%m%d_%H-%M-%S") \
+        + plot_ext
 
 
 def custom_save(plot_name, *args, **kwargs):
@@ -60,7 +60,9 @@ def bake_pie(ord_dict):
     """
     labels = add_perc_to_labels(ord_dict)
 
-    plt.pie(
+    fig, ax1 = plt.subplots()
+
+    ax1.pie(
         np.array(list(ord_dict.values())),
         labels=labels
     )

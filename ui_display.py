@@ -82,7 +82,7 @@ def display_str(string):
 
     # String vazia ou None:
 
-    elif not string:
+    elif not string or string == "null":
         return "N/A"
 
     # Default/fallback:
