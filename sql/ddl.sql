@@ -1,10 +1,3 @@
-/*
-TODO:
-- Adc restr integridade nao desejar SO?
-- Conferir gatilhos
-- Ordenar SETs, ENUMs?
-*/
-
 CREATE DATABASE IF NOT EXISTS stackoverflow;
 
 USE stackoverflow;
