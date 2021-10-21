@@ -77,7 +77,6 @@ def value_selector():
     # Buffering: https://stackoverflow.com/a/33632767
 
     attr_name = request.form.get("attr-select")
-    # print(attr_name)
 
     if attr_name not in {"Genero", "Cargo"}:
         query = f"""
@@ -103,8 +102,7 @@ def value_selector():
         if not row["attr_value"]:
             row["attr_value"] = "null"
         values.append(row["attr_value"])
-    print(values)
-    
+
     rendered_template = render_template(
         'value-selector.html.j2',
         attr_name=attr_name,

@@ -66,7 +66,4 @@ for rel in rels:
             
             row_count += 1
 
-            if row_count == 100:
-                print("breakpoint")
-
             

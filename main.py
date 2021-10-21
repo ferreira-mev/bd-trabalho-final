@@ -16,10 +16,9 @@ app.register_blueprint(app_framework)
 app.register_blueprint(app_b)
 
 app.secret_key = "NEED_A_KEY_FOR_SESSION_VARIABLES"
-# (this is obviously unsafe, but I'm having enough trouble
-# as it is :P)
+# (this is obviously unsafe :P)
 
-@app.route("/") #decorator que define uma url, a função hello então será executada na url padrão       #boa prática seria criar um arquivo.py apenas para a definição de rotas
+@app.route("/") #decorator que define uma url, a função hello então será executada na url padrão
 def main():
     rendered_template = render_template('main.html')
     return rendered_template
@@ -85,7 +84,6 @@ def consulta_mais_desejada():
     tipo = request.form["tecnologia"]    
     atributo = request.form["atributo"]
     if atributo != "cargo" and atributo != "genero":
-        print("aqui")
         query = f''' SELECT MAX(C) MaiorDesejo, {atributo}, grupo.Nome FROM
         (SELECT Count(*) c, {atributo}, Linguagem.Nome 
         FROM Pessoa p
@@ -97,7 +95,6 @@ def consulta_mais_desejada():
         GROUP BY {atributo}
         '''
     else :
-        print("ali")
         query = f''' SELECT MAX(C) MaiorDesejo, {atributo}, grupo.Nome FROM
         (SELECT Count(*) c, {atributo}, grupo.Nome
         FROM (
@@ -148,7 +145,6 @@ def consulta_dropdown_porcentagem():
         value = request.form["value"].split(', ')
         atributo = request.form["atributo"]
         if atributo != "Cargo" and atributo != "Genero":
-            print(atributo)
             query = f'''(SELECT c1 total, 100 * t1.c1/t2.c2 percent, t1.{atributo} FROM
             (SELECT COUNT(*) c1, {atributo} FROM Pessoa WHERE Id IN
             (SELECT fk_Pessoa_Id FROM Usa WHERE fk_Sgbd_Id = {value[0]} OR fk_Linguagem_Id  = {value[0]} OR fk_OutraTecnologia_Id = {value[0]})
