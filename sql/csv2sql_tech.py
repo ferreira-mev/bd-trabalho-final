@@ -9,7 +9,7 @@ de maneira ad hoc, mas funciona.
 """
 import csv
 
-csv_path = "/home/duda/Documents/edu/UFRJ1/5_2021-1/bdi/trabs/03_final/bd-trabalho-final/datasets/"
+csv_path = "datasets/"
 output_file = "sql/dml_tech.sql"
 
 sql_types = ('Nuvem', 'EditorIde', 'Biblioteca', 'So', 'Outro', 'FrameworkWeb')
